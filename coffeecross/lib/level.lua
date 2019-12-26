@@ -1,6 +1,6 @@
 local m = {}
 m.__index = m
-local set = require("lib.set")
+local set = require("set")
 
 local REQUIRED_PROPERTIES = {"name"}
 local PROPERTY_PATTERN = "(%w+)=(.*)"

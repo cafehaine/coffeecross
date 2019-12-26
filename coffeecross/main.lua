@@ -1,5 +1,5 @@
 function love.load()
-	level = require("lib.level")
+	level = require("level")
 	current_level = level.new("levels/beginner/02.txt")
 end
 
