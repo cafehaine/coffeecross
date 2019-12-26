@@ -61,7 +61,7 @@ end
 function m:__parse(path)
 	local missing_properties = set.new(REQUIRED_PROPERTIES)
 
-	local file = io.open(path)
+	local file = love.filesystem.newFile(path)
 	local line = file:read("*l")
 
 	while line ~= nil and line ~= "---" do
