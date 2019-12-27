@@ -1,14 +1,15 @@
 function love.load()
-	level = require("level")
-	current_level = level.new("levels/beginner/02.txt")
+	viewstack = require("viewstack")
+	view = require("view")
+	viewstack.push(view.new("main"))
 end
 
 function love.draw()
-	current_level:draw(0, 0, 5)
+	viewstack.render()
 end
 
 function love.update(dt)
-
+	viewstack.update(dt)
 end
 
 function love.keypressed(key)
