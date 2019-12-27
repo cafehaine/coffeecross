@@ -8,8 +8,7 @@ return {
 			group_type = "grid_column",
 			grid_layout = {1,"auto","auto", "auto"},
 			elements = {
-				--{type="image", image="logo"},
-				{type="none"},
+				{type="image", image="logo.png"},
 				{
 					type="button",
 					text="LevelsAé",
