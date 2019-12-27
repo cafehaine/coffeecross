@@ -14,7 +14,7 @@ function m.new(path)
 end
 
 function m:render()
-	self.gui.render()
+	self.gui:render()
 end
 
 function m:update(dt)
