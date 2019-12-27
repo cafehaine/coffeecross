@@ -62,7 +62,13 @@ function m:__parse(path)
 	local missing_properties = set.new(REQUIRED_PROPERTIES)
 
 	local file = love.filesystem.newFile(path)
-	local line = file:read("*l")
+	local lines = {}
+	for line in file:lines() do
+		lines[#lines+1] = line
+	end
+
+	local line_index = 1
+	local line = lines[line_index]
 
 	while line ~= nil and line ~= "---" do
 		property, value = line:match(PROPERTY_PATTERN)
@@ -70,25 +76,31 @@ function m:__parse(path)
 			self.__properties.name = value
 		end
 		missing_properties:remove(property)
-		line = file:read("*l")
+
+		line_index = line_index+1
+		line = lines[line_index]
 	end
 	if not missing_properties:empty() then
 		error("Invalid level file: Missing properties: "..missing_properties)
 	end
 
-	line = file:read("*l")
+	line_index = line_index+1
+	line = lines[line_index]
 	while line ~= nil and line ~= "---" do
 		self.__palette[#self.__palette+1] = parse_color(line)
-		line = file:read("*l")
+		line_index = line_index+1
+		line = lines[line_index]
 	end
 	if #self.__palette == 0 then
 		error("Invalid level file: No colors defined.")
 	end
 
-	line = file:read("*l")
+	line_index = line_index+1
+	line = lines[line_index]
 	while line ~= nil and line ~= "---" do
 		self.__grid[#self.__grid+1] = self:__parse_line(line)
-		line = file:read("*l")
+		line_index = line_index+1
+		line = lines[line_index]
 	end
 	if #self.__grid == 0 then
 		error("Invalid level file: empty grid")
@@ -108,6 +120,7 @@ function m.new(path)
 	return self
 end
 
+--TODO move this code to a widget
 function m:draw(x, y, width)
 	for i=1, #self.__grid do
 		local row = self.__grid[i]
