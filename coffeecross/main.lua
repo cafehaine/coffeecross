@@ -13,5 +13,5 @@ function love.update(dt)
 end
 
 function love.keypressed(key)
-
+	viewstack.keypressed(key)
 end

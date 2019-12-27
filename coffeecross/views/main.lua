@@ -10,11 +10,15 @@ local gui = {
 			elements = {
 				{type="image", image="logo.png", mode="contain"},
 				{
+					id=1,
+					focus={up=2,down=2},
 					type="button",
 					text="LevelsAé",
 					action=function()end
 				},
 				{
+					id=2,
+					focus={up=1,down=1},
 					type="button",
 					text="ExitAé",
 					action=viewstack.pop
@@ -29,4 +33,4 @@ local gui = {
 	}
 }
 
-return {gui=gui, opaque=true}
+return {gui=gui, opaque=true, focus=1}

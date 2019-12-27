@@ -23,5 +23,9 @@ function m:update(dt)
 
 end
 
+function m:keypressed(k)
+	self.gui:keypressed(k)
+end
+
 return m
 

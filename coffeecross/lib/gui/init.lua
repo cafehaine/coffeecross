@@ -15,5 +15,9 @@ function m:render()
 	self.base_group:render(width, height)
 end
 
+function m:keypressed(k)
+	print(k)
+end
+
 return m
 

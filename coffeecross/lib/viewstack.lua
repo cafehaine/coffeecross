@@ -35,4 +35,8 @@ function m.update(dt)
 	stack[stack_index]:update(dt)
 end
 
+function m.keypressed(k)
+	stack[stack_index]:keypressed(k)
+end
+
 return m
