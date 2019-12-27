@@ -1,6 +1,6 @@
 local viewstack = require("viewstack")
 
-return {
+local gui = {
 	group_type = "grid_row",
 	grid_layout = {"auto", 1},
 	elements = {
@@ -28,3 +28,5 @@ return {
 		{type="none"}
 	}
 }
+
+return {gui=gui, opaque=true}
