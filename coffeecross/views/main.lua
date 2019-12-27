@@ -8,7 +8,7 @@ local gui = {
 			group_type = "grid_column",
 			grid_layout = {1,"auto","auto", "auto"},
 			elements = {
-				{type="image", image="logo.png"},
+				{type="image", image="logo.png", mode="contain"},
 				{
 					type="button",
 					text="LevelsAé",
