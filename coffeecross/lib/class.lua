@@ -15,6 +15,14 @@ end
 
 function m.create(parent)
 	local c = {}
+	if type(parent) == "class" then
+		for k, v in pairs(parent) do
+			c[k] = v
+		end
+	else
+		parent = nil
+	end
+
 	c.__parent = parent
 	c.__index = c
 	c.__is_class = true

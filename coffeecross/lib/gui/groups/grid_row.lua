@@ -1,26 +1,16 @@
-local m = {}
-local widgets = require("gui.widgets")
-local groups = require("gui.groups")
-m.__index = m
+local class = require("class")
+local groups_base = require("gui.groups.base")
 
-function m.new(elm)
-	local self = setmetatable({}, m)
-	self.layout = elm.grid_layout
-	self.elements = {}
-	for i, elm in ipairs(elm.elements) do
-		if elm.type then
-			self.elements[i] = widgets.new(elm)
-		elseif elm.group_type then
-			self.elements[i] = groups.new(elm)
-		else
-			error("Element is neither an widget or a group.")
-		end
-	end
+local group = class.create(groups_base)
 
-	return self
+function group.__new(obj, elm)
+	groups_base.__new(obj, elm)
+	obj.layout = elm.grid_layout
+
+	return obj
 end
 
-function m:auto_width()
+function group:auto_width()
 	local total = 0
 	for i=1, #self.layout do
 		if self.layout[i] == "auto" then
@@ -32,7 +22,7 @@ function m:auto_width()
 	return total
 end
 
-function m:auto_height()
+function group:auto_height()
 	local max = 0
 	for i=1, #self.layout do
 		local height = self.elements[i]:auto_height()
@@ -41,7 +31,7 @@ function m:auto_height()
 	return max
 end
 
-function m:render(width, height, focus)
+function group:render(width, height, focus)
 	local total_auto = 0
 	local total_fracs = 0
 	local widths = {}
@@ -74,14 +64,4 @@ function m:render(width, height, focus)
 	love.graphics.setScissor(left, top, sc_width, sc_height)
 end
 
-function m:keypressed(k, focus)
-	local new_focus = focus
-
-	for i=1, #self.layout do
-		new_focus = self.elements[i]:keypressed(k, focus) or new_focus
-	end
-
-	return new_focus
-end
-
-return m
+return group
