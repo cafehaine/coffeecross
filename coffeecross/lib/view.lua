@@ -3,10 +3,10 @@ local class = require("class")
 
 local view = class.create()
 
-function view.__new(obj, path)
+function view.__new(obj, path, ...)
 	local chunk = love.filesystem.load("views/"..path..".lua")
-
-	local props = chunk()
+	local temp = chunk()
+	local props = type(temp) == "function" and temp(...) or temp
 	obj.gui = gui.new(props.gui, props.focus)
 	obj.opaque = props.opaque
 end

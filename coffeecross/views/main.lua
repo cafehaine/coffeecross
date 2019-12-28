@@ -19,7 +19,7 @@ local gui = {
 							focus={up=3,down=2},
 							type="button",
 							text="Levels",
-							action=function()end
+							action=function()viewstack.push(view.new("level", "levels/beginner/01.txt"))end
 						},
 						{
 							id=2,
