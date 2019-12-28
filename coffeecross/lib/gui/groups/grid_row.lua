@@ -57,7 +57,7 @@ function m:render(width, height, focus)
 		end
 	end
 
-	local left, top = love.graphics.getScissor( )
+	local left, top, sc_width, sc_height = love.graphics.getScissor( )
 	local left_pos = 0
 	for i=1, #self.layout do
 		local elm_width = widths[i] or (width - total_auto)/total_fracs*self.layout[i]
@@ -71,6 +71,7 @@ function m:render(width, height, focus)
 		left_pos = left_pos + elm_width
 		love.graphics.pop()
 	end
+	love.graphics.setScissor(left, top, sc_width, sc_height)
 end
 
 function m:keypressed(k, focus)
