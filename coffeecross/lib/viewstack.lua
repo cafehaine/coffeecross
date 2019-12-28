@@ -22,12 +22,15 @@ function m.pop()
 end
 
 function m.render()
-	local i = stack_index
-	local rendered_opaque = false
-	while i > 0 and not rendered_opaque do
-		stack[i]:render()
-		rendered_opaque = stack[i].opaque
+	local i = stack_index+1
+	local found_opaque = false
+	while i > 0 and not found_opaque do
 		i = i - 1
+		found_opaque = stack[i].opaque
+	end
+
+	for i=i, #stack do
+		stack[i]:render()
 	end
 end
 

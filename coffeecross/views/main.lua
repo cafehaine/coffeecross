@@ -1,4 +1,5 @@
 local viewstack = require("viewstack")
+local view = require("view")
 
 local gui = {
 	group_type = "stack",
@@ -15,14 +16,21 @@ local gui = {
 						{type="image", image="logo.png", mode="contain"},
 						{
 							id=1,
-							focus={up=2,down=2},
+							focus={up=3,down=2},
 							type="button",
 							text="Levels",
 							action=function()end
 						},
 						{
 							id=2,
-							focus={up=1,down=1},
+							focus={up=1,down=3},
+							type="button",
+							text="Settings",
+							action=function()viewstack.push(view.new("settings"))end
+						},
+						{
+							id=3,
+							focus={up=2,down=1},
 							type="button",
 							text="Exit",
 							action=viewstack.pop

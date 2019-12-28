@@ -1,5 +1,5 @@
 local set = require("set")
-local GROUPS = set.new({"grid_row", "grid_column", "stack"})
+local GROUPS = set.new({"grid_row", "grid_column", "stack", "popup"})
 
 local m = {}
 
