@@ -6,8 +6,6 @@ local group = class.create(groups_base)
 function group.__new(obj, elm)
 	groups_base.__new(obj, elm)
 	obj.layout = elm.grid_layout
-
-	return obj
 end
 
 function group:auto_height()

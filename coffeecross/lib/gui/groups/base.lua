@@ -15,8 +15,6 @@ function base.__new(obj, elm)
 			error("Element is neither an widget or a group.")
 		end
 	end
-
-	return obj
 end
 
 function base:auto_width()

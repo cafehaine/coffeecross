@@ -9,8 +9,6 @@ function view.__new(obj, path)
 	local props = chunk()
 	obj.gui = gui.new(props.gui, props.focus)
 	obj.opaque = props.opaque
-
-	return obj
 end
 
 function view:render()

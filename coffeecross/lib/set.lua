@@ -13,8 +13,6 @@ function set.__new(obj, vals)
 	for _,v in ipairs(vals) do
 		obj:add(v)
 	end
-
-	return obj
 end
 
 function set:contains(val)

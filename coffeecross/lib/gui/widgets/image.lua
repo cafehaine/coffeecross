@@ -1,30 +1,30 @@
-local m = {}
-m.__index = m
-
+local class = require("class")
+local widgets_base = require("gui.widgets.base")
 local set = require("set")
 local gui_utils = require("gui.utils")
+
 local VALID_MODES = set.new({"cover", "contain", "stretch"})
 
-function m.new(attrs)
-	local self = setmetatable({}, m)
-	self.attrs = attrs
-	self.image = love.graphics.newImage("assets/"..attrs.image) or error("HELLO")
-	self.mode = attrs.mode or "stretch"
-	if not VALID_MODES:contains(self.mode) then
-		error("Invalid mode: "..self.mode..".")
+local wdgt = class.create(widgets_base)
+
+function wdgt.__new(obj, attrs)
+	widgets_base.__new(obj, attrs)
+	obj.image = love.graphics.newImage("assets/"..attrs.image) or error("HELLO")
+	obj.mode = attrs.mode or "stretch"
+	if not VALID_MODES:contains(obj.mode) then
+		error("Invalid mode: "..obj.mode..".")
 	end
-	return self
 end
 
-function m:auto_width()
+function wdgt:auto_width()
 	return 0
 end
 
-function m:auto_height()
+function wdgt:auto_height()
 	return 0
 end
 
-function m:render(width, height)
+function wdgt:render(width, height)
 	love.graphics.setColor(1, 1, 1)
 
 	local width_i, height_i = self.image:getDimensions()
@@ -48,6 +48,4 @@ function m:render(width, height)
 	end
 end
 
-function m:keypressed() end
-
-return m
+return wdgt

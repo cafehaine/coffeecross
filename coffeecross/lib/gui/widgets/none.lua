@@ -1,21 +1,18 @@
-local m = {}
-m.__index = m
+local class = require("class")
+local widgets_base = require("gui.widgets.base")
 
-function m.new()
-	return m
-end
+local wdgt = class.create(widgets_base)
 
-function m.auto_width()
+function wdgt.__new() end
+
+function wdgt:auto_width()
 	return 0
 end
 
-function m.auto_height()
+function wdgt:auto_height()
 	return 0
 end
 
-function m.render()
-end
+function wdgt:render() end
 
-function m:keypressed() end
-
-return m
+return wdgt

@@ -30,7 +30,8 @@ function m.create(parent)
 	c.new = function(...)
 		local obj = setmetatable({}, c)
 		obj.__is_object = true
-		return c.__new(obj,...)
+		c.__new(obj,...)
+		return obj
 	end
 
 	return c
