@@ -13,19 +13,19 @@ local gui = {
 					id=1,
 					focus={up=2,down=2},
 					type="button",
-					text="LevelsAé",
+					text="Levels",
 					action=function()end
 				},
 				{
 					id=2,
 					focus={up=1,down=1},
 					type="button",
-					text="ExitAé",
+					text="Exit",
 					action=viewstack.pop
 				},
 				{
 					type="text",
-					text="CoffeeCross, alpha 0.1Aé"
+					text="CoffeeCross, alpha 0.1"
 				}
 			}
 		},
