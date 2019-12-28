@@ -20,7 +20,6 @@ function m:auto_height()
 	return self.drawable:getHeight()
 end
 
-
 function m:render(width, height)
 	-- Text
 	love.graphics.setColor(self.color)
@@ -29,5 +28,7 @@ function m:render(width, height)
 	local y = height/2-t_height/2
 	love.graphics.draw(self.drawable, x, y)
 end
+
+function m:keypressed() end
 
 return m

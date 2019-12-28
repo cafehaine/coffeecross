@@ -41,7 +41,7 @@ function m:auto_width()
 	return max
 end
 
-function m:render(width, height)
+function m:render(width, height, focus)
 	local total_auto = 0
 	local total_fracs = 0
 	local heights = {}
@@ -66,11 +66,21 @@ function m:render(width, height)
 		love.graphics.setScissor(left, top + top_pos, width, elm_height)
 		love.graphics.translate(0, top_pos)
 
-		self.elements[i]:render(width, elm_height)
+		self.elements[i]:render(width, elm_height, focus)
 
 		top_pos = top_pos + elm_height
 		love.graphics.pop()
 	end
+end
+
+function m:keypressed(k, focus)
+	local new_focus = focus
+
+	for i=1, #self.layout do
+		new_focus = self.elements[i]:keypressed(k, focus) or new_focus
+	end
+
+	return new_focus
 end
 
 return m

@@ -16,4 +16,6 @@ end
 function m.render()
 end
 
+function m:keypressed() end
+
 return m

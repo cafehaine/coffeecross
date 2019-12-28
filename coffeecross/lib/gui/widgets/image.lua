@@ -48,4 +48,6 @@ function m:render(width, height)
 	end
 end
 
+function m:keypressed() end
+
 return m

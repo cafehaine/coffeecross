@@ -9,7 +9,7 @@ function m.new(path)
 	local chunk = love.filesystem.load("views/"..path..".lua")
 
 	local view = chunk()
-	self.gui = gui.new(view.gui)
+	self.gui = gui.new(view.gui, view.focus)
 	self.opaque = view.opaque
 
 	return self
