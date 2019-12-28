@@ -1,31 +1,29 @@
 local gui = require("gui")
+local class = require("class")
 
-local m = {}
-m.__index = m
+local view = class.create()
 
-function m.new(path)
-	local self = setmetatable({}, m)
-
+function view.__new(obj, path)
 	local chunk = love.filesystem.load("views/"..path..".lua")
 
-	local view = chunk()
-	self.gui = gui.new(view.gui, view.focus)
-	self.opaque = view.opaque
+	local props = chunk()
+	obj.gui = gui.new(props.gui, props.focus)
+	obj.opaque = props.opaque
 
-	return self
+	return obj
 end
 
-function m:render()
+function view:render()
 	self.gui:render()
 end
 
-function m:update(dt)
+function view:update(dt)
 
 end
 
-function m:keypressed(k)
+function view:keypressed(k)
 	self.gui:keypressed(k)
 end
 
-return m
+return view
 

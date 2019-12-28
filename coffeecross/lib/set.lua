@@ -1,47 +1,50 @@
-local m = {}
-m.__index = m
+local class = require("class")
 
-function m.new(vals)
-	local self = setmetatable({}, m)
-	self.__type = "set"
-	self.__values = {}
-	self.__count = 0
+local set = class.create()
 
-	for _,v in ipairs(vals) do
-		self:add(v)
+function set.__new(obj, vals)
+	obj.__values = {}
+	obj.__count = 0
+
+	if vals == nil then
+		vals = {}
 	end
 
-	return self
+	for _,v in ipairs(vals) do
+		obj:add(v)
+	end
+
+	return obj
 end
 
-function m:contains(val)
+function set:contains(val)
 	return self.__values[val] == true
 end
 
-function m:add(val)
+function set:add(val)
 	if not self.__values[val] then
 		self.__values[val] = true
 		self.__count = self.__count + 1
 	end
 end
 
-function m:remove(val)
+function set:remove(val)
 	if self.__values[val] then
 		self.__values[val] = nil
 		self.__count = self.__count - 1
 	end
 end
 
-function m:empty()
+function set:empty()
 	return self.__count == 0
 end
 
 -- __len doesn't work in lua 5.1
-function m:len()
+function set:len()
 	return self.__count
 end
 
-function m:values()
+function set:values()
 	local output = {}
 	local index = 1
 	for val, b in pairs(self.__values) do
@@ -51,7 +54,7 @@ function m:values()
 	return output
 end
 
-function m.__concat(a,b)
+function set.__concat(a,b)
 	if type(a) == "table" and a.__type == "set" then
 		a = tostring(a)
 	end
@@ -63,7 +66,7 @@ function m.__concat(a,b)
 	return a..b
 end
 
-function m:__tostring()
+function set:__tostring()
 	local strings = {}
 	for i, val in ipairs(self:values()) do
 		if type(val) == "string" then
@@ -75,4 +78,4 @@ function m:__tostring()
 	return ("{%s}"):format(table.concat(strings, ', '))
 end
 
-return m
+return set
