@@ -4,6 +4,10 @@ local class = require("class")
 local view = class.create()
 
 function view.__new(obj, path, ...)
+	local realpath = "views/"..path..".lua"
+	if not love.filesystem.getInfo(realpath, "file") then
+		error("Cannot open file \""..realpath.."\"")
+	end
 	local chunk = love.filesystem.load("views/"..path..".lua")
 	local temp = chunk()
 	local props = type(temp) == "function" and temp(...) or temp

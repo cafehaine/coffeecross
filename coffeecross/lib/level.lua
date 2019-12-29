@@ -81,7 +81,7 @@ function m:__parse(path)
 		line = lines[line_index]
 	end
 	if not missing_properties:empty() then
-		error("Invalid level file: Missing properties: "..missing_properties)
+		error("Invalid level file: Missing properties: "..tostring(missing_properties))
 	end
 
 	line_index = line_index+1

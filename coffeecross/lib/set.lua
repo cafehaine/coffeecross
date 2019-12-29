@@ -52,18 +52,6 @@ function set:values()
 	return output
 end
 
-function set.__concat(a,b)
-	if type(a) == "table" and a.__type == "set" then
-		a = tostring(a)
-	end
-
-	if type(b) == "table" and b.__type == "set" then
-		b = tostring(b)
-	end
-
-	return a..b
-end
-
 function set:__tostring()
 	local strings = {}
 	for i, val in ipairs(self:values()) do
