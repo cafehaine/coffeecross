@@ -11,7 +11,7 @@ local gui = {
 			elements = {
 				{
 					group_type = "grid_column",
-					grid_layout = {1,"auto","auto", "auto"},
+					grid_layout = {1,"auto","auto", "auto", "auto"},
 					elements = {
 						{type="image", image="logo.png", mode="contain"},
 						{

@@ -6,6 +6,9 @@ local group = class.create(groups_base)
 function group.__new(obj, elm)
 	groups_base.__new(obj, elm)
 	obj.layout = elm.grid_layout
+	if #obj.layout ~= #obj.elements then
+		error("Grid groups must have the same number of layout entries as their number of elements.")
+	end
 end
 
 function group:auto_height()

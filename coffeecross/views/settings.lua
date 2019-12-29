@@ -21,13 +21,6 @@ local gui = {
 					type="button",
 					text="Audio",
 					action=function()end
-				},
-				{
-					id=3,
-					focus={up=2,down=1},
-					type="button",
-					text="Controls",
-					action=function()end
 				}
 			}
 		}
