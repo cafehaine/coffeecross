@@ -1,6 +1,6 @@
 local m = {}
 
-local GLYPHS = [[ABCDEFGHIJKLMNOPQRSTUVWXYZ]]
+local GLYPHS = [[ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789]]
 local FONT = love.graphics.newImageFont("assets/font.png", GLYPHS)
 
 function m.get_font()
