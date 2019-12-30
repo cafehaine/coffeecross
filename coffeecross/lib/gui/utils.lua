@@ -14,7 +14,7 @@ function m.get_unit()
 end
 
 function m.get_font_scale()
-	return m.get_unit() / 10
+	return m.get_unit() / 14
 end
 
 return m
