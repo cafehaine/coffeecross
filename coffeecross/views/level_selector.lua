@@ -32,13 +32,18 @@ function init(world)
 		end
 	end
 
-	local output = {gui={
-		group_type = "stack",
-		elements = {
-			{type="background"},
-			{group_type="grid_column"}
-		}
-	}, opaque=true, focus=1}
+	local output = {
+		gui={
+			group_type = "stack",
+			elements = {
+				{type="background"},
+				{group_type="grid_column"}
+			}
+		},
+		opaque=true,
+		keybinds={escape=viewstack.pop},
+		focus=1
+	}
 
 	local grid = output.gui.elements[2]
 

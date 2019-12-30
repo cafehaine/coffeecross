@@ -12,6 +12,7 @@ function view.__new(self, path, ...)
 	local temp = chunk()
 	local props = type(temp) == "function" and temp(...) or temp
 	self.gui = gui.new(props.gui, props.focus)
+	self.keybinds = props.keybinds or {}
 	self.opaque = props.opaque
 end
 
@@ -24,7 +25,11 @@ function view:update(dt)
 end
 
 function view:keypressed(k)
-	self.gui:keypressed(k)
+	if self.keybinds[k] then
+		self.keybinds[k]()
+	else
+		self.gui:keypressed(k)
+	end
 end
 
 return view
