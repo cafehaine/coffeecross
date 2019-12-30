@@ -1,5 +1,4 @@
 local viewstack = require("viewstack")
-local view = require("view")
 local world = require("world")
 
 local function next_index(i, table)
@@ -52,7 +51,7 @@ function init()
 			type="button",
 			text=v:get_name(),
 			action=function()
-				viewstack.push(view.new("level_selector", v))
+				viewstack.pushnew("level_selector", v)
 			end
 		}
 		grid.grid_layout[i] = "auto"

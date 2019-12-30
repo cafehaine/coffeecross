@@ -1,7 +1,11 @@
 local m = {}
-
+local view = require("view")
 local stack = {}
 local stack_index = 0
+
+function m.pushnew(path, ...)
+	m.push(view.new(path, ...))
+end
 
 function m.push(view)
 	stack_index = stack_index + 1
