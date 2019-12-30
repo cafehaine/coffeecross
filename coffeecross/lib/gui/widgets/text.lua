@@ -12,13 +12,15 @@ function wdgt.__new(self, attrs)
 end
 
 function wdgt:auto_width()
+	local unit = utils.get_unit()
 	local font_scale = utils.get_font_scale()
-	return self.drawable:getWidth()*font_scale
+	return self.drawable:getWidth()*font_scale + 4*unit
 end
 
 function wdgt:auto_height()
+	local unit = utils.get_unit()
 	local font_scale = utils.get_font_scale()
-	return self.drawable:getHeight()*font_scale
+	return self.drawable:getHeight()*font_scale + 4*unit
 end
 
 function wdgt:render(width, height)
