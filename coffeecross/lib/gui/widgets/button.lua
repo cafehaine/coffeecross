@@ -15,16 +15,19 @@ end
 
 function wdgt:auto_width()
 	local unit = utils.get_unit()
-	return self.drawable:getWidth() + 6 * unit
+	local font_scale = utils.get_font_scale()
+	return self.drawable:getWidth()*font_scale + 6 * unit
 end
 
 function wdgt:auto_height()
 	local unit = utils.get_unit()
-	return self.drawable:getHeight() + 6 * unit
+	local font_scale = utils.get_font_scale()
+	return self.drawable:getHeight()*font_scale + 6 * unit
 end
 
 function wdgt:render(width, height, focus)
 	local unit = utils.get_unit()
+	local font_scale = utils.get_font_scale()
 	-- Border
 	if focus == self.id then
 		love.graphics.setColor(1.0, 0.7, 0.2)
@@ -37,9 +40,10 @@ function wdgt:render(width, height, focus)
 	-- Text
 	love.graphics.setColor(self.color)
 	local t_width, t_height = self.drawable:getDimensions()
+	local t_width, t_height = t_width*font_scale, t_height*font_scale
 	local x = width/2-t_width/2
 	local y = height/2-t_height/2
-	love.graphics.draw(self.drawable, x, y)
+	love.graphics.draw(self.drawable, x, y, 0, font_scale)
 end
 
 function wdgt:keypressed(k, focus)

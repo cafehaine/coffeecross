@@ -13,4 +13,8 @@ function m.get_unit()
 	return math.min(width, height) / 100
 end
 
+function m.get_font_scale()
+	return m.get_unit() / 10
+end
+
 return m
