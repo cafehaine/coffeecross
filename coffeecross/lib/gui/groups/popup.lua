@@ -1,6 +1,7 @@
 local class = require("class")
 local viewstack = require("viewstack")
 local super = require("gui.groups.base")
+local utils = require("gui.utils")
 
 local group = class.create(super)
 
@@ -12,9 +13,6 @@ function group.__new(self, elm)
 end
 
 function group:render(width, height, focus)
-	love.graphics.setColor(0,0,0,0.85)
-	love.graphics.rectangle("fill", 0, 0, width, height)
-
 	local element = self.elements[1]
 
 	local e_width = element:auto_width()
@@ -22,6 +20,16 @@ function group:render(width, height, focus)
 
 	local e_left = width/2-e_width/2
 	local e_top = height/2-e_height/2
+
+	local unit = utils.get_unit()
+
+	-- background
+	love.graphics.setColor(0,0,0,0.85)
+	love.graphics.rectangle("fill", 0, 0, width, height)
+	love.graphics.setColor(0.4, 0.4, 0.4)
+	love.graphics.rectangle("fill", e_left-4*unit, e_top-4*unit, e_width+8*unit, e_height+8*unit, 2*unit)
+	love.graphics.setColor(0.2, 0.2, 0.2)
+	love.graphics.rectangle("fill", e_left-3*unit, e_top-3*unit, e_width+6*unit, e_height+6*unit, unit)
 
 	local s_left, s_top, s_width, s_height = love.graphics.getScissor()
 
