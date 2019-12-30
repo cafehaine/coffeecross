@@ -14,10 +14,17 @@ function init(level_path)
 				level=lvl
 			},
 			{
-				type="palette",
-				id="pal",
-				focus={up="game", down="game"},
-				palette=lvl.__palette
+				group_type="grid_column",
+				grid_layout={1,"auto"},
+				elements={
+					{type="none"},
+					{
+						type="palette",
+						id="pal",
+						focus={up="game", down="game"},
+						palette=lvl.__palette
+					}
+				}
 			}
 		}
 	}, opaque=true, focus=1}
