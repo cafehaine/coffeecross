@@ -7,6 +7,13 @@ function m.pushnew(path, ...)
 	m.push(view.new(path, ...))
 end
 
+function m.clear()
+	stack_index = 1
+	for i=2, #stack do
+		stack[i] = nil
+	end
+end
+
 function m.push(view)
 	stack_index = stack_index + 1
 	stack[stack_index] = view
