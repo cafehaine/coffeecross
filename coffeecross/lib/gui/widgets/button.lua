@@ -1,8 +1,6 @@
 local class = require("class")
 local super = require("gui.widgets.base")
-local gui_utils = require("gui.utils")
-
-local PADDING_SIZE = 6
+local utils = require("gui.utils")
 
 local wdgt = class.create(super)
 
@@ -11,25 +9,31 @@ function wdgt.__new(self, attrs)
 	self.action = attrs.action
 	self.focus = attrs.focus
 	self.text = attrs.text or error("HELLO")
-	self.drawable = love.graphics.newText(gui_utils.get_font(), self.text)
+	self.drawable = love.graphics.newText(utils.get_font(), self.text)
 	self.color = attrs.color or {1, 1, 1}
 end
 
 function wdgt:auto_width()
-	return self.drawable:getWidth() + PADDING_SIZE*2
+	local unit = utils.get_unit()
+	return self.drawable:getWidth() + 6 * unit
 end
 
 function wdgt:auto_height()
-	return self.drawable:getHeight() + PADDING_SIZE*2
+	local unit = utils.get_unit()
+	return self.drawable:getHeight() + 6 * unit
 end
 
 function wdgt:render(width, height, focus)
+	local unit = utils.get_unit()
 	-- Border
 	if focus == self.id then
-		love.graphics.clear(1, 0, 1)
+		love.graphics.setColor(1.0, 0.7, 0.2)
 	else
-		love.graphics.clear(0.1, 0.1, 0.1)
+		love.graphics.setColor(0.3, 0.3, 0.3)
 	end
+	love.graphics.rectangle("fill", unit, unit, width-2*unit, height-2*unit, 2*unit)
+	love.graphics.setColor(0.1, 0.1, 0.1)
+	love.graphics.rectangle("fill", 2*unit, 2*unit, width-4*unit, height-4*unit, unit)
 	-- Text
 	love.graphics.setColor(self.color)
 	local t_width, t_height = self.drawable:getDimensions()
