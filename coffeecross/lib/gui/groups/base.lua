@@ -39,4 +39,10 @@ function base:keypressed(k, focus)
 	return new_focus
 end
 
+function base:update(dt)
+	for i=1, #self.elements do
+		self.elements[i]:update(dt)
+	end
+end
+
 return base

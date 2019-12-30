@@ -20,7 +20,7 @@ function view:render()
 end
 
 function view:update(dt)
-
+	self.gui:update(dt)
 end
 
 function view:keypressed(k)

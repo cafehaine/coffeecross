@@ -1,24 +1,27 @@
 local gui_groups = require("gui.groups")
+local class = require("class")
 
-local m = {}
-m.__index = m
+local gui = class.create()
 
-function m.new(group, initial_focus)
-	local self = setmetatable({}, m)
+function gui.__new(self, group, initial_focus)
 	self.base_group = gui_groups.new(group)
 	self.focus = initial_focus
 	return self
 end
 
-function m:render()
+function gui:render()
 	local width, height = love.graphics.getDimensions()
 	love.graphics.setScissor(0, 0, width, height)
 	self.base_group:render(width, height, self.focus)
 end
 
-function m:keypressed(k)
+function gui:keypressed(k)
 	self.focus = self.base_group:keypressed(k, self.focus)
 end
 
-return m
+function gui:update(dt)
+	self.base_group:update(dt)
+end
+
+return gui
 

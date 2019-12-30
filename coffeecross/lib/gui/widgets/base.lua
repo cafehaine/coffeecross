@@ -21,4 +21,6 @@ end
 
 function base:keypressed(k, focus) end
 
+function base:update(dt) end
+
 return base
