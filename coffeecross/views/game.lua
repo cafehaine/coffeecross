@@ -11,7 +11,7 @@ function init(level_path)
 				{
 					type="game",
 					id="game",
-					focus={up="pal", down="pal"},
+					focus={up="pal", down="pal", tab="pal"},
 					level=lvl
 				},
 				{
@@ -27,7 +27,7 @@ function init(level_path)
 								{
 									type="palette",
 									id="pal",
-									focus={up="game", down="game"},
+									focus={up="game", down="game", tab="game"},
 									palette=lvl.__palette
 								},
 								{type="none"}
@@ -38,7 +38,7 @@ function init(level_path)
 			}
 		},
 		opaque=true,
-		focus=1,
+		focus="game",
 		keybinds={
 			escape=function()viewstack.pushnew("gamepopup")end
 		}

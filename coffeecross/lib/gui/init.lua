@@ -16,7 +16,7 @@ function gui:render()
 end
 
 function gui:keypressed(k)
-	self.focus = self.base_group:keypressed(k, self.focus)
+	self.focus = self.base_group:keypressed(k, self.focus) or self.focus
 end
 
 function gui:update(dt)

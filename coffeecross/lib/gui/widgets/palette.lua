@@ -36,17 +36,17 @@ function wdgt:render(width, height, focus)
 		love.graphics.rectangle("fill", 0+i*cell_width, 0, cell_width, height)
 	end
 	-- Outline of the current focused color
-	love.graphics.setColor(1, 1, 1)
+	if focus == self.id then
+		love.graphics.setColor(1, 0, 1)
+	else
+		love.graphics.setColor(1, 1, 1)
+	end
 	love.graphics.rectangle("line", self.index*cell_width, 0, cell_width, height)
 end
 
 function wdgt:keypressed(k, focus)
-	if focus == self.id then
-		if self.focus[k] then
-			return self.focus[k]
-		elseif k == "return" then
-			self.action()
-		end
+	if focus == self.id and self.focus[k] then
+		return self.focus[k]
 	end
 
 	return nil

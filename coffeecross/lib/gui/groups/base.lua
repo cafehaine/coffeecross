@@ -30,13 +30,14 @@ function base:render()
 end
 
 function base:keypressed(k, focus)
-	local new_focus = focus
-
 	for i=1, #self.elements do
-		new_focus = self.elements[i]:keypressed(k, focus) or new_focus
+		local new_focus = self.elements[i]:keypressed(k, focus)
+		if new_focus then
+			return new_focus
+		end
 	end
 
-	return new_focus
+	return nil
 end
 
 function base:update(dt)
