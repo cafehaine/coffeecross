@@ -29,7 +29,7 @@ function init(world)
 
 	for _,v in ipairs(levels_listing) do
 		if v:match("%d%d%.txt") and love.filesystem.getInfo(world_path.."/"..v, "file") then
-			levels[#levels+1] = level.new(world_path.."/"..v)
+			levels[#levels+1] = world_path.."/"..v
 		end
 	end
 
@@ -53,7 +53,7 @@ function init(world)
 			type="button",
 			text=tostring(i),
 			action=function()
-				viewstack.push(view.new("game", v.path))
+				viewstack.push(view.new("game", v))
 			end
 		}
 		grid.grid_layout[i] = "auto"
