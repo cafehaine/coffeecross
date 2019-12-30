@@ -1,10 +1,10 @@
 local class = require("class")
-local groups_base = require("gui.groups.base")
+local super = require("gui.groups.base")
 
-local group = class.create(groups_base)
+local group = class.create(super)
 
-function group.__new(obj, elm)
-	groups_base.__new(obj, elm)
+function group.__new(self, elm)
+	super.__new(self, elm)
 end
 
 function group:auto_width()

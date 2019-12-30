@@ -1,12 +1,10 @@
 local class = require("class")
-local widgets_base = require("gui.widgets.base")
+local super = require("gui.widgets.base")
 
-local wdgt = class.create(widgets_base)
+local wdgt = class.create(super)
 
-function wdgt.__new(obj, ...)
-	for k,v in pairs(({...})[1]) do
-		print(k,v)
-	end
+function wdgt.__new(self, attrs)
+	super.__new(self, attrs)
 end
 
 function wdgt:auto_width()

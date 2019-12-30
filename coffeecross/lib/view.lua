@@ -3,7 +3,7 @@ local class = require("class")
 
 local view = class.create()
 
-function view.__new(obj, path, ...)
+function view.__new(self, path, ...)
 	local realpath = "views/"..path..".lua"
 	if not love.filesystem.getInfo(realpath, "file") then
 		error("Cannot open file \""..realpath.."\"")
@@ -11,8 +11,8 @@ function view.__new(obj, path, ...)
 	local chunk = love.filesystem.load("views/"..path..".lua")
 	local temp = chunk()
 	local props = type(temp) == "function" and temp(...) or temp
-	obj.gui = gui.new(props.gui, props.focus)
-	obj.opaque = props.opaque
+	self.gui = gui.new(props.gui, props.focus)
+	self.opaque = props.opaque
 end
 
 function view:render()

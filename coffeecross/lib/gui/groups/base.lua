@@ -4,13 +4,13 @@ local groups = require("gui.groups")
 
 local base = class.create()
 
-function base.__new(obj, elm)
-	obj.elements = {}
+function base.__new(self, elm)
+	self.elements = {}
 	for i, elm in ipairs(elm.elements) do
 		if elm.type then
-			obj.elements[i] = widgets.new(elm)
+			self.elements[i] = widgets.new(elm)
 		elseif elm.group_type then
-			obj.elements[i] = groups.new(elm)
+			self.elements[i] = groups.new(elm)
 		else
 			error("Element is neither an widget or a group.")
 		end

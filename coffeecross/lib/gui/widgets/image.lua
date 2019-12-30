@@ -1,18 +1,18 @@
 local class = require("class")
-local widgets_base = require("gui.widgets.base")
+local super = require("gui.widgets.base")
 local set = require("set")
 local gui_utils = require("gui.utils")
 
 local VALID_MODES = set.new({"cover", "contain", "stretch"})
 
-local wdgt = class.create(widgets_base)
+local wdgt = class.create(super)
 
-function wdgt.__new(obj, attrs)
-	widgets_base.__new(obj, attrs)
-	obj.image = love.graphics.newImage("assets/"..attrs.image) or error("HELLO")
-	obj.mode = attrs.mode or "stretch"
-	if not VALID_MODES:contains(obj.mode) then
-		error("Invalid mode: "..obj.mode..".")
+function wdgt.__new(self, attrs)
+	super.__new(self, attrs)
+	self.image = love.graphics.newImage("assets/"..attrs.image) or error("HELLO")
+	self.mode = attrs.mode or "stretch"
+	if not VALID_MODES:contains(self.mode) then
+		error("Invalid mode: "..self.mode..".")
 	end
 end
 

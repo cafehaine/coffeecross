@@ -1,6 +1,7 @@
-local m = {}
-m.__index = m
 local set = require("set")
+local class = require("class")
+
+local level = class.create()
 
 local REQUIRED_PROPERTIES = {"name"}
 local PROPERTY_PATTERN = "(%w+)=(.*)"
@@ -37,7 +38,7 @@ local function parse_color(color)
 	return {r/255, g/255, b/255}
 end
 
-function m:__parse_line(line)
+function level:__parse_line(line)
 	local output = {}
 	local index = 1
 	for c in line:gmatch('.') do
@@ -58,7 +59,7 @@ function m:__parse_line(line)
 	return output
 end
 
-function m:__parse(path)
+function level:__parse(path)
 	local missing_properties = set.new(REQUIRED_PROPERTIES)
 
 	local file = love.filesystem.newFile(path)
@@ -108,9 +109,7 @@ function m:__parse(path)
 	--TODO Check that the dimensions are valid
 end
 
-function m.new(path)
-	local self = setmetatable({}, m)
-
+function level.__new(self, path)
 	self.__properties = {}
 	self.__palette = {}
 	self.__grid = {}
@@ -121,7 +120,7 @@ function m.new(path)
 end
 
 --TODO move this code to a widget
-function m:draw(x, y, width)
+function level:draw(x, y, width)
 	for i=1, #self.__grid do
 		local row = self.__grid[i]
 		for j=1, #row do
@@ -134,4 +133,4 @@ function m:draw(x, y, width)
 	end
 end
 
-return m
+return level

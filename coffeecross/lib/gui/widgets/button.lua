@@ -1,18 +1,18 @@
 local class = require("class")
-local widgets_base = require("gui.widgets.base")
+local super = require("gui.widgets.base")
 local gui_utils = require("gui.utils")
 
 local PADDING_SIZE = 6
 
-local wdgt = class.create(widgets_base)
+local wdgt = class.create(super)
 
-function wdgt.__new(obj, attrs)
-	widgets_base.__new(obj, attrs)
-	obj.action = attrs.action
-	obj.focus = attrs.focus
-	obj.text = attrs.text or error("HELLO")
-	obj.drawable = love.graphics.newText(gui_utils.get_font(), obj.text)
-	obj.color = attrs.color or {1, 1, 1}
+function wdgt.__new(self, attrs)
+	super.__new(self, attrs)
+	self.action = attrs.action
+	self.focus = attrs.focus
+	self.text = attrs.text or error("HELLO")
+	self.drawable = love.graphics.newText(gui_utils.get_font(), self.text)
+	self.color = attrs.color or {1, 1, 1}
 end
 
 function wdgt:auto_width()

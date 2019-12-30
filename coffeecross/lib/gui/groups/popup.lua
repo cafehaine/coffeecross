@@ -1,12 +1,12 @@
 local class = require("class")
 local viewstack = require("viewstack")
-local groups_base = require("gui.groups.base")
+local super = require("gui.groups.base")
 
-local group = class.create(groups_base)
+local group = class.create(super)
 
-function group.__new(obj, elm)
-	groups_base.__new(obj, elm)
-	if #obj.elements ~= 1 then
+function group.__new(self, elm)
+	super.__new(self, elm)
+	if #self.elements ~= 1 then
 		error("Popup groups must contain one and only one element.")
 	end
 end

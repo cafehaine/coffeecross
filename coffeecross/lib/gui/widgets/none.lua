@@ -1,7 +1,7 @@
 local class = require("class")
-local widgets_base = require("gui.widgets.base")
+local super = require("gui.widgets.base")
 
-local wdgt = class.create(widgets_base)
+local wdgt = class.create(super)
 
 function wdgt.__new() end
 

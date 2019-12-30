@@ -2,9 +2,9 @@ local class = require("class")
 
 local base = class.create()
 
-function base.__new(obj, attrs)
-	obj.attrs = attrs
-	obj.id = attrs.id
+function base.__new(self, attrs)
+	self.attrs = attrs
+	self.id = attrs.id
 end
 
 function base:auto_width()

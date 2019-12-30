@@ -2,9 +2,9 @@ local class = require("class")
 
 local world = class.create()
 
-function world.__new(obj, path)
+function world.__new(self, path)
 	--TODO parse metadata
-	obj.path = path
+	self.path = path
 end
 
 function world:get_name()

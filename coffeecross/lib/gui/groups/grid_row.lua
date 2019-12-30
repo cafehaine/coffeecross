@@ -1,12 +1,12 @@
 local class = require("class")
-local groups_base = require("gui.groups.base")
+local super = require("gui.groups.base")
 
-local group = class.create(groups_base)
+local group = class.create(super)
 
-function group.__new(obj, elm)
-	groups_base.__new(obj, elm)
-	obj.layout = elm.grid_layout
-	if #obj.layout ~= #obj.elements then
+function group.__new(self, elm)
+	super.__new(self, elm)
+	self.layout = elm.grid_layout
+	if #self.layout ~= #self.elements then
 		error("Grid groups must have the same number of layout entries as their number of elements.")
 	end
 end

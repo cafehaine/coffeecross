@@ -2,16 +2,16 @@ local class = require("class")
 
 local set = class.create()
 
-function set.__new(obj, vals)
-	obj.__values = {}
-	obj.__count = 0
+function set.__new(self, vals)
+	self.__values = {}
+	self.__count = 0
 
 	if vals == nil then
 		vals = {}
 	end
 
 	for _,v in ipairs(vals) do
-		obj:add(v)
+		self:add(v)
 	end
 end
 
