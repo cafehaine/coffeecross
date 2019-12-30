@@ -8,6 +8,9 @@ function love.conf(t)
 	t.identity = "coffeecross"
 
 	t.window.title = "CoffeeCross"
+	t.window.resizable = true
+	t.window.minwidth=320
+	t.window.minheight=240
 
 	t.modules.physics = false
 	t.modules.video = false

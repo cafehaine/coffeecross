@@ -26,7 +26,7 @@ function group:render(width, height, focus)
 	local s_left, s_top, s_width, s_height = love.graphics.getScissor()
 
 	love.graphics.push()
-	love.graphics.setScissor(s_left+e_left, s_top+e_top, e_width, e_height)
+	love.graphics.setScissor(s_left+e_left, s_top+e_top, math.max(e_width,0), math.max(e_height,0))
 	love.graphics.translate(e_left, e_top)
 	element:render(e_width, e_height, focus)
 	love.graphics.pop()

@@ -54,7 +54,7 @@ function group:render(width, height, focus)
 		local elm_width = widths[i] or (width - total_auto)/total_fracs*self.layout[i]
 
 		love.graphics.push()
-		love.graphics.setScissor(left_pos + left, top, elm_width, height)
+		love.graphics.setScissor(left_pos + left, top, math.max(elm_width,0), math.max(height,0))
 		love.graphics.translate(left_pos, 0)
 
 		self.elements[i]:render(elm_width, height, focus)
