@@ -11,6 +11,7 @@ function wdgt.__new(self, attrs)
 	self.action = attrs.action
 	self.focus = attrs.focus
 	self.palette = attrs.palette
+	self.index = 1 -- 0 = clear
 end
 
 function wdgt:auto_width()
@@ -24,11 +25,19 @@ end
 function wdgt:render(width, height, focus)
 	love.graphics.clear(0,0,0)
 	cell_width = width/(#self.palette+1)
-	--render "clear" cell
+	-- "clear" cell
+	love.graphics.setLineWidth(utils.get_unit()/2)
+	love.graphics.setColor(1,0,0)
+	love.graphics.line(0,0,cell_width, height)
+	love.graphics.line(0,height,cell_width, 0)
+	-- Other cells
 	for i=1, #self.palette do
 		love.graphics.setColor(self.palette[i])
 		love.graphics.rectangle("fill", 0+i*cell_width, 0, cell_width, height)
 	end
+	-- Outline of the current focused color
+	love.graphics.setColor(1, 1, 1)
+	love.graphics.rectangle("line", self.index*cell_width, 0, cell_width, height)
 end
 
 function wdgt:keypressed(k, focus)
