@@ -12,6 +12,7 @@ function wdgt.__new(self, attrs)
 	self.focus = attrs.focus
 	self.palette = attrs.palette
 	self.index = 1 -- 0 = clear
+	self.focused = 1
 end
 
 function wdgt:auto_width()
@@ -23,10 +24,11 @@ function wdgt:auto_height()
 end
 
 function wdgt:render(width, height, focus)
+	local unit = utils.get_unit()
 	love.graphics.clear(0,0,0)
 	cell_width = width/(#self.palette+1)
 	-- "clear" cell
-	love.graphics.setLineWidth(utils.get_unit()/2)
+	love.graphics.setLineWidth(unit)
 	love.graphics.setColor(1,0,0)
 	love.graphics.line(0,0,cell_width, height)
 	love.graphics.line(0,height,cell_width, 0)
@@ -35,18 +37,44 @@ function wdgt:render(width, height, focus)
 		love.graphics.setColor(self.palette[i])
 		love.graphics.rectangle("fill", 0+i*cell_width, 0, cell_width, height)
 	end
-	-- Outline of the current focused color
+	-- highlight the currently selected color
+	love.graphics.setColor(0, 0, 0)
+	local p1_x, p1_y = (self.index+1/4)*cell_width, height
+	local p2_x, p2_y = (self.index+1/2)*cell_width, height*3/4
+	local p3_x, p3_y = (self.index+3/4)*cell_width, height
+	love.graphics.polygon("fill", p1_x, p1_y, p2_x, p2_y, p3_x, p3_y)
+	love.graphics.setColor(1, 1, 1)
+	p1_x = p1_x + unit
+	p2_y = p2_y + unit
+	p3_x = p3_x - unit
+	love.graphics.polygon("fill", p1_x, p1_y, p2_x, p2_y, p3_x, p3_y)
+
+	-- highlight the currently focused color
 	if focus == self.id then
-		love.graphics.setColor(1, 0, 1)
-	else
+		love.graphics.setColor(0, 0, 0)
+		love.graphics.circle("fill", (self.focused+1/2)*cell_width, height/2, 2*unit)
 		love.graphics.setColor(1, 1, 1)
+		love.graphics.circle("fill", (self.focused+1/2)*cell_width, height/2, unit)
 	end
-	love.graphics.rectangle("line", self.index*cell_width, 0, cell_width, height)
 end
 
 function wdgt:keypressed(k, focus)
 	if focus == self.id and self.focus[k] then
 		return self.focus[k]
+	end
+
+	if k == "left" then
+		self.focused = self.focused - 1
+		if self.focused < 0 then
+			self.focused = #self.palette
+		end
+	elseif k == "right" then
+		self.focused = self.focused + 1
+		if self.focused > #self.palette then
+			self.focused = 0
+		end
+	elseif k == "return" then
+		self.index = self.focused
 	end
 
 	return nil
