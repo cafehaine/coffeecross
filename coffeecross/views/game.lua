@@ -19,10 +19,18 @@ function init(level_path)
 				elements={
 					{type="none"},
 					{
-						type="palette",
-						id="pal",
-						focus={up="game", down="game"},
-						palette=lvl.__palette
+						group_type="grid_row",
+						grid_layout={1,"auto",1},
+						elements={
+							{type="none"},
+							{
+								type="palette",
+								id="pal",
+								focus={up="game", down="game"},
+								palette=lvl.__palette
+							},
+							{type="none"}
+						}
 					}
 				}
 			}
