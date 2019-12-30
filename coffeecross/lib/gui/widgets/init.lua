@@ -1,6 +1,6 @@
 local set = require("set")
 local WIDGETS = set.new({"button", "none", "text", "image", "background",
-                         "game"})
+                         "game", "palette"})
 
 local m = {}
 
