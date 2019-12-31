@@ -13,8 +13,14 @@ function m.get_unit()
 	return math.min(width, height) / 100
 end
 
+-- Scale factor to obtain a font with a height of unit
+function m.get_unit_font_scale()
+	return m.get_unit() / FONT:getHeight()
+end
+
+-- Sane default font size
 function m.get_font_scale()
-	return m.get_unit() / 14
+	return m.get_unit_font_scale() * 4
 end
 
 return m
