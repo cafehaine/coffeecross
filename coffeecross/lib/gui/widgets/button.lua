@@ -50,7 +50,7 @@ function wdgt:keypressed(k, focus)
 	if focus == self.id then
 		if self.focus[k] then
 			return self.focus[k]
-		elseif k == "return" then
+		elseif k == "return" or k == "space" then
 			self.action()
 		end
 	end

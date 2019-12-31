@@ -73,7 +73,7 @@ function wdgt:keypressed(k, focus)
 		if self.focused > #self.palette then
 			self.focused = 0
 		end
-	elseif k == "return" then
+	elseif k == "return" or k == "space" then
 		self.index = self.focused
 	end
 
