@@ -28,6 +28,8 @@ function love.gamepadpressed(joystick, button)
 		key = "return"
 	elseif button == "b" or button == "back" then
 		key = "escape"
+	elseif button == "x" then
+		key = "delete"
 	elseif button == "dpup" then
 		key = "up"
 	elseif button == "dpdown" then

@@ -1,6 +1,7 @@
 local class = require("class")
 local super = require("gui.widgets.base")
 local utils = require("gui.utils")
+local palette = require("gui.widgets.palette")
 
 local wdgt = class.create(super)
 
@@ -91,7 +92,7 @@ function wdgt:render(width, height, focus)
 			local cell = self.grid[i][j]
 			if cell ~= 0 then
 				love.graphics.setColor(self.level.palette[cell])
-				love.graphics.rectangle("fill", grid_left+(j-1)*cell_size, grid_top+(i-1), cell_size, cell_size)
+				love.graphics.rectangle("fill", grid_left+(j-1)*cell_size, grid_top+(i-1)*cell_size, cell_size, cell_size)
 			end
 		end
 	end
@@ -134,6 +135,12 @@ function wdgt:keypressed(k, focus)
 		if self.grid_x > self.width then
 			self.grid_x = 1
 		end
+	elseif k == "space" or k == "return" then
+		self.grid[self.grid_y][self.grid_x] = palette.active_widget.index
+	elseif k == "delete" or k == "backspace" then
+		self.grid[self.grid_y][self.grid_x] = 0
+	elseif self.focus[k] then
+		return self.focus[k]
 	end
 
 	return nil
