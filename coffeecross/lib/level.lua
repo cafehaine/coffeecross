@@ -59,6 +59,45 @@ function level:__parse_line(line)
 	return output
 end
 
+local _current, _count, _indications
+
+local function _reset_generate()
+	_current = 0
+	_count = 0
+	_indications = {}
+end
+
+local function _generate(cell)
+	if _current ~= cell then
+		if _current ~= 0 then
+			_indications[#_indications+1] = {color=_current, count=_count}
+		end
+		_current = cell
+		_count = 1
+	else
+		_count = _count + 1
+	end
+end
+
+function level:__generate_indications()
+	for i=1, #self.grid do
+		_reset_generate()
+		for j=1, #self.grid[i] do
+			_generate(self.grid[i][j])
+		end
+		_generate(nil)
+		self.indications.rows[#self.indications.rows+1] = _indications
+	end
+	for i=1, #self.grid[1] do
+		_reset_generate()
+		for j=1, #self.grid do
+			_generate(self.grid[j][i])
+		end
+		_generate(nil)
+		self.indications.cols[#self.indications.cols+1] = _indications
+	end
+end
+
 function level:__parse(path)
 	local missing_properties = set.new(REQUIRED_PROPERTIES)
 
@@ -107,12 +146,14 @@ function level:__parse(path)
 		error("Invalid level file: empty grid")
 	end
 	--TODO Check that the dimensions are valid
+	self:__generate_indications()
 end
 
 function level.__new(self, path)
 	self.properties = {}
 	self.palette = {}
 	self.grid = {}
+	self.indications = {rows={}, cols={}}
 
 	self:__parse(path)
 
