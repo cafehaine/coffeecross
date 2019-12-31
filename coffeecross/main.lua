@@ -21,3 +21,25 @@ function love.keypressed(key)
 	end
 	viewstack.keypressed(key)
 end
+
+function love.gamepadpressed(joystick, button)
+	local key = nil
+	if button == "a" or button == "start" then
+		key = "return"
+	elseif button == "b" or button == "back" then
+		key = "escape"
+	elseif button == "dpup" then
+		key = "up"
+	elseif button == "dpdown" then
+		key = "down"
+	elseif button == "dpleft" then
+		key = "left"
+	elseif button == "dpright" then
+		key = "right"
+	elseif button == "leftshoulder" or button == "rightshoulder" then
+		key = "tab"
+	end
+	if key then
+		love.event.push("keypressed", key)
+	end
+end
