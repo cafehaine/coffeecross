@@ -1,5 +1,6 @@
 local set = require("set")
 local class = require("class")
+local utils = require("utils")
 
 local level = class.create()
 
@@ -101,46 +102,31 @@ end
 function level:__parse(path)
 	local missing_properties = set.new(REQUIRED_PROPERTIES)
 
-	local file = love.filesystem.newFile(path)
-	local lines = {}
-	for line in file:lines() do
-		lines[#lines+1] = line
+	local sections = utils.read_file_sections(path)
+	if #sections ~= 3 then
+		error("level files must have 3 sections, level has "..#sections)
 	end
 
-	local line_index = 1
-	local line = lines[line_index]
-
-	while line ~= nil and line ~= "---" do
+	for _, line in ipairs(sections[1]) do
 		property, value = line:match(PROPERTY_PATTERN)
 		if property == "name" then
 			self.properties.name = value
 		end
 		missing_properties:remove(property)
-
-		line_index = line_index+1
-		line = lines[line_index]
 	end
 	if not missing_properties:empty() then
 		error("Invalid level file: Missing properties: "..tostring(missing_properties))
 	end
 
-	line_index = line_index+1
-	line = lines[line_index]
-	while line ~= nil and line ~= "---" do
+	for _, line in ipairs(sections[2]) do
 		self.palette[#self.palette+1] = parse_color(line)
-		line_index = line_index+1
-		line = lines[line_index]
 	end
 	if #self.palette == 0 then
 		error("Invalid level file: No colors defined.")
 	end
 
-	line_index = line_index+1
-	line = lines[line_index]
-	while line ~= nil and line ~= "---" do
+	for _, line in ipairs(sections[3]) do
 		self.grid[#self.grid+1] = self:__parse_line(line)
-		line_index = line_index+1
-		line = lines[line_index]
 	end
 	if #self.grid == 0 then
 		error("Invalid level file: empty grid")
