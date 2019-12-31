@@ -20,6 +20,10 @@ function wdgt.__new(self, attrs)
 	super.__new(self, attrs)
 	self.level = attrs.level
 	self.focus = attrs.focus
+
+	self.grid_x = 1
+	self.grid_y = 1
+
 	self.grid = generate_grid(self.level.grid)
 
 	self.height = #self.level.grid
@@ -91,12 +95,47 @@ function wdgt:render(width, height, focus)
 			end
 		end
 	end
+	-- Focused cell
+	if focus == self.id then
+		local focus_x = grid_left + (self.grid_x+1/2-1)*cell_size
+		local focus_y = grid_top + (self.grid_y+1/2-1)*cell_size
+		love.graphics.setColor(0, 0, 0)
+		love.graphics.circle("fill", focus_x, focus_y, 2*unit)
+		love.graphics.setColor(1, 1, 1)
+		love.graphics.circle("fill", focus_x, focus_y, unit)
+	end
+
 end
 
 function wdgt:keypressed(k, focus)
-	if focus == self.id and self.focus[k] then
-		return self.focus[k]
+	if focus ~= self.id then
+		return nil
 	end
+
+	if k == "up" then
+		if self.grid_y == 1 then
+			return self.focus["up"]
+		else
+			self.grid_y = self.grid_y - 1
+		end
+	elseif k == "down" then
+		if self.grid_y == self.height then
+			return self.focus["down"]
+		else
+			self.grid_y = self.grid_y + 1
+		end
+	elseif k == "left" then
+		self.grid_x = self.grid_x - 1
+		if self.grid_x < 1 then
+			self.grid_x = self.width
+		end
+	elseif k == "right" then
+		self.grid_x = self.grid_x + 1
+		if self.grid_x > self.width then
+			self.grid_x = 1
+		end
+	end
+
 	return nil
 end
 
