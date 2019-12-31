@@ -28,7 +28,7 @@ function init(level_path)
 									type="palette",
 									id="pal",
 									focus={up="game", down="game", tab="game"},
-									palette=lvl.__palette
+									palette=lvl.palette
 								},
 								{type="none"}
 							}

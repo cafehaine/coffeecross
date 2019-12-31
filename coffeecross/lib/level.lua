@@ -44,7 +44,7 @@ function level:__parse_line(line)
 	for c in line:gmatch('.') do
 		if c:match("%d") then
 			local val = tonumber(c)
-			if self.__palette[val] == nil then
+			if self.palette[val] == nil then
 				error("Invalid level: Undefined color: "..c)
 			end
 			output[index] = val
@@ -74,7 +74,7 @@ function level:__parse(path)
 	while line ~= nil and line ~= "---" do
 		property, value = line:match(PROPERTY_PATTERN)
 		if property == "name" then
-			self.__properties.name = value
+			self.properties.name = value
 		end
 		missing_properties:remove(property)
 
@@ -88,31 +88,31 @@ function level:__parse(path)
 	line_index = line_index+1
 	line = lines[line_index]
 	while line ~= nil and line ~= "---" do
-		self.__palette[#self.__palette+1] = parse_color(line)
+		self.palette[#self.palette+1] = parse_color(line)
 		line_index = line_index+1
 		line = lines[line_index]
 	end
-	if #self.__palette == 0 then
+	if #self.palette == 0 then
 		error("Invalid level file: No colors defined.")
 	end
 
 	line_index = line_index+1
 	line = lines[line_index]
 	while line ~= nil and line ~= "---" do
-		self.__grid[#self.__grid+1] = self:__parse_line(line)
+		self.grid[#self.grid+1] = self:__parse_line(line)
 		line_index = line_index+1
 		line = lines[line_index]
 	end
-	if #self.__grid == 0 then
+	if #self.grid == 0 then
 		error("Invalid level file: empty grid")
 	end
 	--TODO Check that the dimensions are valid
 end
 
 function level.__new(self, path)
-	self.__properties = {}
-	self.__palette = {}
-	self.__grid = {}
+	self.properties = {}
+	self.palette = {}
+	self.grid = {}
 
 	self:__parse(path)
 
@@ -121,12 +121,12 @@ end
 
 --TODO move this code to a widget
 function level:draw(x, y, width)
-	for i=1, #self.__grid do
-		local row = self.__grid[i]
+	for i=1, #self.grid do
+		local row = self.grid[i]
 		for j=1, #row do
 			local cell = row[j]
 			if cell ~= 0 then
-				love.graphics.setColor(self.__palette[cell])
+				love.graphics.setColor(self.palette[cell])
 				love.graphics.rectangle("fill", x+(j-1)*width, y+(i-1)*width, width, width)
 			end
 		end
