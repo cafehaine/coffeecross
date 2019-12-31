@@ -1,5 +1,6 @@
 local class = require("class")
 local super = require("gui.widgets.base")
+local utils = require("gui.utils")
 
 local wdgt = class.create(super)
 
@@ -24,16 +25,16 @@ function wdgt.__new(self, attrs)
 	self.height = #self.level.grid
 	self.width = #self.level.grid[1]
 
-	self.max_indication_cols = 0
-	self.max_indication_rows = 0
+	self.indication_width = 0
+	self.indication_height = 0
 
 	local indications = self.level.indications
 	for i=1, #indications.rows do
-		self.max_indication_rows = math.max(self.max_indication_rows, #indications.rows[i])
+		self.indication_width = math.max(self.indication_width, #indications.rows[i])
 	end
 
 	for i=1, #indications.cols do
-		self.max_indication_cols = math.max(self.max_indication_cols, #indications.cols[i])
+		self.indication_height = math.max(self.indication_height, #indications.cols[i])
 	end
 end
 
@@ -46,10 +47,49 @@ function wdgt:auto_height()
 end
 
 function wdgt:render(width, height, focus)
-	if focus == self.id then
-		love.graphics.clear(0.5,0,0.5)
-	else
-		love.graphics.clear(0,0,0)
+	local unit = utils.get_unit()
+	local cell_size = unit * 8
+
+	local total_width = (self.width + self.indication_width) * cell_size
+	local total_height = (self.height + self.indication_height) * cell_size
+
+	local left = width/2-total_width/2
+	local top = height/2-total_height/2
+
+	local grid_left = left+cell_size*self.indication_width
+	local grid_top = top+cell_size*self.indication_height
+
+	-- Indications
+	local indications = self.level.indications
+	for i=1, #indications.rows do
+		local row = indications.rows[i]
+		local row_len = #row
+		local row_left = grid_left - row_len * cell_size
+		for j=1, row_len do
+			local indication = row[j]
+			love.graphics.setColor(self.level.palette[indication.color])
+			love.graphics.rectangle("fill", row_left + (j-1) * cell_size, grid_top + (i-1)*cell_size, cell_size, cell_size)
+		end
+	end
+	for i=1, #indications.cols do
+		local col = indications.cols[i]
+		local col_len = #col
+		local col_top = grid_top - col_len * cell_size
+		for j=1, col_len do
+			local indication = col[j]
+			love.graphics.setColor(self.level.palette[indication.color])
+			love.graphics.rectangle("fill", grid_left + (i-1) * cell_size, col_top + (j-1) * cell_size, cell_size, cell_size)
+		end
+	end
+	-- Grid
+	for i=1, #self.grid do
+		for j=1, #self.grid[i] do
+			local cell = self.grid[i][j]
+			if cell ~= 0 then
+				love.graphics.setColor(self.level.palette[cell])
+				love.graphics.rectangle("fill", grid_left+(j-1)*cell_size, grid_top+(i-1), cell_size, cell_size)
+			end
+		end
 	end
 end
 
