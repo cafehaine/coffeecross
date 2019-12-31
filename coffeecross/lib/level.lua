@@ -5,7 +5,6 @@ local utils = require("utils")
 local level = class.create()
 
 local REQUIRED_PROPERTIES = {"name"}
-local PROPERTY_PATTERN = "(%w+)=(.*)"
 local HEX_DIGITS = {
 	["0"] = 0,
 	["1"] = 1,
@@ -108,7 +107,7 @@ function level:__parse(path)
 	end
 
 	for _, line in ipairs(sections[1]) do
-		property, value = line:match(PROPERTY_PATTERN)
+		property, value = utils.parse_property(line)
 		if property == "name" then
 			self.properties.name = value
 		end

@@ -54,7 +54,7 @@ function init()
 			focus={up=prev_index(i,worlds),down=next_index(i,worlds)},
 			id=i,
 			type="button",
-			text=v:get_name(),
+			text=v.name,
 			action=function()
 				viewstack.pushnew("level_selector", v)
 			end

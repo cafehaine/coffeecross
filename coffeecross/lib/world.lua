@@ -1,15 +1,26 @@
 local class = require("class")
+local utils = require("utils")
 
 local world = class.create()
 
 function world.__new(self, path)
-	--TODO parse metadata
 	self.path = path
-end
 
-function world:get_name()
-	--TODO used parsed metadata
-	return "Hello"
+	local sections = utils.read_file_sections("levels/"..path.."/metadata")
+	if #sections ~= 1 then
+		error("World files must have 1 sections, file has "..#sections)
+	end
+
+	for _, line in ipairs(sections[1]) do
+		property, value = utils.parse_property(line)
+		if property == "name" then
+			self.name = value
+		end
+	end
+
+	if not self.name then
+		error("World has no name.")
+	end
 end
 
 return world
