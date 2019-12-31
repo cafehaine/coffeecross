@@ -6,6 +6,8 @@ local wdgt = class.create(super)
 
 local CELL_SIZE = 8
 
+wdgt.active_widget = nil
+
 function wdgt.__new(self, attrs)
 	super.__new(self, attrs)
 	self.action = attrs.action
@@ -24,6 +26,7 @@ function wdgt:auto_height()
 end
 
 function wdgt:render(width, height, focus)
+	wdgt.active_widget = self
 	local unit = utils.get_unit()
 	love.graphics.clear(0,0,0)
 	cell_width = width/(#self.palette+1)
@@ -59,7 +62,11 @@ function wdgt:render(width, height, focus)
 end
 
 function wdgt:keypressed(k, focus)
-	if focus == self.id and self.focus[k] then
+	if focus ~= self.id then
+		return nil
+	end
+
+	if self.focus[k] then
 		return self.focus[k]
 	end
 
