@@ -162,7 +162,11 @@ function wdgt:keypressed(k, focus)
 			self.grid_x = 1
 		end
 	elseif k == "space" or k == "return" then
-		self.grid[self.grid_y][self.grid_x] = palette.active_widget.index
+		if self.grid[self.grid_y][self.grid_x] == palette.active_widget.index then
+			self.grid[self.grid_y][self.grid_x] = 0
+		else
+			self.grid[self.grid_y][self.grid_x] = palette.active_widget.index
+		end
 	elseif k == "delete" or k == "backspace" then
 		self.grid[self.grid_y][self.grid_x] = 0
 	elseif self.focus[k] then
