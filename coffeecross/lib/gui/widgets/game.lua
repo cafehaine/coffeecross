@@ -5,6 +5,15 @@ local palette = require("gui.widgets.palette")
 
 local wdgt = class.create(super)
 
+local CACHED_TEXTS = {}
+
+local function getText(text)
+	if not CACHED_TEXTS[text] then
+		CACHED_TEXTS[text] = love.graphics.newText(utils.get_font(), text)
+	end
+	return CACHED_TEXTS[text]
+end
+
 local function generate_grid(level_grid)
 	local output = {}
 	for i=1, #level_grid do
@@ -51,9 +60,24 @@ function wdgt:auto_height()
 	return 0
 end
 
+function wdgt:__drawIndication(left, top, indication)
+	local unit = utils.get_unit()
+	local cell_size = unit * 8
+	local font_scale = utils.get_unit_font_scale() * 6
+
+	love.graphics.setColor(self.level.palette[indication.color])
+	love.graphics.rectangle("fill", left, top, cell_size, cell_size)
+	love.graphics.setColor(1,1,1)
+	local text = getText(tostring(indication.count))
+	local text_width, text_height = text:getDimensions()
+	text_width, text_height = text_width * font_scale, text_height * font_scale
+	love.graphics.draw(text, left + cell_size/2 - text_width/2, top + cell_size/2 - text_height/2, 0, font_scale)
+end
+
 function wdgt:render(width, height, focus)
 	local unit = utils.get_unit()
 	local cell_size = unit * 8
+	local font_scale = utils.get_unit_font_scale() * 6
 
 	local total_width = (self.width + self.indication_width) * cell_size
 	local total_height = (self.height + self.indication_height) * cell_size
@@ -71,9 +95,10 @@ function wdgt:render(width, height, focus)
 		local row_len = #row
 		local row_left = grid_left - row_len * cell_size
 		for j=1, row_len do
+			local cell_left = row_left + (j-1) * cell_size
+			local cell_top = grid_top + (i-1) * cell_size
 			local indication = row[j]
-			love.graphics.setColor(self.level.palette[indication.color])
-			love.graphics.rectangle("fill", row_left + (j-1) * cell_size, grid_top + (i-1)*cell_size, cell_size, cell_size)
+			self:__drawIndication(cell_left, cell_top, indication)
 		end
 	end
 	for i=1, #indications.cols do
@@ -82,8 +107,9 @@ function wdgt:render(width, height, focus)
 		local col_top = grid_top - col_len * cell_size
 		for j=1, col_len do
 			local indication = col[j]
-			love.graphics.setColor(self.level.palette[indication.color])
-			love.graphics.rectangle("fill", grid_left + (i-1) * cell_size, col_top + (j-1) * cell_size, cell_size, cell_size)
+			local cell_left = grid_left + (i-1) * cell_size
+			local cell_top = col_top + (j-1) * cell_size
+			self:__drawIndication(cell_left, cell_top, indication)
 		end
 	end
 	-- Grid
