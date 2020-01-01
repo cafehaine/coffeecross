@@ -11,13 +11,27 @@ function init(level_path)
 				{
 					type="game",
 					id="game",
-					focus={up="pal", down="pal", tab="pal"},
+					focus={up="menu", down="pal", tab="pal"},
 					level=lvl
 				},
 				{
 					group_type="grid_column",
-					grid_layout={1,"auto"},
+					grid_layout={"auto",1,"auto"},
 					elements={
+						{
+							group_type="grid_row",
+							grid_layout={"auto", 1},
+							elements = {
+								{
+									focus={up="pal", down="game"},
+									id="menu",
+									type="button",
+									text="Menu",
+									action=function()viewstack.pushnew("gamepopup")end
+								},
+								{type="none"}
+							}
+						},
 						{type="none"},
 						{
 							group_type="grid_row",
@@ -27,7 +41,7 @@ function init(level_path)
 								{
 									type="palette",
 									id="pal",
-									focus={up="game", down="game", tab="game"},
+									focus={up="game", down="menu", tab="game"},
 									palette=lvl.palette
 								},
 								{type="none"}
