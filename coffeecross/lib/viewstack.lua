@@ -53,4 +53,8 @@ function m.keypressed(k)
 	stack[stack_index]:keypressed(k)
 end
 
+function m.mousepressed(x, y, button)
+	stack[stack_index]:mousepressed(x, y, button)
+end
+
 return m

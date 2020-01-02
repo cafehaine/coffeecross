@@ -32,5 +32,9 @@ function view:keypressed(k)
 	end
 end
 
+function view:mousepressed(x, y, button)
+	self.gui:mousepressed(x, y, button)
+end
+
 return view
 

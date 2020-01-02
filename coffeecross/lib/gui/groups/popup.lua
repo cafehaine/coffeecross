@@ -55,5 +55,18 @@ function group:keypressed(k, focus)
 	return new_focus
 end
 
+function group:mousepressed(x, y, button, width, height)
+	local element = self.elements[1]
+	local e_width = element:auto_width()
+	local e_height = element:auto_height()
+	local e_left = width/2-e_width/2
+	local e_top = height/2-e_height/2
+
+	if utils.point_in_surface(x, y, e_left, e_top, e_width, e_height) then
+		element:mousepressed(x-e_left, y-e_top, button, e_width, e_height)
+	else
+		viewstack.pop()
+	end
+end
 
 return group

@@ -45,3 +45,7 @@ function love.gamepadpressed(joystick, button)
 		love.event.push("keypressed", key)
 	end
 end
+
+function love.mousepressed(x, y, button)
+	viewstack.mousepressed(x, y, button)
+end

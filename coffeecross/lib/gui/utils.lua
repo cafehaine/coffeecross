@@ -23,4 +23,8 @@ function m.get_font_scale()
 	return m.get_unit_font_scale() * 4
 end
 
+function m.point_in_surface(x, y, left, top, width, height)
+	return x >= left and x < left + width and y >= top and y < top+height
+end
+
 return m

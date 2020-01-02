@@ -40,6 +40,10 @@ function base:keypressed(k, focus)
 	return nil
 end
 
+function base:mousepressed(x, y, button, width, height)
+	error("Not implemented.")
+end
+
 function base:update(dt)
 	for i=1, #self.elements do
 		self.elements[i]:update(dt)

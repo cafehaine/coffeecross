@@ -19,6 +19,11 @@ function gui:keypressed(k)
 	self.focus = self.base_group:keypressed(k, self.focus) or self.focus
 end
 
+function gui:mousepressed(x, y, button)
+	local width, height = love.graphics.getDimensions()
+	self.base_group:mousepressed(x, y, button, width, height)
+end
+
 function gui:update(dt)
 	self.base_group:update(dt)
 end
