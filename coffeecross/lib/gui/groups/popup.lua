@@ -63,9 +63,10 @@ function group:mousepressed(x, y, button, width, height)
 	local e_top = height/2-e_height/2
 
 	if utils.point_in_surface(x, y, e_left, e_top, e_width, e_height) then
-		element:mousepressed(x-e_left, y-e_top, button, e_width, e_height)
+		return element:mousepressed(x-e_left, y-e_top, button, e_width, e_height)
 	else
 		viewstack.pop()
+		return true
 	end
 end
 

@@ -58,4 +58,8 @@ function wdgt:keypressed(k, focus)
 	return nil
 end
 
+function wdgt:mousepressed(x, y, button, width, height)
+	self.action()
+end
+
 return wdgt

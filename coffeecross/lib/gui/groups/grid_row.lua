@@ -1,5 +1,6 @@
 local class = require("class")
 local super = require("gui.groups.base")
+local utils = require("gui.utils")
 
 local group = class.create(super)
 
@@ -63,6 +64,33 @@ function group:render(width, height, focus)
 		love.graphics.pop()
 	end
 	love.graphics.setScissor(left, top, sc_width, sc_height)
+end
+
+function group:mousepressed(x, y, button, width, height)
+	local total_auto = 0
+	local total_fracs = 0
+	local widths = {}
+	for i=1, #self.layout do
+		if self.layout[i] == "auto" then
+			local elm_width = self.elements[i]:auto_width()
+			total_auto = total_auto + elm_width
+			widths[i] = elm_width
+		elseif type(self.layout[i]) == "number" then
+			total_fracs = total_fracs + self.layout[i]
+		else
+			error("Unknown layout indication '"..self.layout[i].."'")
+		end
+	end
+
+	local left_pos = 0
+	for i=1, #self.layout do
+		local elm_width = widths[i] or (width - total_auto)/total_fracs*self.layout[i]
+		if utils.point_in_surface(x, y, left_pos, 0, elm_width, height) then
+			return self.elements[i]:mousepressed(x-left_pos, y, button, elm_width, height)
+		end
+		left_pos = left_pos + elm_width
+	end
+	return
 end
 
 return group

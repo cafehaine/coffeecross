@@ -23,4 +23,6 @@ function base:keypressed(k, focus) end
 
 function base:update(dt) end
 
+function base:mousepressed(x, y, button, width, height) end
+
 return base
