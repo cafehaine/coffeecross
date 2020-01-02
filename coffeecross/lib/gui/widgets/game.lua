@@ -2,6 +2,7 @@ local class = require("class")
 local super = require("gui.widgets.base")
 local utils = require("gui.utils")
 local palette = require("gui.widgets.palette")
+local viewstack = require("viewstack")
 
 local wdgt = class.create(super)
 
@@ -142,7 +143,7 @@ function wdgt:__check_grid()
 			end
 		end
 	end
-	print("Success!")
+	viewstack.pushnew("gamefinish")
 end
 
 function wdgt:keypressed(k, focus)
