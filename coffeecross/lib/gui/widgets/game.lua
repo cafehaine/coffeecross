@@ -134,6 +134,17 @@ function wdgt:render(width, height, focus)
 
 end
 
+function wdgt:__check_grid()
+	for i=1, #self.grid do
+		for j=1, #self.grid[i] do
+			if self.grid[i][j] ~= self.level.grid[i][j] then
+				return
+			end
+		end
+	end
+	print("Success!")
+end
+
 function wdgt:keypressed(k, focus)
 	if focus ~= self.id then
 		return nil
@@ -167,8 +178,10 @@ function wdgt:keypressed(k, focus)
 		else
 			self.grid[self.grid_y][self.grid_x] = palette.active_widget.index
 		end
+		self:__check_grid()
 	elseif k == "delete" or k == "backspace" then
 		self.grid[self.grid_y][self.grid_x] = 0
+		self:__check_grid()
 	elseif self.focus[k] then
 		return self.focus[k]
 	end
