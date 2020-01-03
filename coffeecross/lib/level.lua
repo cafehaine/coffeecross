@@ -130,7 +130,7 @@ function level:__parse(path)
 	if #self.grid == 0 then
 		error("Invalid level file: empty grid")
 	end
-	--TODO Check that the dimensions are valid
+	--TODO Check that the dimensions are valid (non-zero, same for all lines)
 	self:__generate_indications()
 end
 
