@@ -32,12 +32,34 @@ function init(world)
 		end
 	end
 
+	local grid = {group_type="grid_column"}
+
 	local output = {
 		gui={
 			group_type = "stack",
 			elements = {
 				{type="background"},
-				{group_type="grid_column"}
+				{
+					group_type="grid_row",
+					grid_layout={"auto", 1},
+					elements = {
+						{
+							group_type="grid_column",
+							grid_layout={"auto", 1},
+							elements={
+								{
+									type="button",
+									id="back",
+									focus={right=1},
+									text="Back",
+									action=viewstack.pop
+								},
+								{type="none"}
+							}
+						},
+						grid
+					}
+				}
 			}
 		},
 		opaque=true,
@@ -45,14 +67,12 @@ function init(world)
 		focus=1
 	}
 
-	local grid = output.gui.elements[2]
-
 	grid.elements = {}
 	grid.grid_layout = {}
 
 	for i,v in ipairs(levels) do
 		grid.elements[i] = {
-			focus={up=prev_index(i,levels),down=next_index(i,levels)},
+			focus={up=prev_index(i,levels),down=next_index(i,levels),left="back"},
 			id=i,
 			type="button",
 			text=tostring(i),
