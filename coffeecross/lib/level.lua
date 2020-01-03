@@ -145,18 +145,4 @@ function level.__new(self, path)
 	return self
 end
 
---TODO move this code to a widget
-function level:draw(x, y, width)
-	for i=1, #self.grid do
-		local row = self.grid[i]
-		for j=1, #row do
-			local cell = row[j]
-			if cell ~= 0 then
-				love.graphics.setColor(self.palette[cell])
-				love.graphics.rectangle("fill", x+(j-1)*width, y+(i-1)*width, width, width)
-			end
-		end
-	end
-end
-
 return level
