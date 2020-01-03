@@ -1,28 +1,36 @@
 local viewstack = require("viewstack")
 
 local gui = {
-	group_type = "popup",
+	group_type = "stack",
 	elements = {
 		{
-			group_type = "grid_column",
-			grid_layout = {"auto", "auto", "auto"},
+			group_type = "popup",
 			elements = {
-				{type="text", text="Level completed!"},
 				{
-					id=1,
-					focus={up=2,down=2},
-					type="button",
-					text="Go back to level selection",
-					action=function()viewstack.pop()viewstack.pop()end
-				},
-				{
-					id=2,
-					focus={up=1,down=1},
-					type="button",
-					text="Exit to main menu",
-					action=viewstack.clear
+					group_type = "grid_column",
+					grid_layout = {"auto", "auto", "auto"},
+					elements = {
+						{type="text", text="Level completed!"},
+						{
+							id=1,
+							focus={up=2,down=2},
+							type="button",
+							text="Go back to level selection",
+							action=function()viewstack.pop()viewstack.pop()end
+						},
+						{
+							id=2,
+							focus={up=1,down=1},
+							type="button",
+							text="Exit to main menu",
+							action=viewstack.clear
+						}
+					}
 				}
 			}
+		},
+		{
+			type="fireworks"
 		}
 	}
 }
