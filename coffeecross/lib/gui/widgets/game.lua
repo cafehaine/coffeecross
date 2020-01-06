@@ -75,6 +75,27 @@ function wdgt:__drawIndication(left, top, indication)
 	love.graphics.draw(text, left + cell_size/2 - text_width/2, top + cell_size/2 - text_height/2, 0, font_scale)
 end
 
+function wdgt:mousepressed(x, y, button, width, height)
+	local unit = utils.get_unit()
+	local cell_size = unit * 8
+	local font_scale = utils.get_unit_font_scale() * 6
+
+	local total_width = (self.width + self.indication_width) * cell_size
+	local total_height = (self.height + self.indication_height) * cell_size
+
+	local left = width/2-total_width/2
+	local top = height/2-total_height/2
+
+	local grid_left = left+cell_size*self.indication_width
+	local grid_top = top+cell_size*self.indication_height
+
+	if not utils.point_in_surface(x, y, grid_left, grid_top, self.width * cell_size, self.height * cell_size) then
+		return
+	end
+
+	self:__toggle_cell(math.floor((x-grid_left)/cell_size) + 1, math.floor((y-grid_top)/cell_size) + 1)
+end
+
 function wdgt:render(width, height, focus)
 	local unit = utils.get_unit()
 	local cell_size = unit * 8
@@ -146,6 +167,15 @@ function wdgt:__check_grid()
 	viewstack.pushnew("gamefinish")
 end
 
+function wdgt:__toggle_cell(x, y)
+	if self.grid[y][x] == palette.active_widget.index then
+		self.grid[y][x] = 0
+	else
+		self.grid[y][x] = palette.active_widget.index
+	end
+	self:__check_grid()
+end
+
 function wdgt:keypressed(k, focus)
 	if focus ~= self.id then
 		return nil
@@ -174,12 +204,7 @@ function wdgt:keypressed(k, focus)
 			self.grid_x = 1
 		end
 	elseif k == "space" or k == "return" then
-		if self.grid[self.grid_y][self.grid_x] == palette.active_widget.index then
-			self.grid[self.grid_y][self.grid_x] = 0
-		else
-			self.grid[self.grid_y][self.grid_x] = palette.active_widget.index
-		end
-		self:__check_grid()
+		self:__toggle_cell(self.grid_x, self.grid_y)
 	elseif k == "delete" or k == "backspace" then
 		self.grid[self.grid_y][self.grid_x] = 0
 		self:__check_grid()
