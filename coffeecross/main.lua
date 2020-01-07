@@ -19,8 +19,9 @@ local GAMEPAD_MAPPINGS = {
 function love.load()
 	love.keyboard.setKeyRepeat(true)
 	viewstack = require("viewstack")
-	view = require("view")
-	viewstack.push(view.new("main"))
+	viewstack.pushnew("main")
+	local settings = require("settings")
+	settings.load()
 end
 
 function love.draw()
