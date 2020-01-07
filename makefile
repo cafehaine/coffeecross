@@ -4,11 +4,20 @@ LOVE_FILES := love.dll lua51.dll mpg123.dll msvcp120.dll msvcr120.dll OpenAL32.d
 
 all: build/game.love
 
-%/:
+%:
 	mkdir -p "$@"
 
 build/tmp/love-win32.zip: build/tmp/
-	curl "https://bitbucket.org/rude/love/downloads/love-$(LOVE_VERSION)-win32.zip" -o "$@"
+	curl -L "https://bitbucket.org/rude/love/downloads/love-$(LOVE_VERSION)-win32.zip" -o "$@"
+
+build/tmp/love-macos.zip: build/tmp/
+	curl -L "https://bitbucket.org/rude/love/downloads/love-$(LOVE_VERSION)-macos.zip" -o "$@"
+
+build/tmp/love.app: build/tmp/love-macos.zip
+	unzip -qo build/tmp/love-macos.zip -d build/tmp
+
+build/game.app.zip: build/tmp/love.app
+	cd build/tmp/ && zip -qr ../../"$@" love.app
 
 build/tmp/game.exe: build/tmp/love-win32.zip build/game.love
 	unzip -qoj build/tmp/love-win32.zip "*/love.exe" -d build/tmp/
