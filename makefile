@@ -7,11 +7,8 @@ all: build/game.love
 %:
 	mkdir -p "$@"
 
-build/tmp/love-win32.zip: build/tmp/
-	curl -L "https://bitbucket.org/rude/love/downloads/love-$(LOVE_VERSION)-win32.zip" -o "$@"
-
-build/tmp/love-macos.zip: build/tmp/
-	curl -L "https://bitbucket.org/rude/love/downloads/love-$(LOVE_VERSION)-macos.zip" -o "$@"
+build/tmp/love-%.zip: build/tmp/
+	curl -L "https://bitbucket.org/rude/love/downloads/love-$(LOVE_VERSION)-$*.zip" -o "$@"
 
 build/tmp/love.app: build/tmp/love-macos.zip
 	unzip -qo build/tmp/love-macos.zip -d build/tmp
