@@ -9,10 +9,10 @@ function gui.__new(self, group, initial_focus)
 	return self
 end
 
-function gui:render()
+function gui:render(showfocus)
 	local width, height = love.graphics.getDimensions()
 	love.graphics.setScissor(0, 0, width, height)
-	self.base_group:render(width, height, self.focus)
+	self.base_group:render(width, height, showfocus and self.focus or nil)
 end
 
 function gui:keypressed(k)

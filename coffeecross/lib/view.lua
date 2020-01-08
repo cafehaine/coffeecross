@@ -16,8 +16,8 @@ function view.__new(self, path, ...)
 	self.opaque = props.opaque
 end
 
-function view:render()
-	self.gui:render()
+function view:render(showfocus)
+	self.gui:render(showfocus)
 end
 
 function view:update(dt)

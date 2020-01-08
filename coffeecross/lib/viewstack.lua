@@ -2,6 +2,7 @@ local m = {}
 local view = require("view")
 local stack = {}
 local stack_index = 0
+local showfocus = true
 
 function m.pushnew(path, ...)
 	m.push(view.new(path, ...))
@@ -41,7 +42,7 @@ function m.render()
 	end
 
 	for i=i, #stack do
-		stack[i]:render()
+		stack[i]:render(showfocus)
 	end
 end
 
@@ -50,10 +51,12 @@ function m.update(dt)
 end
 
 function m.keypressed(k)
+	showfocus = true
 	stack[stack_index]:keypressed(k)
 end
 
 function m.mousepressed(x, y, button)
+	showfocus = false
 	stack[stack_index]:mousepressed(x, y, button)
 end
 
