@@ -89,6 +89,7 @@ end
 
 function wdgt:mousepressed(x, y, button, width, height)
 	self.index = math.floor(x/(width/(#self.palette+1)))
+	return true
 end
 
 return wdgt

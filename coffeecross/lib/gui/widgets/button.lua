@@ -60,6 +60,7 @@ end
 
 function wdgt:mousepressed(x, y, button, width, height)
 	self.action()
+	return true
 end
 
 return wdgt
