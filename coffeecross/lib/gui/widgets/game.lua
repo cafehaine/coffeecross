@@ -164,7 +164,7 @@ function wdgt:__check_grid()
 			end
 		end
 	end
-	viewstack.pushnew("gamefinish")
+	viewstack.pushnew("gamefinish", self.level)
 end
 
 function wdgt:__toggle_cell(x, y)
