@@ -3,6 +3,7 @@ local view = require("view")
 local stack = {}
 local stack_index = 0
 local showfocus = true
+local debug = false
 
 function m.pushnew(path, ...)
 	m.push(view.new(path, ...))
@@ -44,6 +45,14 @@ function m.render()
 	for i=i, #stack do
 		stack[i]:render(showfocus)
 	end
+	if debug then
+		love.graphics.setColor(0,0,0)
+		love.graphics.print("fps: "..love.timer.getFPS(), 1, 1)
+		love.graphics.print("stack index: "..stack_index, 1, 21)
+		love.graphics.setColor(0,1,0)
+		love.graphics.print("fps: "..love.timer.getFPS(), 0, 0)
+		love.graphics.print("stack index: "..stack_index, 0, 20)
+	end
 end
 
 function m.update(dt)
@@ -51,6 +60,9 @@ function m.update(dt)
 end
 
 function m.keypressed(k)
+	if k == "f12" then
+		debug = not debug
+	end
 	showfocus = true
 	stack[stack_index]:keypressed(k)
 end
