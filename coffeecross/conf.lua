@@ -11,6 +11,7 @@ function love.conf(t)
 	t.window.resizable = true
 	t.window.minwidth=320
 	t.window.minheight=240
+	t.window.usedpiscale = false
 	t.window.msaa = 8
 
 	t.modules.physics = false
