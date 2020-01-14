@@ -138,6 +138,9 @@ function wdgt:render(width, height, focus)
 			self:__drawIndication(cell_left, cell_top, indication)
 		end
 	end
+	-- Grid background
+	love.graphics.setColor(0.8, 0.8, 0.8)
+	love.graphics.rectangle("fill", grid_left, grid_top, self.width*cell_size, self.height*cell_size)
 	-- Grid
 	for i=1, #self.grid do
 		for j=1, #self.grid[i] do
@@ -156,6 +159,17 @@ function wdgt:render(width, height, focus)
 			end
 		end
 	end
+	-- Grid foreground
+	love.graphics.setLineWidth(unit/4)
+	love.graphics.setColor(0, 0, 0, 0.2)
+	for i=0, self.height do
+		love.graphics.line(grid_left, grid_top + i*cell_size, grid_left + self.width*cell_size, grid_top+i*cell_size)
+	end
+
+	for j=0, self.width do
+		love.graphics.line(grid_left + j*cell_size, grid_top, grid_left + j*cell_size, grid_top+self.height*cell_size)
+	end
+
 	-- Focused cell
 	if focus == self.id then
 		local focus_x = grid_left + (self.grid_x+1/2-1)*cell_size
