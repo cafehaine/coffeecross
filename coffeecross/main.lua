@@ -86,3 +86,7 @@ end
 function love.wheelmoved(x, y)
 	viewstack.zoom(y/100)
 end
+
+function love.resize(w, h)
+	viewstack.resize(w, h)
+end
