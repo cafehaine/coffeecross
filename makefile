@@ -4,7 +4,7 @@ LOVE_FILES := love.dll lua51.dll mpg123.dll msvcp120.dll msvcr120.dll OpenAL32.d
 
 all: build/game.love
 
-%:
+%/:
 	mkdir -p "$@"
 
 build/tmp/love-%.zip: build/tmp/
