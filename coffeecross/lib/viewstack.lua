@@ -77,7 +77,7 @@ function m.render()
 		end
 		love.graphics.setCanvas(transition_canvas)
 		love.graphics.clear()
-		stack[stack_index]:render()
+		stack[stack_index]:render(showfocus)
 		love.graphics.setCanvas()
 		love.graphics.setColor(1,1,1,transition_timer/TRANSITION_DURATION)
 		love.graphics.draw(transition_canvas, 0, 0)
@@ -95,7 +95,7 @@ function m.render()
 
 	else
 		for i=first_opaque, stack_index do
-			stack[i]:render()
+			stack[i]:render(showfocus)
 		end
 	end
 
