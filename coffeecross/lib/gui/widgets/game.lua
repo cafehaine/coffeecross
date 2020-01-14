@@ -97,7 +97,6 @@ function wdgt:mousepressed(x, y, button, width, height)
 	if not utils.point_in_surface(x, y, grid_left, grid_top, self.width * cell_size, self.height * cell_size) then
 		return
 	end
-
 	self:__toggle_cell(math.floor((x-grid_left)/cell_size) + 1, math.floor((y-grid_top)/cell_size) + 1)
 end
 
@@ -143,9 +142,17 @@ function wdgt:render(width, height, focus)
 	for i=1, #self.grid do
 		for j=1, #self.grid[i] do
 			local cell = self.grid[i][j]
-			if cell ~= 0 then
+			local cell_x = grid_left+(j-1)*cell_size
+			local cell_y = grid_top+(i-1)*cell_size
+			if cell == -1 then -- blocked cell
+				love.graphics.setLineWidth(unit)
+				love.graphics.setColor(1,0,0)
+				love.graphics.line(cell_x, cell_y, cell_x + cell_size, cell_y + cell_size)
+				love.graphics.line(cell_x, cell_y + cell_size, cell_x+cell_size, cell_y)
+
+			elseif cell ~= 0 then -- color cell
 				love.graphics.setColor(self.level.palette[cell])
-				love.graphics.rectangle("fill", grid_left+(j-1)*cell_size, grid_top+(i-1)*cell_size, cell_size, cell_size)
+				love.graphics.rectangle("fill", cell_x, cell_y, cell_size, cell_size)
 			end
 		end
 	end
@@ -173,10 +180,14 @@ function wdgt:__check_grid()
 end
 
 function wdgt:__toggle_cell(x, y)
-	if self.grid[y][x] == palette.active_widget.index then
+	local value = palette.active_widget.index
+	if value == 0 then -- block
+		value = -1
+	end
+	if self.grid[y][x] == value then
 		self.grid[y][x] = 0
 	else
-		self.grid[y][x] = palette.active_widget.index
+		self.grid[y][x] = value
 	end
 	self:__check_grid()
 end

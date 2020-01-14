@@ -13,7 +13,7 @@ function wdgt.__new(self, attrs)
 	self.action = attrs.action
 	self.focus = attrs.focus
 	self.palette = attrs.palette
-	self.index = 1 -- 0 = clear
+	self.index = 1 -- 0 = block
 	self.focused = 1
 end
 
@@ -30,7 +30,7 @@ function wdgt:render(width, height, focus)
 	local unit = utils.get_unit()
 	love.graphics.clear(0,0,0)
 	cell_width = width/(#self.palette+1)
-	-- "clear" cell
+	-- "block" cell
 	love.graphics.setLineWidth(unit)
 	love.graphics.setColor(1,0,0)
 	love.graphics.line(0,0,cell_width, height)
