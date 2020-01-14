@@ -82,3 +82,7 @@ function love.gamepadaxis(joystick, axis, value)
 		GAMEPAD_ZOOM = value
 	end
 end
+
+function love.wheelmoved(x, y)
+	viewstack.zoom(y/100)
+end
