@@ -50,4 +50,16 @@ function base:update(dt)
 	end
 end
 
+function base:scroll(x, y)
+	for i=1, #self.elements do
+		self.elements[i]:scroll(x, y)
+	end
+end
+
+function base:zoom(val)
+	for i=1, #self.elements do
+		self.elements[i]:zoom(val)
+	end
+end
+
 return base

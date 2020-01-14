@@ -16,6 +16,12 @@ local GAMEPAD_MAPPINGS = {
 	rightshoulder = "tab"
 }
 
+local GAMEPAD_DEADZONE = 0.15
+
+local GAMEPAD_SCROLL_X = 0
+local GAMEPAD_SCROLL_Y = 0
+local GAMEPAD_ZOOM = 0
+
 function love.load()
 	love.keyboard.setKeyRepeat(true)
 	viewstack = require("viewstack")
@@ -29,6 +35,21 @@ function love.draw()
 end
 
 function love.update(dt)
+	local scroll_x = nil
+	local scroll_y = nil
+	if math.abs(GAMEPAD_ZOOM) > GAMEPAD_DEADZONE then
+		viewstack.zoom(GAMEPAD_ZOOM * dt)
+	end
+	if math.abs(GAMEPAD_SCROLL_Y) > GAMEPAD_DEADZONE then
+		scroll_y = GAMEPAD_SCROLL_Y * dt
+	end
+	if math.abs(GAMEPAD_SCROLL_X) > GAMEPAD_DEADZONE then
+		scroll_x = GAMEPAD_SCROLL_X * dt
+	end
+	if scroll_x or scroll_y then
+		viewstack.scroll(scroll_x or 0, scroll_y or 0)
+	end
+
 	viewstack.update(dt)
 end
 
@@ -50,4 +71,14 @@ end
 
 function love.mousepressed(x, y, button)
 	viewstack.mousepressed(x, y, button)
+end
+
+function love.gamepadaxis(joystick, axis, value)
+	if axis == "rightx" then
+		GAMEPAD_SCROLL_X = value
+	elseif axis == "righty" then
+		GAMEPAD_SCROLL_Y = value
+	elseif axis == "lefty" then
+		GAMEPAD_ZOOM = value
+	end
 end

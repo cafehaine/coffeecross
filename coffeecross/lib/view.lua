@@ -36,5 +36,13 @@ function view:mousepressed(x, y, button)
 	self.gui:mousepressed(x, y, button)
 end
 
+function view:scroll(x, y)
+	self.gui:scroll(x, y)
+end
+
+function view:zoom(val)
+	self.gui:zoom(val)
+end
+
 return view
 

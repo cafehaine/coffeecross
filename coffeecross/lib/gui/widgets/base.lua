@@ -25,4 +25,8 @@ function base:update(dt) end
 
 function base:mousepressed(x, y, button, width, height) end
 
+function base:scroll(x, y) end
+
+function base:zoom(val) end
+
 return base

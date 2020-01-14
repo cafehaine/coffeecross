@@ -28,5 +28,13 @@ function gui:update(dt)
 	self.base_group:update(dt)
 end
 
+function gui:scroll(x, y)
+	self.base_group:scroll(x, y)
+end
+
+function gui:zoom(val)
+	self.base_group:zoom(val)
+end
+
 return gui
 

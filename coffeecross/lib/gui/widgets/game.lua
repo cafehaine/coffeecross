@@ -8,6 +8,9 @@ local wdgt = class.create(super)
 
 local CACHED_TEXTS = {}
 
+local MIN_ZOOM = 0.5
+local MAX_ZOOM = 2
+
 local function getText(text)
 	if not CACHED_TEXTS[text] then
 		CACHED_TEXTS[text] = love.graphics.newText(utils.get_font(), text)
@@ -40,6 +43,8 @@ function wdgt.__new(self, attrs)
 	self.height = #self.level.grid
 	self.width = #self.level.grid[1]
 
+	self.__zoom = 1
+
 	self.indication_width = 0
 	self.indication_height = 0
 
@@ -63,8 +68,8 @@ end
 
 function wdgt:__drawIndication(left, top, indication)
 	local unit = utils.get_unit()
-	local cell_size = unit * 8
-	local font_scale = utils.get_unit_font_scale() * 6
+	local cell_size = unit * 8 * self.__zoom
+	local font_scale = utils.get_unit_font_scale() * 6 * self.__zoom
 
 	love.graphics.setColor(self.level.palette[indication.color])
 	love.graphics.rectangle("fill", left, top, cell_size, cell_size)
@@ -77,7 +82,7 @@ end
 
 function wdgt:mousepressed(x, y, button, width, height)
 	local unit = utils.get_unit()
-	local cell_size = unit * 8
+	local cell_size = unit * 8 * self.__zoom
 	local font_scale = utils.get_unit_font_scale() * 6
 
 	local total_width = (self.width + self.indication_width) * cell_size
@@ -98,7 +103,7 @@ end
 
 function wdgt:render(width, height, focus)
 	local unit = utils.get_unit()
-	local cell_size = unit * 8
+	local cell_size = unit * 8 * self.__zoom
 	local font_scale = utils.get_unit_font_scale() * 6
 
 	local total_width = (self.width + self.indication_width) * cell_size
@@ -213,6 +218,10 @@ function wdgt:keypressed(k, focus)
 	end
 
 	return nil
+end
+
+function wdgt:zoom(val)
+	self.__zoom = math.min(MAX_ZOOM, math.max(MIN_ZOOM, self.__zoom + val))
 end
 
 return wdgt

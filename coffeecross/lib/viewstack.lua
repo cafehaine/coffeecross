@@ -72,4 +72,12 @@ function m.mousepressed(x, y, button)
 	stack[stack_index]:mousepressed(x, y, button)
 end
 
+function m.scroll(x, y)
+	stack[stack_index]:scroll(x, y)
+end
+
+function m.zoom(value)
+	stack[stack_index]:zoom(value)
+end
+
 return m
