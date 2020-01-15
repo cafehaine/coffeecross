@@ -5,17 +5,18 @@ local palette = require("gui.widgets.palette")
 local viewstack = require("viewstack")
 
 local wdgt = class.create(super)
+wdgt.active_widget = nil
 
-local CACHED_TEXTS = {}
+local cached_texts = {}
 
 local MIN_ZOOM = 0.5
 local MAX_ZOOM = 2
 
 local function getText(text)
-	if not CACHED_TEXTS[text] then
-		CACHED_TEXTS[text] = love.graphics.newText(utils.get_font(), text)
+	if not cached_texts[text] then
+		cached_texts[text] = love.graphics.newText(utils.get_font(), text)
 	end
-	return CACHED_TEXTS[text]
+	return cached_texts[text]
 end
 
 local function generate_grid(level_grid)
@@ -102,6 +103,7 @@ function wdgt:mousepressed(x, y, button, width, height)
 end
 
 function wdgt:render(width, height, focus)
+	wdgt.active_widget = self
 	local unit = utils.get_unit()
 	local cell_size = unit * 8 * self.__zoom
 	local font_scale = utils.get_unit_font_scale() * 6
@@ -253,6 +255,10 @@ end
 
 function wdgt:zoom(val)
 	self.__zoom = math.min(MAX_ZOOM, math.max(MIN_ZOOM, self.__zoom + val))
+end
+
+function wdgt:hint()
+	--TODO
 end
 
 return wdgt

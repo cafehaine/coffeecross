@@ -1,5 +1,10 @@
 local viewstack = require("viewstack")
 local level = require("level")
+local game = require("gui.widgets.game")
+
+local function hint()
+	game.active_widget:hint()
+end
 
 function init(level_path, next_levels)
 	local lvl = level.new(level_path)
@@ -21,16 +26,23 @@ function init(level_path, next_levels)
 					elements={
 						{
 							group_type="grid_row",
-							grid_layout={"auto", 1},
+							grid_layout={"auto", 1, "auto"},
 							elements = {
 								{
-									focus={up="pal", down="game"},
+									focus={up="pal", down="game", left="hint", right="hint"},
 									id="menu",
 									type="button",
 									text="Menu",
 									action=function()viewstack.pushnew("gamepopup")end
 								},
-								{type="none"}
+								{type="none"},
+								{
+									focus={left="menu", right="menu"},
+									id="hint",
+									type="button",
+									text="Hint",
+									action=hint
+								}
 							}
 						},
 						{type="none"},
