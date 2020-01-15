@@ -21,7 +21,15 @@ local function prev_index(i, table)
 	return i
 end
 
-function init(world)
+local function next_levels(i, levels)
+	local output = {}
+	for i=i+1, #levels do
+		output[#output+1] = levels[i]
+	end
+	return output
+end
+
+local function init(world)
 	local world_path = "levels/"..world.path
 	local levels_listing = love.filesystem.getDirectoryItems(world_path)
 	local levels = {}
@@ -77,7 +85,7 @@ function init(world)
 			type="button",
 			text=tostring(i),
 			action=function()
-				viewstack.pushnew("game", v)
+				viewstack.pushnew("game", v, next_levels(i, levels))
 			end
 		}
 		grid.grid_layout[i] = "auto"

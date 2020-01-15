@@ -1,7 +1,7 @@
 local viewstack = require("viewstack")
 local level = require("level")
 
-function init(level_path)
+function init(level_path, next_levels)
 	local lvl = level.new(level_path)
 	return {
 		gui={
@@ -12,7 +12,8 @@ function init(level_path)
 					type="game",
 					id="game",
 					focus={up="menu", down="pal", tab="pal"},
-					level=lvl
+					level=lvl,
+					next_levels = next_levels
 				},
 				{
 					group_type="grid_column",

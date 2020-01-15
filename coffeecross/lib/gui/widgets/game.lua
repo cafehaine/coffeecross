@@ -33,6 +33,7 @@ end
 function wdgt.__new(self, attrs)
 	super.__new(self, attrs)
 	self.level = attrs.level
+	self.next_levels = attrs.next_levels
 	self.focus = attrs.focus
 
 	self.grid_x = 1
@@ -195,7 +196,7 @@ function wdgt:__check_grid()
 			end
 		end
 	end
-	viewstack.pushnew("gamefinish", self.level)
+	viewstack.pushnew("gamefinish", self.level, self.next_levels)
 end
 
 function wdgt:__toggle_cell(x, y)
