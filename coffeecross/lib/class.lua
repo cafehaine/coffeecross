@@ -1,6 +1,7 @@
 local m = {}
 
 local lua_type = type
+local object_id = 1
 
 function _G.type(obj)
 	if lua_type(obj) == "table" then
@@ -13,8 +14,18 @@ function _G.type(obj)
 	return lua_type(obj)
 end
 
+local function object_eq(o1, o2)
+	if o1.__object_id == o2.__object_id then
+		return true
+	end
+	if o1.equals then
+		return o1:equals(o2)
+	end
+	return false
+end
+
 function m.create(parent)
-	local c = {}
+	local c = {__eq=object_eq}
 	if type(parent) == "class" then
 		for k, v in pairs(parent) do
 			c[k] = v
@@ -29,8 +40,12 @@ function m.create(parent)
 
 	c.new = function(...)
 		local obj = setmetatable({}, c)
+		obj.__object_id = object_id
+		object_id = object_id + 1
 		obj.__is_object = true
-		c.__new(obj,...)
+		if c.__new then
+			c.__new(obj,...)
+		end
 		return obj
 	end
 
