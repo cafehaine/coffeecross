@@ -9,6 +9,7 @@ local transition_timer = 0
 local transition_direction = "push"
 local transition_canvas = love.graphics.newCanvas(love.graphics.getDimensions())
 local TRANSITION_DURATION = 0.1
+local DEFAULT_FONT = love.graphics.newFont()
 
 function m.resize(w, h)
 	transition_canvas = love.graphics.newCanvas(w, h)
@@ -60,15 +61,32 @@ function m.pop_to_view(name)
 end
 
 function debug_print(lines)
+	local current_font = love.graphics.getFont()
+	love.graphics.setFont(DEFAULT_FONT)
+
+	local line_widths = {}
+	local line_height = DEFAULT_FONT:getHeight() + 4
+	for i, line in ipairs(lines) do
+		line_widths[i] = DEFAULT_FONT:getWidth(line)
+	end
+
+	local max_width = 0
+	for _, width in ipairs(line_widths) do
+		max_width = math.max(max_width, width)
+	end
+
+	love.graphics.setColor(0,0,0,.5)
+	love.graphics.rectangle("fill", 0, 0, max_width, #lines*line_height)
+
 	love.graphics.setColor(0,0,0)
 	for i=1, #lines do
-		love.graphics.print(lines[i], 1, (i-1)*20+1)
+		love.graphics.print(lines[i], 1, (i-1)*line_height+1)
 	end
 	love.graphics.setColor(0,1,0)
 	for i=1, #lines do
-		love.graphics.print(lines[i], 0, (i-1)*20+0)
+		love.graphics.print(lines[i], 0, (i-1)*line_height+0)
 	end
-
+	love.graphics.setFont(current_font)
 end
 
 function m.render()
@@ -116,9 +134,15 @@ function m.render()
 			end
 		end
 		debug_print{
+			"GPU:",
 			"fps: "..love.timer.getFPS(),
+			"model: "..({love.graphics.getRendererInfo()})[4],
+			"",
+			"VIEW STACK:",
 			"stack: "..table.concat(viewstack, " > "),
 			"stack index: "..stack_index,
+			"",
+			"TRANSITIONS:",
 			"transitioning: "..(transitioning and "true" or "false"),
 			"transition_direction: "..transition_direction,
 			"transition_timer: "..transition_timer,
