@@ -14,6 +14,7 @@ function view.__new(self, path, ...)
 	self.gui = gui.new(props.gui, props.focus)
 	self.keybinds = props.keybinds or {}
 	self.opaque = props.opaque
+	self.name = path
 end
 
 function view:render(showfocus)

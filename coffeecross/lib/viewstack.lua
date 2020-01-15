@@ -100,8 +100,16 @@ function m.render()
 	end
 
 	if debug then
+		local viewstack = {}
+		for i=1, #stack do
+			viewstack[i] = stack[i].name
+			if i == stack_index then
+				viewstack[i] = viewstack[i]:upper()
+			end
+		end
 		debug_print{
 			"fps: "..love.timer.getFPS(),
+			"stack: "..table.concat(viewstack, " > "),
 			"stack index: "..stack_index,
 			"transitioning: "..(transitioning and "true" or "false"),
 			"transition_direction: "..transition_direction,
