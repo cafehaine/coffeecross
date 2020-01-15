@@ -22,6 +22,13 @@ local GAMEPAD_SCROLL_X = 0
 local GAMEPAD_SCROLL_Y = 0
 local GAMEPAD_ZOOM = 0
 
+local ARROW_KEYS = {
+	up    = {x=0,  y=1},
+	down  = {x=0,  y=-1},
+	left  = {x=-1, y=0},
+	right = {x=1,  y=0},
+}
+
 function love.load()
 	love.keyboard.setKeyRepeat(true)
 	viewstack = require("viewstack")
@@ -53,13 +60,26 @@ function love.update(dt)
 	viewstack.update(dt)
 end
 
-function love.keypressed(key)
+function love.textinput(text)
+	if text == "+" and love.keyboard.isDown("lctrl", "rctrl") then
+		viewstack.zoom(0.15)
+	elseif text == "-" and love.keyboard.isDown("lctrl", "rctrl") then
+		viewstack.zoom(-.15)
+	end
+end
+
+
+function love.keypressed(key, scancode, isrepeat)
 	if key == "f11" then
 		--TODO use a setting to store fullscreen mode (desktop/exclusive)
 		local fullscreen = love.window.getFullscreen()
 		love.window.setFullscreen(not fullscreen)
+	elseif ARROW_KEYS[key] ~= nil and love.keyboard.isDown("lctrl", "rctrl") then
+		local scroll = ARROW_KEYS[key]
+		viewstack.scroll(scroll.x*0.1, scroll.y*0.1)
+	else
+		viewstack.keypressed(key)
 	end
-	viewstack.keypressed(key)
 end
 
 function love.gamepadpressed(joystick, button)
