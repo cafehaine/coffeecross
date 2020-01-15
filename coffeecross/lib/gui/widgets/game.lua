@@ -185,7 +185,12 @@ end
 function wdgt:__check_grid()
 	for i=1, #self.grid do
 		for j=1, #self.grid[i] do
-			if self.grid[i][j] ~= self.level.grid[i][j] then
+			local cell = self.grid[i][j]
+			if cell == -1 then -- consider "blocked" cells as empty
+				cell = 0
+			end
+			local ref = self.level.grid[i][j]
+			if cell ~= ref then
 				return
 			end
 		end
