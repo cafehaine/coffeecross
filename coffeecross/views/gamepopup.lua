@@ -19,14 +19,14 @@ local gui = {
 					focus={up=1,down=3},
 					type="button",
 					text="Go back to level selection",
-					action=function()viewstack.pop()viewstack.pop()end
+					action=function()viewstack.pop_to_view("level_selector")end
 				},
 				{
 					id=3,
 					focus={up=2,down=1},
 					type="button",
 					text="Exit to main menu",
-					action=viewstack.clear
+					action=function()viewstack.pop_to_view("main")end
 				}
 			}
 		}

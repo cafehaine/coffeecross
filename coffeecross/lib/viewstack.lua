@@ -18,13 +18,6 @@ function m.pushnew(path, ...)
 	m.push(view.new(path, ...))
 end
 
-function m.clear()
-	stack_index = 1
-	for i=2, #stack do
-		stack[i] = nil
-	end
-end
-
 function m.push(view)
 	stack_index = stack_index + 1
 	stack[stack_index] = view
@@ -49,6 +42,21 @@ function m.pop()
 	if stack_index <= 0 then
 		love.event.quit()
 	end
+end
+
+function m.pop_to_view(name)
+	local view_index = stack_index
+	while view_index > 0 and stack[view_index].name ~= name do
+		view_index = view_index - 1
+	end
+	if view_index == 0 then
+		error("Could not find view with name: "..name)
+	end
+	for i=view_index+1, #stack do
+		stack[i]=nil
+	end
+	transitioning = false
+	stack_index = view_index
 end
 
 function debug_print(lines)
