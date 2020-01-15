@@ -1,6 +1,7 @@
 local set = require("set")
 local class = require("class")
 local utils = require("utils")
+local grid = require("grid")
 
 local level = class.create()
 
@@ -80,18 +81,18 @@ local function _generate(cell)
 end
 
 function level:__generate_indications()
-	for i=1, #self.grid do
+	for i=1, self.grid.height do
 		_reset_generate()
-		for j=1, #self.grid[i] do
-			_generate(self.grid[i][j])
+		for j=1, self.grid.width do
+			_generate(self.grid.cells[i][j])
 		end
 		_generate(nil)
 		self.indications.rows[#self.indications.rows+1] = _indications
 	end
-	for i=1, #self.grid[1] do
+	for j=1, self.grid.width do
 		_reset_generate()
-		for j=1, #self.grid do
-			_generate(self.grid[j][i])
+		for i=1, self.grid.height do
+			_generate(self.grid.cells[i][j])
 		end
 		_generate(nil)
 		self.indications.cols[#self.indications.cols+1] = _indications
@@ -124,20 +125,21 @@ function level:__parse(path)
 		error("Invalid level file: No colors defined.")
 	end
 
+	local grid_lines = {}
 	for _, line in ipairs(sections[3]) do
-		self.grid[#self.grid+1] = self:__parse_line(line)
+		grid_lines[#grid_lines+1] = self:__parse_line(line)
 	end
-	if #self.grid == 0 then
+	if #grid_lines == 0 then
 		error("Invalid level file: empty grid")
 	end
-	--TODO Check that the dimensions are valid (non-zero, same for all lines)
+
+	self.grid = grid.new(#grid_lines, #grid_lines[1], grid_lines)
 	self:__generate_indications()
 end
 
 function level.__new(self, path)
 	self.properties = {}
 	self.palette = {}
-	self.grid = {}
 	self.indications = {rows={}, cols={}}
 
 	self:__parse(path)

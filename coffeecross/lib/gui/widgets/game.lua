@@ -3,6 +3,7 @@ local super = require("gui.widgets.base")
 local utils = require("gui.utils")
 local palette = require("gui.widgets.palette")
 local viewstack = require("viewstack")
+local grid = require("grid")
 
 local wdgt = class.create(super)
 wdgt.active_widget = nil
@@ -19,18 +20,6 @@ local function getText(text)
 	return cached_texts[text]
 end
 
-local function generate_grid(level_grid)
-	local output = {}
-	for i=1, #level_grid do
-		local row = {}
-		for j=1, #level_grid[i] do
-			row[#row+1] = 0
-		end
-		output[#output+1] = row
-	end
-	return output
-end
-
 function wdgt.__new(self, attrs)
 	super.__new(self, attrs)
 	self.level = attrs.level
@@ -40,10 +29,7 @@ function wdgt.__new(self, attrs)
 	self.grid_x = 1
 	self.grid_y = 1
 
-	self.grid = generate_grid(self.level.grid)
-
-	self.height = #self.level.grid
-	self.width = #self.level.grid[1]
+	self.grid = grid.new(self.level.grid.width, self.level.grid.height)
 
 	self.__zoom = 1
 
@@ -87,8 +73,8 @@ function wdgt:mousepressed(x, y, button, width, height)
 	local cell_size = unit * 8 * self.__zoom
 	local font_scale = utils.get_unit_font_scale() * 6
 
-	local total_width = (self.width + self.indication_width) * cell_size
-	local total_height = (self.height + self.indication_height) * cell_size
+	local total_width = (self.grid.width + self.indication_width) * cell_size
+	local total_height = (self.grid.height + self.indication_height) * cell_size
 
 	local left = width/2-total_width/2
 	local top = height/2-total_height/2
@@ -96,7 +82,7 @@ function wdgt:mousepressed(x, y, button, width, height)
 	local grid_left = left+cell_size*self.indication_width
 	local grid_top = top+cell_size*self.indication_height
 
-	if not utils.point_in_surface(x, y, grid_left, grid_top, self.width * cell_size, self.height * cell_size) then
+	if not utils.point_in_surface(x, y, grid_left, grid_top, self.grid.width * cell_size, self.grid.height * cell_size) then
 		return
 	end
 	self:__toggle_cell(math.floor((x-grid_left)/cell_size) + 1, math.floor((y-grid_top)/cell_size) + 1)
@@ -108,8 +94,8 @@ function wdgt:render(width, height, focus)
 	local cell_size = unit * 8 * self.__zoom
 	local font_scale = utils.get_unit_font_scale() * 6
 
-	local total_width = (self.width + self.indication_width) * cell_size
-	local total_height = (self.height + self.indication_height) * cell_size
+	local total_width = (self.grid.width + self.indication_width) * cell_size
+	local total_height = (self.grid.height + self.indication_height) * cell_size
 
 	local left = width/2-total_width/2
 	local top = height/2-total_height/2
@@ -143,34 +129,18 @@ function wdgt:render(width, height, focus)
 	end
 	-- Grid background
 	love.graphics.setColor(0.8, 0.8, 0.8)
-	love.graphics.rectangle("fill", grid_left, grid_top, self.width*cell_size, self.height*cell_size)
+	love.graphics.rectangle("fill", grid_left, grid_top, self.grid.width*cell_size, self.grid.height*cell_size)
 	-- Grid
-	for i=1, #self.grid do
-		for j=1, #self.grid[i] do
-			local cell = self.grid[i][j]
-			local cell_x = grid_left+(j-1)*cell_size
-			local cell_y = grid_top+(i-1)*cell_size
-			if cell == -1 then -- blocked cell
-				love.graphics.setLineWidth(unit)
-				love.graphics.setColor(1,0,0)
-				love.graphics.line(cell_x, cell_y, cell_x + cell_size, cell_y + cell_size)
-				love.graphics.line(cell_x, cell_y + cell_size, cell_x+cell_size, cell_y)
-
-			elseif cell ~= 0 then -- color cell
-				love.graphics.setColor(self.level.palette[cell])
-				love.graphics.rectangle("fill", cell_x, cell_y, cell_size, cell_size)
-			end
-		end
-	end
+	self.grid:render(grid_left, grid_top, cell_size, self.level.palette)
 	-- Grid foreground
 	love.graphics.setLineWidth(unit/4)
 	love.graphics.setColor(0, 0, 0, 0.2)
-	for i=0, self.height do
-		love.graphics.line(grid_left, grid_top + i*cell_size, grid_left + self.width*cell_size, grid_top+i*cell_size)
+	for i=0, self.grid.height do
+		love.graphics.line(grid_left, grid_top + i*cell_size, grid_left + self.grid.width*cell_size, grid_top+i*cell_size)
 	end
 
-	for j=0, self.width do
-		love.graphics.line(grid_left + j*cell_size, grid_top, grid_left + j*cell_size, grid_top+self.height*cell_size)
+	for j=0, self.grid.width do
+		love.graphics.line(grid_left + j*cell_size, grid_top, grid_left + j*cell_size, grid_top+self.grid.height*cell_size)
 	end
 
 	-- Focused cell
@@ -186,19 +156,9 @@ function wdgt:render(width, height, focus)
 end
 
 function wdgt:__check_grid()
-	for i=1, #self.grid do
-		for j=1, #self.grid[i] do
-			local cell = self.grid[i][j]
-			if cell == -1 then -- consider "blocked" cells as empty
-				cell = 0
-			end
-			local ref = self.level.grid[i][j]
-			if cell ~= ref then
-				return
-			end
-		end
+	if self.grid == self.level.grid then
+		viewstack.pushnew("gamefinish", self.level, self.next_levels)
 	end
-	viewstack.pushnew("gamefinish", self.level, self.next_levels)
 end
 
 function wdgt:__toggle_cell(x, y)
@@ -206,10 +166,10 @@ function wdgt:__toggle_cell(x, y)
 	if value == 0 then -- block
 		value = -1
 	end
-	if self.grid[y][x] == value then
-		self.grid[y][x] = 0
+	if self.grid.cells[y][x] == value then
+		self.grid.cells[y][x] = 0
 	else
-		self.grid[y][x] = value
+		self.grid.cells[y][x] = value
 	end
 	self:__check_grid()
 end
@@ -234,17 +194,17 @@ function wdgt:keypressed(k, focus)
 	elseif k == "left" then
 		self.grid_x = self.grid_x - 1
 		if self.grid_x < 1 then
-			self.grid_x = self.width
+			self.grid_x = self.grid.width
 		end
 	elseif k == "right" then
 		self.grid_x = self.grid_x + 1
-		if self.grid_x > self.width then
+		if self.grid_x > self.grid.width then
 			self.grid_x = 1
 		end
 	elseif k == "space" or k == "return" then
 		self:__toggle_cell(self.grid_x, self.grid_y)
 	elseif k == "delete" or k == "backspace" then
-		self.grid[self.grid_y][self.grid_x] = 0
+		self.grid.cells[self.grid_y][self.grid_x] = 0
 		self:__check_grid()
 	elseif self.focus[k] then
 		return self.focus[k]
