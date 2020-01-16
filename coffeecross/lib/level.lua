@@ -133,7 +133,7 @@ function level:__parse(path)
 		error("Invalid level file: empty grid")
 	end
 
-	self.grid = grid.new(#grid_lines, #grid_lines[1], grid_lines)
+	self.grid = grid.new(#grid_lines[1], #grid_lines, grid_lines)
 	self:__generate_indications()
 end
 
