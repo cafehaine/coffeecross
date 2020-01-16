@@ -2,6 +2,7 @@ local class = require("class")
 local super = require("gui.widgets.base")
 
 local wdgt = class.create(super)
+local GRADIENT = love.graphics.newImage("assets/background_gradient.png")
 
 function wdgt.__new(self, attrs)
 	super.__new(self, attrs)
@@ -16,7 +17,9 @@ function wdgt:auto_height()
 end
 
 function wdgt:render(width, height)
-	love.graphics.clear(0.7, 0.5, 0.3)
+	local img_width, img_height = GRADIENT:getPixelDimensions()
+	love.graphics.setColor(1, 1, 1)
+	love.graphics.draw(GRADIENT, 0, 0, 0, width/img_width, height/img_height)
 end
 
 return wdgt
