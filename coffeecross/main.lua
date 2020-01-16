@@ -18,9 +18,9 @@ local GAMEPAD_MAPPINGS = {
 
 local GAMEPAD_DEADZONE = 0.15
 
-local GAMEPAD_SCROLL_X = 0
-local GAMEPAD_SCROLL_Y = 0
-local GAMEPAD_ZOOM = 0
+local gamepad_scroll_x = 0
+local gamepad_scroll_y = 0
+local gamepad_zoom = 0
 
 local ARROW_KEYS = {
 	up    = {x=0,  y=1},
@@ -44,14 +44,14 @@ end
 function love.update(dt)
 	local scroll_x = nil
 	local scroll_y = nil
-	if math.abs(GAMEPAD_ZOOM) > GAMEPAD_DEADZONE then
-		viewstack.zoom(GAMEPAD_ZOOM * dt)
+	if math.abs(gamepad_zoom) > GAMEPAD_DEADZONE then
+		viewstack.zoom(gamepad_zoom * dt)
 	end
-	if math.abs(GAMEPAD_SCROLL_Y) > GAMEPAD_DEADZONE then
-		scroll_y = GAMEPAD_SCROLL_Y * dt
+	if math.abs(gamepad_scroll_y) > GAMEPAD_DEADZONE then
+		scroll_y = gamepad_scroll_y * dt
 	end
-	if math.abs(GAMEPAD_SCROLL_X) > GAMEPAD_DEADZONE then
-		scroll_x = GAMEPAD_SCROLL_X * dt
+	if math.abs(gamepad_scroll_x) > GAMEPAD_DEADZONE then
+		scroll_x = gamepad_scroll_x * dt
 	end
 	if scroll_x or scroll_y then
 		viewstack.scroll(scroll_x or 0, scroll_y or 0)
@@ -95,11 +95,11 @@ end
 
 function love.gamepadaxis(joystick, axis, value)
 	if axis == "rightx" then
-		GAMEPAD_SCROLL_X = value
+		gamepad_scroll_x = value
 	elseif axis == "righty" then
-		GAMEPAD_SCROLL_Y = value
+		gamepad_scroll_y = value
 	elseif axis == "lefty" then
-		GAMEPAD_ZOOM = value
+		gamepad_zoom = value
 	end
 end
 
