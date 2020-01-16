@@ -89,8 +89,15 @@ function love.gamepadpressed(joystick, button)
 	end
 end
 
-function love.mousepressed(x, y, button)
+function love.mousepressed(x, y, button, istouch)
+	if istouch then
+		return
+	end
 	viewstack.mousepressed(x, y, button)
+end
+
+function love.touchpressed(id, x, y)
+	viewstack.mousepressed(x, y, 1)
 end
 
 function love.gamepadaxis(joystick, axis, value)
