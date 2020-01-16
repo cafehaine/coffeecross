@@ -36,5 +36,9 @@ function gui:zoom(val)
 	self.base_group:zoom(val)
 end
 
+function gui:message_elements(message)
+	self.base_group:message(message)
+end
+
 return gui
 

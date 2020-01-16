@@ -62,4 +62,10 @@ function base:zoom(val)
 	end
 end
 
+function base:message(message)
+	for i=1, #self.elements do
+		self.elements[i]:message(message)
+	end
+end
+
 return base

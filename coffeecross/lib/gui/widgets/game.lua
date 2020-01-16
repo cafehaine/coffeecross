@@ -221,4 +221,10 @@ function wdgt:hint()
 	--TODO
 end
 
+function wdgt:message(message)
+	if message == "reset" then
+		self.grid = grid.new(self.level.grid.width, self.level.grid.height)
+	end
+end
+
 return wdgt

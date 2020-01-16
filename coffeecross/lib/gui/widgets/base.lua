@@ -29,4 +29,6 @@ function base:scroll(x, y) end
 
 function base:zoom(val) end
 
+function base:message(message) end
+
 return base

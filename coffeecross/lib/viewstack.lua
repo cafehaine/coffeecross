@@ -15,6 +15,16 @@ function m.resize(w, h)
 	transition_canvas = love.graphics.newCanvas(w, h)
 end
 
+function m.message_view(name, message)
+	for i=stack_index, 1, -1 do
+		local view = stack[i]
+		if view.name == name then
+			view:message_elements(message)
+			return
+		end
+	end
+end
+
 function m.pushnew(path, ...)
 	m.push(view.new(path, ...))
 end

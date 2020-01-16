@@ -12,7 +12,7 @@ local gui = {
 					focus={up=3,down=2},
 					type="button",
 					text="Reset level",
-					action=function()end
+					action=function()viewstack.message_view("game", "reset")viewstack.pop()end
 				},
 				{
 					id=2,

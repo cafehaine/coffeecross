@@ -45,5 +45,9 @@ function view:zoom(val)
 	self.gui:zoom(val)
 end
 
+function view:message_elements(message)
+	self.gui:message_elements(message)
+end
+
 return view
 
