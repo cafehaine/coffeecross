@@ -3,7 +3,7 @@ local level = require("level")
 local game = require("gui.widgets.game")
 
 local function hint()
-	game.active_widget:hint()
+	viewstack.message_view("game", "hint")
 end
 
 function init(world, level_name, next_levels)

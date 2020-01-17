@@ -7,7 +7,6 @@ local grid = require("grid")
 local profile = require("profile")
 
 local wdgt = class.create("Game", super)
-wdgt.active_widget = nil
 
 local cached_texts = {}
 
@@ -90,7 +89,6 @@ function wdgt:mousepressed(x, y, button, width, height)
 end
 
 function wdgt:render(width, height, focus)
-	wdgt.active_widget = self
 	local unit = utils.get_unit()
 	local cell_size = unit * 8 * self.__zoom
 	local font_scale = utils.get_unit_font_scale() * 6
@@ -221,12 +219,23 @@ function wdgt:zoom(val)
 end
 
 function wdgt:hint()
-	--TODO
+	local errors = self.grid:wrong_cells(self.level.grid)
+	if #errors == 0 then
+		local revealed = self.grid:random_missing_cell(self.level.grid)
+		self.grid.cells[revealed.y][revealed.x] = revealed.val
+		self:__check_grid()
+	else
+		for _, err in ipairs(errors) do
+			self.grid.cells[err.y][err.x] = 0
+		end
+	end
 end
 
 function wdgt:message(message)
 	if message == "reset" then
 		self.grid = grid.new(self.level.grid.width, self.level.grid.height)
+	elseif message == "hint" then
+		self:hint()
 	end
 end
 

@@ -60,4 +60,46 @@ function grid:equals(obj)
 	return true
 end
 
+function grid:wrong_cells(reference)
+	if self.width ~= reference.width or self.height ~= reference.height then
+		error("Comparing grids of different dimensions")
+	end
+
+	local errors = {}
+	for i=1, self.height do
+		for j=1, self.width do
+			local self_cell = self.cells[i][j]
+			local ref_cell = reference.cells[i][j]
+			if self_cell ~= 0 then -- don't count empty cells as wrong
+				self_cell = self_cell == -1 and 0 or self_cell
+				if self_cell ~= ref_cell then
+					errors[#errors+1] = {x=j, y=i}
+				end
+			end
+		end
+	end
+
+	return errors
+end
+
+function grid:random_missing_cell(reference)
+	if self.width ~= reference.width or self.height ~= reference.height then
+		error("Comparing grids of different dimensions")
+	end
+
+	local missing = {}
+
+	for i=1, self.height do
+		for j=1, self.width do
+			local self_cell = self.cells[i][j]
+			local ref_cell = reference.cells[i][j]
+			if self_cell == 0 and ref_cell ~= 0 then
+				missing[#missing+1] = {x=j, y=i, val=ref_cell}
+			end
+		end
+	end
+
+	return missing[math.random(#missing)]
+end
+
 return grid
