@@ -51,7 +51,7 @@ function wdgt:keypressed(k, focus)
 		if self.focus[k] then
 			return self.focus[k]
 		elseif k == "return" or k == "space" then
-			self.action()
+			self:action()
 		end
 	end
 
@@ -59,7 +59,7 @@ function wdgt:keypressed(k, focus)
 end
 
 function wdgt:mousepressed(x, y, button, width, height)
-	self.action()
+	self:action()
 	return true
 end
 

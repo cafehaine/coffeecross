@@ -82,11 +82,10 @@ local function init(world)
 		grid.elements[i] = {
 			focus={up=prev_index(i,levels),down=next_index(i,levels),left="back"},
 			id=i,
-			type="button",
+			type="level_start",
 			text=tostring(i),
-			action=function()
-				viewstack.pushnew("game", v, next_levels(i, levels))
-			end
+			level = v,
+			next_levels = next_levels(i, levels)
 		}
 		grid.grid_layout[i] = "auto"
 	end
