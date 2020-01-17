@@ -1,7 +1,7 @@
 local m = {}
 
-local PROPERTY_PATTERN = "(%w+)=(.*)"
-local SECTION_PATTERN = "%-%-%- ?(%w+)"
+local PROPERTY_PATTERN = "([%w%-%.]+)=(.*)"
+local SECTION_PATTERN = "%-%-%- ?([%w%-%.]+)"
 
 function m.parse_property(line)
 	property, value = line:match(PROPERTY_PATTERN)
