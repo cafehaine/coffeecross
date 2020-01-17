@@ -187,7 +187,7 @@ function wdgt:keypressed(k, focus)
 			self.grid_y = self.grid_y - 1
 		end
 	elseif k == "down" then
-		if self.grid_y == self.height then
+		if self.grid_y == self.grid.height then
 			return self.focus["down"]
 		else
 			self.grid_y = self.grid_y + 1
