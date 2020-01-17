@@ -1,7 +1,8 @@
+--- properties
 name=Star
----
+--- palette
 #FFC900
----
+--- level
 __1__
 11111
 _111_

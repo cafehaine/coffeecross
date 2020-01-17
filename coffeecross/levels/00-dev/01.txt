@@ -1,5 +1,6 @@
+--- properties
 name=huge palette
----
+--- palette
 #000000
 #880000
 #888800
@@ -15,5 +16,5 @@ name=huge palette
 #0000FF
 #FF00FF
 #FFFFFF
----
+--- level
 _

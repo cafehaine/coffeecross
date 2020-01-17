@@ -103,11 +103,11 @@ function level:__parse(path)
 	local missing_properties = set.new(REQUIRED_PROPERTIES)
 
 	local sections = utils.read_file_sections(path)
-	if #sections ~= 3 then
-		error("level files must have 3 sections, level has "..#sections)
+	if not sections.properties or not sections.palette or not sections.level then
+		error("level files must have 3 sections: 'properties', 'palette' and 'level'.")
 	end
 
-	for _, line in ipairs(sections[1]) do
+	for _, line in ipairs(sections.properties) do
 		property, value = utils.parse_property(line)
 		if property == "name" then
 			self.properties.name = value
@@ -118,7 +118,7 @@ function level:__parse(path)
 		error("Invalid level file: Missing properties: "..tostring(missing_properties))
 	end
 
-	for _, line in ipairs(sections[2]) do
+	for _, line in ipairs(sections.palette) do
 		self.palette[#self.palette+1] = parse_color(line)
 	end
 	if #self.palette == 0 then
@@ -126,7 +126,7 @@ function level:__parse(path)
 	end
 
 	local grid_lines = {}
-	for _, line in ipairs(sections[3]) do
+	for _, line in ipairs(sections.level) do
 		grid_lines[#grid_lines+1] = self:__parse_line(line)
 	end
 	if #grid_lines == 0 then

@@ -1,8 +1,9 @@
+--- properties
 name=Pine
----
+--- palette
 #523A0C
 #254019
----
+--- level
 ___2___
 __222__
 _22222_

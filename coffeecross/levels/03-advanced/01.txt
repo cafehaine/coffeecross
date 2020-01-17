@@ -1,7 +1,8 @@
+--- properties
 name=Robot
----
+--- palette
 #000000
----
+--- level
         1      
        1 1     
         1      

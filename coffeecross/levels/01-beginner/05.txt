@@ -1,9 +1,10 @@
+--- properties
 name=Apple
----
+--- palette
 #3F0D00
 #c31D1D
 #E55050
----
+--- level
 ____1__
 ___1___
 _22122_

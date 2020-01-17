@@ -1,7 +1,8 @@
+--- properties
 name=Pampa
----
+--- palette
 #008800
----
+--- level
 __1__
 __1_1
 1_111
