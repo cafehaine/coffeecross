@@ -1,9 +1,11 @@
 local m = {}
 
+local serdes = require("serdes")
+
 local DATA = {}
 
 function m.load()
-	
+	--TODO
 end
 
 function m.save()
@@ -11,7 +13,7 @@ function m.save()
 	for label, section in pairs(DATA) do
 		lines[#lines+1] = "--- "..label
 		for k, v in pairs(section) do
-			lines[#lines+1] = k.."="..v
+			lines[#lines+1] = k.."="..serdes.serialize(v)
 		end
 	end
 	love.filesystem.write("profile.txt", table.concat(lines, "\n"))
