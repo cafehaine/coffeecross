@@ -4,6 +4,7 @@ local utils = require("gui.utils")
 local palette = require("gui.widgets.palette")
 local viewstack = require("viewstack")
 local grid = require("grid")
+local profile = require("profile")
 
 local wdgt = class.create("Game", super)
 wdgt.active_widget = nil
@@ -157,6 +158,8 @@ end
 
 function wdgt:__check_grid()
 	if self.grid == self.level.grid then
+		profile.set("world-"..self.level.world, self.level.level_name, "completed")
+		profile.save()
 		viewstack.pushnew("gamefinish", self.level.world, self.level, self.next_levels)
 	end
 end
