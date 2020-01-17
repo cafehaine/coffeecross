@@ -1,7 +1,7 @@
 local gui = require("gui")
 local class = require("class")
 
-local view = class.create()
+local view = class.create("View")
 
 function view.__new(self, path, ...)
 	local realpath = "views/"..path..".lua"

@@ -2,7 +2,7 @@ local class = require("class")
 local super = require("gui.widgets.base")
 local utils = require("gui.utils")
 
-local wdgt = class.create(super)
+local wdgt = class.create("LevelPreview", super)
 
 function wdgt.__new(self, attrs)
 	super.__new(self, attrs)

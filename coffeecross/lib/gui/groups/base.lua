@@ -2,7 +2,7 @@ local class = require("class")
 local widgets = require("gui.widgets")
 local groups = require("gui.groups")
 
-local base = class.create()
+local base = class.create("Base")
 
 function base.__new(self, elm)
 	self.elements = {}

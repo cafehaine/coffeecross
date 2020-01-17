@@ -1,6 +1,6 @@
 local class = require("class")
 
-local grid = class.create()
+local grid = class.create("Grid")
 
 function grid.__new(self, width, height, initial_data)
 	self.cells = {}

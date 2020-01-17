@@ -5,7 +5,7 @@ local palette = require("gui.widgets.palette")
 local viewstack = require("viewstack")
 local grid = require("grid")
 
-local wdgt = class.create(super)
+local wdgt = class.create("Game", super)
 wdgt.active_widget = nil
 
 local cached_texts = {}

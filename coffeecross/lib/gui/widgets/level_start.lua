@@ -4,7 +4,7 @@ local utils = require("gui.utils")
 local viewstack = require("viewstack")
 local profile = require("profile")
 
-local wdgt = class.create(super)
+local wdgt = class.create("LevelStart", super)
 
 function wdgt.__new(self, attrs)
 	super.__new(self, attrs)

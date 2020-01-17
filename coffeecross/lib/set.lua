@@ -1,6 +1,6 @@
 local class = require("class")
 
-local set = class.create()
+local set = class.create("Set")
 
 function set.__new(self, vals)
 	self.__values = {}

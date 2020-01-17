@@ -1,7 +1,7 @@
 local class = require("class")
 local super = require("gui.widgets.base")
 
-local wdgt = class.create(super)
+local wdgt = class.create("Background", super)
 local GRADIENT = love.graphics.newImage("assets/background_gradient.png")
 
 function wdgt.__new(self, attrs)

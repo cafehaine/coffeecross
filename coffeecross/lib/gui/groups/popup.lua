@@ -3,7 +3,7 @@ local viewstack = require("viewstack")
 local super = require("gui.groups.base")
 local utils = require("gui.utils")
 
-local group = class.create(super)
+local group = class.create("Popup", super)
 
 function group.__new(self, elm)
 	super.__new(self, elm)

@@ -1,6 +1,6 @@
 local class = require("class")
 
-local base = class.create()
+local base = class.create("Widget")
 
 function base.__new(self, attrs)
 	self.attrs = attrs

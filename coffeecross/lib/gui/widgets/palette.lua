@@ -2,7 +2,7 @@ local class = require("class")
 local utils = require("gui.utils")
 local super = require("gui.widgets.base")
 
-local wdgt = class.create(super)
+local wdgt = class.create("Palette", super)
 
 local CELL_SIZE = 8
 

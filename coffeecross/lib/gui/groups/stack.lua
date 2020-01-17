@@ -1,7 +1,7 @@
 local class = require("class")
 local super = require("gui.groups.base")
 
-local group = class.create(super)
+local group = class.create("Stack", super)
 
 function group.__new(self, elm)
 	super.__new(self, elm)

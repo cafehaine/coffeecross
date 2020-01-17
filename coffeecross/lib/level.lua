@@ -3,7 +3,7 @@ local class = require("class")
 local utils = require("utils")
 local grid = require("grid")
 
-local level = class.create()
+local level = class.create("Level")
 
 local REQUIRED_PROPERTIES = {"name"}
 local HEX_DIGITS = {

@@ -5,7 +5,7 @@ local gui_utils = require("gui.utils")
 
 local VALID_MODES = set.new({"cover", "contain", "stretch"})
 
-local wdgt = class.create(super)
+local wdgt = class.create("Image", super)
 
 function wdgt.__new(self, attrs)
 	super.__new(self, attrs)

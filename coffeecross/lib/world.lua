@@ -1,7 +1,7 @@
 local class = require("class")
 local utils = require("utils")
 
-local world = class.create()
+local world = class.create("World")
 
 function world.__new(self, path)
 	self.path = path

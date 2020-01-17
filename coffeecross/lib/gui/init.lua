@@ -1,7 +1,7 @@
 local gui_groups = require("gui.groups")
 local class = require("class")
 
-local gui = class.create()
+local gui = class.create("Gui")
 
 function gui.__new(self, group, initial_focus)
 	self.base_group = gui_groups.new(group)

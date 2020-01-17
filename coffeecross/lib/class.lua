@@ -26,13 +26,13 @@ end
 
 local function object_tostring(obj)
 	if type(obj) == "object" then
-		return obj.__cname..": "..obj.__object_id
+		return obj.__class_name..": "..obj.__object_id
 	else
-		return "class: "..obj.__cname
+		return "class: "..obj.__class_name
 	end
 end
 
-function m.create(parent)
+function m.create(name, parent)
 	local c = {__eq=object_eq, __tostring=object_tostring}
 	if type(parent) == "class" then
 		for k, v in pairs(parent) do
@@ -42,7 +42,7 @@ function m.create(parent)
 		parent = nil
 	end
 
-	c.__cname = "CLASS_NAME"
+	c.__class_name = name
 	c.__parent = parent
 	c.__index = c
 	c.__is_class = true
