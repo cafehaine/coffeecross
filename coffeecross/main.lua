@@ -33,8 +33,8 @@ function love.load()
 	love.keyboard.setKeyRepeat(true)
 	viewstack = require("viewstack")
 	viewstack.pushnew("main")
-	local settings = require("settings")
-	settings.load()
+	local profile = require("profile")
+	profile.load()
 end
 
 function love.draw()
