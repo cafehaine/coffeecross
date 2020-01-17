@@ -157,7 +157,7 @@ end
 
 function wdgt:__check_grid()
 	if self.grid == self.level.grid then
-		viewstack.pushnew("gamefinish", self.level, self.next_levels)
+		viewstack.pushnew("gamefinish", self.level.world, self.level, self.next_levels)
 	end
 end
 

@@ -6,8 +6,8 @@ local function hint()
 	game.active_widget:hint()
 end
 
-function init(level_path, next_levels)
-	local lvl = level.new(level_path)
+function init(world, level_name, next_levels)
+	local lvl = level.new(world, level_name)
 	return {
 		gui={
 			group_type = "stack",

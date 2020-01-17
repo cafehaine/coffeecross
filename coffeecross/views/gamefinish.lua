@@ -8,7 +8,7 @@ local function skip_first(table)
 	return output
 end
 
-function init(level, next_levels)
+function init(world, level, next_levels)
 	local next_level_button = {
 		id=1,
 		focus={up=3, down=2},
@@ -19,7 +19,7 @@ function init(level, next_levels)
 		next_level_button.text = "Next level"
 		next_level_button.action = function()
 			viewstack.pop_to_view("level_selector")
-			viewstack.pushnew("game", next_levels[1], skip_first(next_levels))
+			viewstack.pushnew("game", world, next_levels[1], skip_first(next_levels))
 		end
 	else
 		next_level_button.text = "Go back to world selection"

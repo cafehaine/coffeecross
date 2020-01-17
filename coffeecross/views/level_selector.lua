@@ -36,7 +36,7 @@ local function init(world)
 
 	for _,v in ipairs(levels_listing) do
 		if v:match("%d%d%.txt") and love.filesystem.getInfo(world_path.."/"..v, "file") then
-			levels[#levels+1] = world_path.."/"..v
+			levels[#levels+1] = v
 		end
 	end
 
@@ -78,13 +78,14 @@ local function init(world)
 	grid.elements = {}
 	grid.grid_layout = {}
 
-	for i,v in ipairs(levels) do
+	for i,level_name in ipairs(levels) do
 		grid.elements[i] = {
 			focus={up=prev_index(i,levels),down=next_index(i,levels),left="back"},
 			id=i,
 			type="level_start",
 			text=tostring(i),
-			level = v,
+			level_name = level_name,
+			world_name = world.path,
 			next_levels = next_levels(i, levels)
 		}
 		grid.grid_layout[i] = "auto"

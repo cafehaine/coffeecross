@@ -24,8 +24,16 @@ local function object_eq(o1, o2)
 	return false
 end
 
+local function object_tostring(obj)
+	if type(obj) == "object" then
+		return obj.__cname..": "..obj.__object_id
+	else
+		return "class: "..obj.__cname
+	end
+end
+
 function m.create(parent)
-	local c = {__eq=object_eq}
+	local c = {__eq=object_eq, __tostring=object_tostring}
 	if type(parent) == "class" then
 		for k, v in pairs(parent) do
 			c[k] = v
@@ -34,6 +42,7 @@ function m.create(parent)
 		parent = nil
 	end
 
+	c.__cname = "CLASS_NAME"
 	c.__parent = parent
 	c.__index = c
 	c.__is_class = true

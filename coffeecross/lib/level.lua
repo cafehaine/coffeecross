@@ -137,12 +137,15 @@ function level:__parse(path)
 	self:__generate_indications()
 end
 
-function level.__new(self, path)
+function level.__new(self, world, level_name)
+	self.name = name
+	self.world = world
+	self.level_name = level_name
 	self.properties = {}
 	self.palette = {}
 	self.indications = {rows={}, cols={}}
 
-	self:__parse(path)
+	self:__parse("levels/"..world.."/"..level_name)
 
 	return self
 end
