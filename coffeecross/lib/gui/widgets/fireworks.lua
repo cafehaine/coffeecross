@@ -6,6 +6,7 @@ local wdgt = class.create("Fireworks", super)
 
 local PARTICLE_TEXTURE = love.graphics.newImage("assets/particle.png")
 local MAX_PARTICLE_LIFE = 1
+local PARTICLE_COUNT = 100
 
 local function HSV(h, s, v)
 	-- Original code from https://love2d.org/wiki/HSV_color
@@ -37,7 +38,7 @@ function wdgt.__new(self, attrs)
 	self.psystem:setSpeed(1)
 	self.psystem:setSizes(0.1, 0.1, 0)
 	self.psystem:setEmissionRate(0)
-	self.psystem:emit(200)
+	self.psystem:emit(PARTICLE_COUNT)
 	self.psystem:setColors(1, 1, 1, 1, 1, 1, 1, 0)
 	self.timer = 0
 	wdgt:__randomize()
@@ -58,9 +59,11 @@ function wdgt:auto_height()
 end
 
 function wdgt:render(width, height)
+	love.graphics.setBlendMode("add")
 	love.graphics.setColor(self.color)
 	local scale = utils.get_unit()/2
 	love.graphics.draw(self.psystem, width*self.x, height*self.y, 0, scale, scale)
+	love.graphics.setBlendMode("alpha")
 end
 
 function wdgt:update(dt)
@@ -69,7 +72,7 @@ function wdgt:update(dt)
 	if self.timer > MAX_PARTICLE_LIFE then
 		self.timer = 0
 		self:__randomize()
-		self.psystem:emit(200)
+		self.psystem:emit(PARTICLE_COUNT)
 	end
 end
 
