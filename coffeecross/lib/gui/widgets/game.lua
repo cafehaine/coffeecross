@@ -222,8 +222,10 @@ function wdgt:hint()
 	local errors = self.grid:wrong_cells(self.level.grid)
 	if #errors == 0 then
 		local revealed = self.grid:random_missing_cell(self.level.grid)
-		self.grid.cells[revealed.y][revealed.x] = revealed.val
-		self:__check_grid()
+		if revealed then
+			self.grid.cells[revealed.y][revealed.x] = revealed.val
+			self:__check_grid()
+		end
 	else
 		for _, err in ipairs(errors) do
 			self.grid.cells[err.y][err.x] = 0
