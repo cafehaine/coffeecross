@@ -3,7 +3,13 @@ local view = require("view")
 local stack = {}
 local stack_index = 0
 local showfocus = true
+
 local debug = false
+local debug_update_times = {}
+local debug_update_avg = 1
+local debug_render_times = {}
+local debug_render_avg = 1
+
 local transitioning = false
 local transition_timer = 0
 local transition_direction = "push"
@@ -100,6 +106,7 @@ function debug_print(lines)
 end
 
 function m.render()
+	local start = love.timer.getTime()
 	local first_opaque = stack_index+1
 	local found_opaque = false
 	while first_opaque > 0 and not found_opaque do
@@ -135,6 +142,17 @@ function m.render()
 		end
 	end
 
+	local result = love.timer.getTime() - start
+	if #debug_render_times == 10 then
+		debug_render_avg = 0
+		for i=1, 10 do
+			debug_render_avg = debug_render_avg + debug_render_times[i]
+		end
+		debug_render_avg = debug_render_avg / 10
+		debug_render_times = {}
+	end
+	debug_render_times[#debug_render_times+1] = result
+
 	if debug then
 		local viewstack = {}
 		for i=1, #stack do
@@ -156,11 +174,16 @@ function m.render()
 			"transitioning: "..(transitioning and "true" or "false"),
 			"transition_direction: "..transition_direction,
 			"transition_timer: "..transition_timer,
+			"",
+			"PERFORMANCES:",
+			"AVG MS/Update: "..debug_update_avg*1000,
+			"AVG MS/Render: "..debug_render_avg*1000,
 		}
 	end
 end
 
 function m.update(dt)
+	local start = love.timer.getTime()
 	stack[stack_index]:update(dt)
 	if transitioning then
 		transition_timer = transition_timer + dt
@@ -168,6 +191,16 @@ function m.update(dt)
 	if transition_timer > TRANSITION_DURATION then
 		transitioning = false
 	end
+	local result = love.timer.getTime() - start
+	if #debug_update_times == 10 then
+		debug_update_avg = 0
+		for i=1, 10 do
+			debug_update_avg = debug_update_avg + debug_update_times[i]
+		end
+		debug_update_avg = debug_update_avg / 10
+		debug_update_times = {}
+	end
+	debug_update_times[#debug_update_times+1] = result
 end
 
 function m.keypressed(k)
