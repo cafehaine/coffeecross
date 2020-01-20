@@ -132,13 +132,25 @@ function wdgt:render(width, height, focus)
 	-- Grid
 	self.grid:render(grid_left, grid_top, cell_size, self.level.palette)
 	-- Grid foreground
-	love.graphics.setLineWidth(unit/4)
-	love.graphics.setColor(0, 0, 0, 0.2)
 	for i=0, self.grid.height do
+		if i % 5 == 0 or i == self.grid.height then
+			love.graphics.setLineWidth(unit/3)
+			love.graphics.setColor(0, 0, 0, 0.4)
+		else
+			love.graphics.setLineWidth(unit/4)
+			love.graphics.setColor(0, 0, 0, 0.2)
+		end
 		love.graphics.line(grid_left, grid_top + i*cell_size, grid_left + self.grid.width*cell_size, grid_top+i*cell_size)
 	end
 
 	for j=0, self.grid.width do
+		if j % 5 == 0 or j == self.grid.width then
+			love.graphics.setLineWidth(unit/3)
+			love.graphics.setColor(0, 0, 0, 0.4)
+		else
+			love.graphics.setLineWidth(unit/4)
+			love.graphics.setColor(0, 0, 0, 0.2)
+		end
 		love.graphics.line(grid_left + j*cell_size, grid_top, grid_left + j*cell_size, grid_top+self.grid.height*cell_size)
 	end
 
