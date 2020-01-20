@@ -13,9 +13,22 @@ local STATES={
 
 local points = {}
 local point_count = 0
-local gesture_points = 0
 local state = STATES.NONE
 local time = 0
+
+local function __point_list()
+	local list = {}
+	for _,v in pairs(points) do
+		list[#list+1] = v
+	end
+	return list
+end
+
+local function __distance(p1, p2)
+	local dx = p1.x - p2.x
+	local dy = p1.y - p2.y
+	return math.sqrt(dx*dx+dy*dy)
+end
 
 function m.update(dt)
 	if state == STATES.NONE then
@@ -41,7 +54,7 @@ function m.down(id, x, y)
 	if point_count == 2 then
 		state = STATES.ZOOM
 	end
-	points[id] = {startx=x, starty=y, time = time}
+	points[id] = {startx=x, starty=y, x=x, y=y, time=time}
 end
 
 function m.up(id, x, y)
@@ -75,12 +88,21 @@ function m.moved(id, x, y, dx, dy)
 		viewstack.scroll(dx, dy)
 		print(state, dx, dy)
 	elseif state == STATES.ZOOM then
-		-- TODO maths
-		print(state)
+		local list = __point_list()
+		-- p1 = moved point, p2 = the other one
+		local p1 = points[id] == list[1] and list[1] or list[2]
+		local p2 = points[id] == list[1] and list[2] or list[1]
+		local newp1 = {x=x, y=y}
+		local dist_before = __distance(p1, p2)
+		local dist_after = __distance(newp1, p2)
+		viewstack.zoom((dist_after-dist_before)/100)
 	elseif state == STATES.DRAG then
 		viewstack.drag(dx, dy)
 		print(state, dx, dy)
 	end
+
+	points[id].x = x
+	points[id].y = y
 end
 
 return m
