@@ -33,6 +33,7 @@ function love.load()
 	love.keyboard.setKeyRepeat(true)
 	viewstack = require("viewstack")
 	viewstack.pushnew("main")
+	touch = require("touch")
 	local profile = require("profile")
 	profile.load()
 end
@@ -42,6 +43,8 @@ function love.draw()
 end
 
 function love.update(dt)
+	touch.update(dt)
+
 	local scroll_x = nil
 	local scroll_y = nil
 	if math.abs(gamepad_zoom) > GAMEPAD_DEADZONE then
@@ -97,7 +100,15 @@ function love.mousepressed(x, y, button, istouch)
 end
 
 function love.touchpressed(id, x, y)
-	viewstack.mousepressed(x, y, 1)
+	touch.down(id, x, y)
+end
+
+function love.touchreleased(id, x, y)
+	touch.up(id, x, y)
+end
+
+function love.touchmoved(id, x, y)
+	touch.moved(id, x, y)
 end
 
 function love.gamepadaxis(joystick, axis, value)
