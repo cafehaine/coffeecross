@@ -1,6 +1,7 @@
 local class = require("class")
 local super = require("gui.widgets.base")
 local utils = require("gui.utils")
+local profile = require("profile")
 
 local wdgt = class.create("Fireworks", super)
 
@@ -59,20 +60,24 @@ function wdgt:auto_height()
 end
 
 function wdgt:render(width, height)
-	love.graphics.setBlendMode("add")
-	love.graphics.setColor(self.color)
-	local scale = utils.get_unit()/2
-	love.graphics.draw(self.psystem, width*self.x, height*self.y, 0, scale, scale)
-	love.graphics.setBlendMode("alpha")
+	if profile.get("settings", "animations") then
+		love.graphics.setBlendMode("add")
+		love.graphics.setColor(self.color)
+		local scale = utils.get_unit()/2
+		love.graphics.draw(self.psystem, width*self.x, height*self.y, 0, scale, scale)
+		love.graphics.setBlendMode("alpha")
+	end
 end
 
 function wdgt:update(dt)
-	self.psystem:update(dt)
-	self.timer = self.timer + dt
-	if self.timer > MAX_PARTICLE_LIFE then
-		self.timer = 0
-		self:__randomize()
-		self.psystem:emit(PARTICLE_COUNT)
+	if profile.get("settings", "animations") then
+		self.psystem:update(dt)
+		self.timer = self.timer + dt
+		if self.timer > MAX_PARTICLE_LIFE then
+			self.timer = 0
+			self:__randomize()
+			self.psystem:emit(PARTICLE_COUNT)
+		end
 	end
 end
 
