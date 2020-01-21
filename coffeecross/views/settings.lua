@@ -19,7 +19,6 @@ local gui = {
 							focus={up=2, down=2},
 							profile_section="settings",
 							profile_key="animations",
-							default = true
 						}
 					},
 				},

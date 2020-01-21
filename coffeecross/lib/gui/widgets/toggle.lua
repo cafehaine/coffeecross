@@ -10,7 +10,10 @@ function wdgt.__new(self, attrs)
 	self.profile_section = attrs.profile_section
 	self.profile_key = attrs.profile_key
 	self.focus = attrs.focus
-	self.value = profile.get(self.profile_section, self.profile_key) or attrs.default or false
+	self.value = profile.get(self.profile_section, self.profile_key)
+	if self.value == nil then
+		self.value = attrs.default == nil and false or attrs.default
+	end
 end
 
 function wdgt:auto_width()

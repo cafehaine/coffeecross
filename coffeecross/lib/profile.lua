@@ -3,7 +3,11 @@ local m = {}
 local serdes = require("serdes")
 local utils = require("utils")
 
-local data = {}
+local data = {
+	settings={
+		animations=true
+	}
+}
 local PROFILE_PATH = "profile.txt"
 
 function m.load()
@@ -12,7 +16,7 @@ function m.load()
 	end
 	local sections = utils.read_file_sections(PROFILE_PATH)
 	for section_name, lines in pairs(sections) do
-		local section = {}
+		local section = data[section_name] or {}
 		for _, line in ipairs(lines) do
 			local key, value = utils.parse_property(line)
 			section[key] = serdes.deserialize(value)
