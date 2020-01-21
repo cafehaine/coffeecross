@@ -182,14 +182,16 @@ function wdgt:__check_grid()
 		profile.save()
 		viewstack.pushnew("gamefinish", self.level.world, self.level, self.next_levels)
 	end
-	for i=1, self.grid.height do
-		if self.grid:check_row(self.level.grid, i) then
-			self.completed_rows:add(i)
+	if profile.get("settings", "hints") then
+		for i=1, self.grid.height do
+			if self.grid:check_row(self.level.grid, i) then
+				self.completed_rows:add(i)
+			end
 		end
-	end
-	for i=1, self.grid.width do
-		if self.grid:check_col(self.level.grid, i) then
-			self.completed_cols:add(i)
+		for i=1, self.grid.width do
+			if self.grid:check_col(self.level.grid, i) then
+				self.completed_cols:add(i)
+			end
 		end
 	end
 end

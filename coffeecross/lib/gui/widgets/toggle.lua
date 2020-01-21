@@ -23,32 +23,28 @@ end
 
 function wdgt:auto_height()
 	local unit = utils.get_unit()
-	return 4 * unit
+	return 5 * unit
 end
 
 function wdgt:render(width, height, focus)
 	local unit = utils.get_unit()
 	local left = width/2-10*unit/2
-	local top = height/2-4*unit/2
+	local top = height/2-5*unit/2
 	-- Background
 	love.graphics.setColor(0.3, 0.3, 0.3)
-	love.graphics.rectangle("fill", left+unit, top+unit, 8*unit, 2*unit, unit)
-	if focus == self.id then
-		love.graphics.setColor(1.0, 0.7, 0.2)
-	else
-		love.graphics.setColor(0.1, 0.1, 0.1)
-	end
-	love.graphics.rectangle("fill", left+1.5*unit, top+1.5*unit, 7*unit, unit, 0.5*unit)
+	love.graphics.rectangle("fill", left+unit, top+unit, 8*unit, 3*unit, 1.5*unit)
+	love.graphics.setColor(0.1, 0.1, 0.1)
+	love.graphics.rectangle("fill", left+unit*2, top+unit*2, 6*unit, unit, 0.5*unit)
 	-- Switch
-	local switch_x = (self.value and 8 or 2) * unit
+	local switch_x = (self.value and 7 or 3) * unit
 	love.graphics.setColor(0.3, 0.3, 0.3)
-	love.graphics.circle("fill", left+switch_x, top+2*unit, 2*unit)
+	love.graphics.circle("fill", left+switch_x, top+2.5*unit, 2.5*unit)
 	if focus == self.id then
 		love.graphics.setColor(1.0, 0.7, 0.2)
 	else
 		love.graphics.setColor(0.1, 0.1, 0.1)
 	end
-	love.graphics.circle("fill", left+switch_x, top+2*unit, 1.5*unit)
+	love.graphics.circle("fill", left+switch_x, top+2.5*unit, 1.5*unit)
 
 end
 

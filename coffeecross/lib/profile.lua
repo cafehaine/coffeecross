@@ -5,7 +5,8 @@ local utils = require("utils")
 
 local data = {
 	settings={
-		animations=true
+		animations=true,
+		hints=true,
 	}
 }
 local PROFILE_PATH = "profile.txt"
