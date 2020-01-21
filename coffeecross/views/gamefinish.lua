@@ -33,6 +33,7 @@ function init(world, level, next_levels)
 		elements = {
 			{
 				group_type = "popup",
+				dismissable=false,
 				elements = {
 					{
 						group_type = "grid_column",

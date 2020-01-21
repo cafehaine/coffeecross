@@ -58,14 +58,18 @@ function wdgt:auto_height()
 	return 0
 end
 
-function wdgt:__drawIndication(left, top, indication)
+function wdgt:__drawIndication(left, top, indication, completed)
 	local unit = utils.get_unit()
 	local cell_size = unit * 8 * self.__zoom
 	local font_scale = utils.get_unit_font_scale() * 6 * self.__zoom
 
 	love.graphics.setColor(self.level.palette[indication.color])
 	love.graphics.rectangle("fill", left, top, cell_size, cell_size)
-	love.graphics.setColor(1,1,1)
+	if completed then
+		love.graphics.setColor(0.5,0.5,0.5)
+	else
+		love.graphics.setColor(1,1,1)
+	end
 	local text = getText(tostring(indication.count))
 	local text_width, text_height = text:getDimensions()
 	text_width, text_height = text_width * font_scale, text_height * font_scale
@@ -112,22 +116,24 @@ function wdgt:render(width, height, focus)
 		local row = indications.rows[i]
 		local row_len = #row
 		local row_left = grid_left - row_len * cell_size
+		local completed = self.completed_rows:contains(i)
 		for j=1, row_len do
 			local cell_left = row_left + (j-1) * cell_size
 			local cell_top = grid_top + (i-1) * cell_size
 			local indication = row[j]
-			self:__drawIndication(cell_left, cell_top, indication)
+			self:__drawIndication(cell_left, cell_top, indication, completed)
 		end
 	end
 	for i=1, #indications.cols do
 		local col = indications.cols[i]
 		local col_len = #col
 		local col_top = grid_top - col_len * cell_size
+		local completed = self.completed_cols:contains(i)
 		for j=1, col_len do
 			local indication = col[j]
 			local cell_left = grid_left + (i-1) * cell_size
 			local cell_top = col_top + (j-1) * cell_size
-			self:__drawIndication(cell_left, cell_top, indication)
+			self:__drawIndication(cell_left, cell_top, indication, completed)
 		end
 	end
 	-- Grid background
@@ -176,10 +182,21 @@ function wdgt:__check_grid()
 		profile.save()
 		viewstack.pushnew("gamefinish", self.level.world, self.level, self.next_levels)
 	end
+	for i=1, self.grid.height do
+		if self.grid:check_row(self.level.grid, i) then
+			self.completed_rows:add(i)
+		end
+	end
+	for i=1, self.grid.width do
+		if self.grid:check_col(self.level.grid, i) then
+			self.completed_cols:add(i)
+		end
+	end
 end
 
 function wdgt:__toggle_cell(x, y)
 	if self.completed_rows:contains(y) or self.completed_cols:contains(x) then
+		-- Don't modify a cell if it's on a completed row/col
 		return
 	end
 	local value = palette.active_widget.index

@@ -5,8 +5,14 @@ local utils = require("gui.utils")
 
 local group = class.create("Popup", super)
 
-function group.__new(self, elm)
-	super.__new(self, elm)
+function group.__new(self, attrs)
+	super.__new(self, attrs)
+
+	self.dismissable = attrs.dismissable
+	if self.dismissable == nil then
+		self.dismissable = true
+	end
+
 	if #self.elements ~= 1 then
 		error("Popup groups must contain one and only one element.")
 	end
@@ -43,7 +49,7 @@ function group:render(width, height, focus)
 end
 
 function group:keypressed(k, focus)
-	if k == "escape" then
+	if k == "escape" and self.dismissable then
 		viewstack.pop()
 		return focus
 	end
@@ -64,7 +70,7 @@ function group:mousepressed(x, y, button, width, height)
 
 	if utils.point_in_surface(x, y, e_left, e_top, e_width, e_height) then
 		return element:mousepressed(x-e_left, y-e_top, button, e_width, e_height)
-	else
+	elseif self.dismissable then
 		viewstack.pop()
 		return true
 	end
