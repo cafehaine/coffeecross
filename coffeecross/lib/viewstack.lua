@@ -1,5 +1,6 @@
 local m = {}
 local view = require("view")
+local profile = require("profile")
 local stack = {}
 local stack_index = 0
 local showfocus = true
@@ -38,7 +39,7 @@ end
 function m.push(view)
 	stack_index = stack_index + 1
 	stack[stack_index] = view
-	if stack_index ~= 1 then
+	if stack_index ~= 1 and profile.get("settings", "animations") then
 		transitioning = true
 		transition_timer = 0
 		transition_direction = "push"
@@ -52,9 +53,11 @@ function m.pop()
 
 	stack_index = stack_index - 1
 
-	transitioning = true
-	transition_timer = 0
-	transition_direction = "pop"
+	if profile.get("settings", "animations") then
+		transitioning = true
+		transition_timer = 0
+		transition_direction = "pop"
+	end
 
 	if stack_index <= 0 then
 		love.event.quit()
