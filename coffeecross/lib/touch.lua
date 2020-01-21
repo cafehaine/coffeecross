@@ -65,7 +65,6 @@ function m.up(id, x, y)
 	if point_count == 0 then
 		if state == STATES.NONE then
 			viewstack.mousepressed(x, y, 1)
-			print("CLICK", x, y)
 		end
 		state = STATES.NONE
 	elseif point_count == 1 then
@@ -86,7 +85,6 @@ function m.moved(id, x, y, dx, dy)
 	if state == STATES.SCROLL then
 		-- divide by unit ?
 		viewstack.scroll(dx, dy)
-		print(state, dx, dy)
 	elseif state == STATES.ZOOM then
 		local list = __point_list()
 		-- p1 = moved point, p2 = the other one
@@ -98,7 +96,6 @@ function m.moved(id, x, y, dx, dy)
 		viewstack.zoom((dist_after-dist_before)/100)
 	elseif state == STATES.DRAG then
 		viewstack.drag(dx, dy)
-		print(state, dx, dy)
 	end
 
 	points[id].x = x
