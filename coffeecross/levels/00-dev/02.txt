@@ -1,5 +1,6 @@
 --- properties
 name=two digits indication
+author=CaféHaine
 --- palette
 #000000
 --- level

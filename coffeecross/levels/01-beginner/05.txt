@@ -1,5 +1,6 @@
 --- properties
 name=Apple
+author=CaféHaine
 --- palette
 #3F0D00
 #c31D1D

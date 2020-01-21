@@ -5,7 +5,7 @@ local grid = require("grid")
 
 local level = class.create("Level")
 
-local REQUIRED_PROPERTIES = {"name"}
+local REQUIRED_PROPERTIES = {"name", "author"}
 local HEX_DIGITS = {
 	["0"] = 0,
 	["1"] = 1,

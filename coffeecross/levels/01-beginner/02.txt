@@ -1,5 +1,6 @@
 --- properties
 name=Star
+author=CaféHaine
 --- palette
 #FFC900
 --- level

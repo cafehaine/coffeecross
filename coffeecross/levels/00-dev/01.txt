@@ -1,5 +1,6 @@
 --- properties
 name=huge palette
+author=CaféHaine
 --- palette
 #000000
 #880000

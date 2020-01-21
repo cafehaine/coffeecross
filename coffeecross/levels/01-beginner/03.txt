@@ -1,5 +1,6 @@
 --- properties
 name=Pampa
+author=CaféHaine
 --- palette
 #008800
 --- level

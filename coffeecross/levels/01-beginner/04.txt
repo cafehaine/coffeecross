@@ -1,5 +1,6 @@
 --- properties
 name=Pine
+author=CaféHaine
 --- palette
 #523A0C
 #254019

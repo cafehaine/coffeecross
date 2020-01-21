@@ -1,5 +1,6 @@
 --- properties
 name=Robot
+author=CaféHaine
 --- palette
 #000000
 --- level

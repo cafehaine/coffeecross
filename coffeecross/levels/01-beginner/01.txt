@@ -1,5 +1,6 @@
 --- properties
 name=Heart
+author=CaféHaine
 --- palette
 #FF0000
 --- level
