@@ -12,6 +12,7 @@ function love.conf(t)
 	t.identity = "coffeecross"
 
 	t.window.title = "CoffeeCross"
+	t.window.icon = "assets/icon.png"
 	t.window.resizable = true
 	t.window.minwidth=320
 	t.window.minheight=240
