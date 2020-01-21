@@ -35,8 +35,6 @@ function love.load()
 	viewstack = require("viewstack")
 	viewstack.pushnew("main")
 	touch = require("touch")
-	local profile = require("profile")
-	profile.load()
 end
 
 function love.draw()

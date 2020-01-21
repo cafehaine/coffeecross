@@ -7,6 +7,7 @@ local data = {
 	settings={
 		animations=true,
 		hints=true,
+		msaa=true,
 	}
 }
 local PROFILE_PATH = "profile.txt"

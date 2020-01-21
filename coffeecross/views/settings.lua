@@ -1,5 +1,43 @@
 local viewstack = require("viewstack")
 
+local toggles = {
+	{"Animations", "settings", "animations"},
+	{"Hints", "settings", "hints"},
+	{"Anti-aliasing", "settings", "msaa"},
+}
+
+local function prev_index(id)
+	if id == 1 then
+		return #toggles
+	end
+	return id-1
+end
+
+local function next_index(id)
+	if id == #toggles then
+		return 1
+	end
+	return id+1
+end
+
+
+local function gen_toggle(id)
+	return {
+		group_type = "grid_row",
+		grid_layout = {"auto", "auto"},
+		elements = {
+			{type="text", text=toggles[id][1]},
+			{
+				type="toggle",
+				id=id,
+				focus={up=prev_index(id), down=next_index(id)},
+				profile_section=toggles[id][2],
+				profile_key=toggles[id][3],
+			}
+		}
+	}
+end
+
 local gui = {
 	group_type = "popup",
 	elements = {
@@ -8,41 +46,9 @@ local gui = {
 			grid_layout = {"auto", "auto", "auto", "auto"},
 			elements = {
 				{type="text", text="Settings"},
-				{
-					group_type = "grid_row",
-					grid_layout = {"auto", "auto"},
-					elements = {
-						{type="text", text="Animations"},
-						{
-							type="toggle",
-							id=1,
-							focus={up=3, down=2},
-							profile_section="settings",
-							profile_key="animations",
-						}
-					},
-				},
-				{
-					group_type = "grid_row",
-					grid_layout = {"auto", "auto"},
-					elements = {
-						{type="text", text="Hints"},
-						{
-							type="toggle",
-							id=2,
-							focus={up=1, down=3},
-							profile_section="settings",
-							profile_key="hints",
-						}
-					},
-				},
-				{
-					id=3,
-					focus={up=2,down=1},
-					type="button",
-					text="Audio",
-					action=function()end
-				}
+				gen_toggle(1),
+				gen_toggle(2),
+				gen_toggle(3),
 			}
 		}
 	}
