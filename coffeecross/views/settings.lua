@@ -9,11 +9,19 @@ local gui = {
 			elements = {
 				{type="text", text="Settings"},
 				{
-					id=1,
-					focus={up=2,down=2},
-					type="button",
-					text="Display",
-					action=function()end
+					group_type = "grid_row",
+					grid_layout = {"auto", "auto"},
+					elements = {
+						{type="text", text="Animations"},
+						{
+							type="toggle",
+							id=1,
+							focus={up=2, down=2},
+							profile_section="settings",
+							profile_key="animations",
+							default = true
+						}
+					},
 				},
 				{
 					id=2,
