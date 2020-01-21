@@ -1,5 +1,6 @@
 local m = {}
 local viewstack = require("viewstack")
+local gui_utils = require("gui.utils")
 
 local HOLD_TIME = 0.5
 
@@ -22,6 +23,12 @@ local function __point_list()
 		list[#list+1] = v
 	end
 	return list
+end
+
+local function __distance_coords(x1, y1, x2, y2)
+	local dx = x1 - x2
+	local dy = y1 - x2
+	return math.sqrt(dx*dx+dy*dy)
 end
 
 local function __distance(p1, p2)
@@ -77,8 +84,9 @@ function m.moved(id, x, y, dx, dy)
 	if not points[id] then
 		return
 	end
+	local point = points[id]
 
-	if state == STATES.NONE then
+	if state == STATES.NONE and __distance_coords(0, 0, dx, dy) > gui_utils.get_unit() then
 		state = STATES.SCROLL
 	end
 

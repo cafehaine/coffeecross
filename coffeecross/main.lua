@@ -31,6 +31,7 @@ local ARROW_KEYS = {
 
 function love.load()
 	love.keyboard.setKeyRepeat(true)
+	gui_utils = require("gui.utils")
 	viewstack = require("viewstack")
 	viewstack.pushnew("main")
 	touch = require("touch")
@@ -107,8 +108,8 @@ function love.touchreleased(id, x, y)
 	touch.up(id, x, y)
 end
 
-function love.touchmoved(id, x, y)
-	touch.moved(id, x, y)
+function love.touchmoved(id, x, y, dx, dy)
+	touch.moved(id, x, y, dx, dy)
 end
 
 function love.gamepadaxis(joystick, axis, value)
@@ -126,5 +127,6 @@ function love.wheelmoved(x, y)
 end
 
 function love.resize(w, h)
+	gui_utils.resize(w, h)
 	viewstack.resize(w, h)
 end
