@@ -40,21 +40,54 @@ function grid:render(x, y, cell_size, palette)
 	end
 end
 
-function grid:equals(obj)
-	if self.width ~= obj.width or self.height ~= obj.height then
+function grid:check_row(reference, row)
+	if self.width ~= reference.width or self.height ~= reference.height then
 		return false
 	end
 
+	if row > self.height or row < 1 then
+		error(("Invalid row index: %d is outside of range [1-%d]"):format(row, self.height))
+	end
+
+	for i=1, self.width do
+		local self_cell = self.cells[row][i]
+		local ref_cell = reference.cells[row][i]
+		-- count "blocked" cells as empty
+		self_cell = self_cell == -1 and 0 or self_cell
+		ref_cell  = ref_cell  == -1 and 0 or ref_cell
+		if self_cell ~= ref_cell then
+			return false
+		end
+	end
+	return true
+end
+
+function grid:check_col(reference, col)
+	if self.width ~= reference.width or self.height ~= reference.height then
+		return false
+	end
+
+	if col > self.width or col < 1 then
+		error(("Invalid col index: %d is outside of range [1-%d]"):format(col, self.width))
+	end
+
 	for i=1, self.height do
-		for j=1, self.width do
-			local self_cell = self.cells[i][j]
-			local obj_cell  = obj.cells[i][j]
-			-- count "blocked" cells as empty
-			self_cell = self_cell == -1 and 0 or self_cell
-			obj_cell  = obj_cell  == -1 and 0 or obj_cell
-			if self_cell ~= obj_cell then
-				return false
-			end
+		local self_cell = self.cells[i][col]
+		local ref_cell = reference.cells[i][col]
+		-- count "blocked" cells as empty
+		self_cell = self_cell == -1 and 0 or self_cell
+		ref_cell  = ref_cell  == -1 and 0 or ref_cell
+		if self_cell ~= ref_cell then
+			return false
+		end
+	end
+	return true
+end
+
+function grid:equals(obj)
+	for i=1, self.height do
+		if not self:check_row(obj, i) then
+			return false
 		end
 	end
 	return true

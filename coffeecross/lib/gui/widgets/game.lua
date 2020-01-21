@@ -4,6 +4,7 @@ local utils = require("gui.utils")
 local palette = require("gui.widgets.palette")
 local viewstack = require("viewstack")
 local grid = require("grid")
+local set = require("set")
 local profile = require("profile")
 
 local wdgt = class.create("Game", super)
@@ -44,6 +45,9 @@ function wdgt.__new(self, attrs)
 	for i=1, #indications.cols do
 		self.indication_height = math.max(self.indication_height, #indications.cols[i])
 	end
+
+	self.completed_rows = set.new()
+	self.completed_cols = set.new()
 end
 
 function wdgt:auto_width()
@@ -175,6 +179,9 @@ function wdgt:__check_grid()
 end
 
 function wdgt:__toggle_cell(x, y)
+	if self.completed_rows:contains(y) or self.completed_cols:contains(x) then
+		return
+	end
 	local value = palette.active_widget.index
 	if value == 0 then -- block
 		value = -1
