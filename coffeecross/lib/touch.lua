@@ -3,6 +3,7 @@ local viewstack = require("viewstack")
 local gui_utils = require("gui.utils")
 
 local HOLD_TIME = 0.5
+local VIBRATION_DURATION=0.05
 
 local STATES={
 	NONE="NONE",
@@ -52,6 +53,7 @@ function m.update(dt)
 		for k, point in pairs(points) do
 			if time - point.time > HOLD_TIME then
 				state = STATES.DRAG
+				love.system.vibrate(VIBRATION_DURATION)
 			end
 		end
 	end
