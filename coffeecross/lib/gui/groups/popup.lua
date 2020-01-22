@@ -61,7 +61,7 @@ function group:keypressed(k, focus)
 	return new_focus
 end
 
-function group:mousepressed(x, y, button, width, height)
+function group:click(x, y, width, height)
 	local element = self.elements[1]
 	local e_width = element:auto_width()
 	local e_height = element:auto_height()
@@ -69,7 +69,7 @@ function group:mousepressed(x, y, button, width, height)
 	local e_top = height/2-e_height/2
 
 	if utils.point_in_surface(x, y, e_left, e_top, e_width, e_height) then
-		return element:mousepressed(x-e_left, y-e_top, button, e_width, e_height)
+		return element:click(x-e_left, y-e_top, e_width, e_height)
 	elseif self.dismissable then
 		viewstack.pop()
 		return true

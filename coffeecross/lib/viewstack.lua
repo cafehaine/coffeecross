@@ -214,9 +214,9 @@ function m.keypressed(k)
 	stack[stack_index]:keypressed(k)
 end
 
-function m.mousepressed(x, y, button)
+function m.click(x, y)
 	showfocus = false
-	stack[stack_index]:mousepressed(x, y, button)
+	stack[stack_index]:click(x, y)
 end
 
 function m.scroll(x, y)

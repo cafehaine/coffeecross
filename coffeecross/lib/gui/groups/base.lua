@@ -40,7 +40,7 @@ function base:keypressed(k, focus)
 	return nil
 end
 
-function base:mousepressed(x, y, button, width, height)
+function base:click(x, y, width, height)
 	error("Not implemented.")
 end
 

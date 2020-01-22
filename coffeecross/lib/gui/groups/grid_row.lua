@@ -66,7 +66,7 @@ function group:render(width, height, focus)
 	love.graphics.setScissor(left, top, sc_width, sc_height)
 end
 
-function group:mousepressed(x, y, button, width, height)
+function group:click(x, y, width, height)
 	local total_auto = 0
 	local total_fracs = 0
 	local widths = {}
@@ -86,7 +86,7 @@ function group:mousepressed(x, y, button, width, height)
 	for i=1, #self.layout do
 		local elm_width = widths[i] or (width - total_auto)/total_fracs*self.layout[i]
 		if utils.point_in_surface(x, y, left_pos, 0, elm_width, height) then
-			return self.elements[i]:mousepressed(x-left_pos, y, button, elm_width, height)
+			return self.elements[i]:click(x-left_pos, y, elm_width, height)
 		end
 		left_pos = left_pos + elm_width
 	end

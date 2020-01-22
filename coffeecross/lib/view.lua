@@ -33,8 +33,8 @@ function view:keypressed(k)
 	end
 end
 
-function view:mousepressed(x, y, button)
-	self.gui:mousepressed(x, y, button)
+function view:click(x, y)
+	self.gui:click(x, y)
 end
 
 function view:scroll(x, y)

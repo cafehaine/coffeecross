@@ -87,7 +87,7 @@ function wdgt:keypressed(k, focus)
 	return nil
 end
 
-function wdgt:mousepressed(x, y, button, width, height)
+function wdgt:click(x, y, width, height)
 	self.index = math.floor(x/(width/(#self.palette+1)))
 	return true
 end

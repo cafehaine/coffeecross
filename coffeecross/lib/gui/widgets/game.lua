@@ -76,7 +76,7 @@ function wdgt:__drawIndication(left, top, indication, completed)
 	love.graphics.draw(text, left + cell_size/2 - text_width/2, top + cell_size/2 - text_height/2, 0, font_scale)
 end
 
-function wdgt:mousepressed(x, y, button, width, height)
+function wdgt:click(x, y, width, height)
 	local unit = utils.get_unit()
 	local cell_size = unit * 8 * self.__zoom
 	local font_scale = utils.get_unit_font_scale() * 6

@@ -58,7 +58,7 @@ function wdgt:keypressed(k, focus)
 	return nil
 end
 
-function wdgt:mousepressed(x, y, button, width, height)
+function wdgt:click(x, y, width, height)
 	self:action()
 	return true
 end

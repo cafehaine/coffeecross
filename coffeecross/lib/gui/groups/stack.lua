@@ -29,9 +29,9 @@ function group:render(width, height, focus)
 	end
 end
 
-function group:mousepressed(x, y, button, width, height)
+function group:click(x, y, width, height)
 	for i=#self.elements, 1, -1 do
-		local output = self.elements[i]:mousepressed(x, y, button, width, height)
+		local output = self.elements[i]:click(x, y, width, height)
 		if output then
 			return true
 		end

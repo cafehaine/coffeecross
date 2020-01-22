@@ -81,7 +81,7 @@ function m.up(id, x, y)
 	point_count = point_count - 1
 	if point_count == 0 then
 		if state == STATES.NONE then
-			viewstack.mousepressed(x, y, 1)
+			viewstack.click(x, y)
 		end
 		state = STATES.NONE
 	elseif point_count == 1 then

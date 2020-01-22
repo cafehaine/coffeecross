@@ -95,7 +95,7 @@ function love.mousepressed(x, y, button, istouch)
 	if istouch then
 		return
 	end
-	viewstack.mousepressed(x, y, button)
+	viewstack.click(x, y)
 end
 
 function love.touchpressed(id, x, y)
