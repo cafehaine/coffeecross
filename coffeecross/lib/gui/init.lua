@@ -40,5 +40,9 @@ function gui:message_elements(message)
 	self.base_group:message(message)
 end
 
+function gui:drag(point)
+	self.base_group:drag(point)
+end
+
 return gui
 

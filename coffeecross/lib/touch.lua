@@ -17,6 +17,14 @@ local point_count = 0
 local state = STATES.NONE
 local time = 0
 
+local function __shallow_copy(table)
+	local output = {}
+	for k, v in pairs(table) do
+		output[k] = v
+	end
+	return output
+end
+
 local function __point_list()
 	local list = {}
 	for _,v in pairs(points) do
@@ -85,8 +93,11 @@ function m.moved(id, x, y, dx, dy)
 		return
 	end
 	local point = points[id]
+	local new_point = __shallow_copy(point)
+	new_point.x = x
+	new_point.y = y
 
-	if state == STATES.NONE and __distance_coords(0, 0, dx, dy) > gui_utils.get_unit() then
+	if state == STATES.NONE and __distance_coords(point.startx, point.starty, x, y) > gui_utils.get_unit() then
 		state = STATES.SCROLL
 	end
 
@@ -96,18 +107,16 @@ function m.moved(id, x, y, dx, dy)
 	elseif state == STATES.ZOOM then
 		local list = __point_list()
 		-- p1 = moved point, p2 = the other one
-		local p1 = points[id] == list[1] and list[1] or list[2]
-		local p2 = points[id] == list[1] and list[2] or list[1]
-		local newp1 = {x=x, y=y}
+		local p1 = point == list[1] and list[1] or list[2]
+		local p2 = point == list[1] and list[2] or list[1]
 		local dist_before = __distance(p1, p2)
-		local dist_after = __distance(newp1, p2)
+		local dist_after = __distance(new_point, p2)
 		viewstack.zoom((dist_after-dist_before)/100)
 	elseif state == STATES.DRAG then
-		viewstack.drag(dx, dy)
+		viewstack.drag(new_point)
 	end
 
-	points[id].x = x
-	points[id].y = y
+	points[id] = new_point
 end
 
 return m

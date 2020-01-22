@@ -227,8 +227,8 @@ function m.zoom(value)
 	stack[stack_index]:zoom(value)
 end
 
-function m.drag(dx, dy)
-	--TODO
+function m.drag(point)
+	stack[stack_index]:drag(point)
 end
 
 return m
