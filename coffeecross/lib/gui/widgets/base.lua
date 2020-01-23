@@ -31,4 +31,6 @@ function base:zoom(val) end
 
 function base:message(message) end
 
+function base:drag(point, width, height) end
+
 return base

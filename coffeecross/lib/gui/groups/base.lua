@@ -68,7 +68,7 @@ function base:message(message)
 	end
 end
 
-function base:drag(point)
+function base:drag(point, width, height)
 	error("not implemented")
 end
 

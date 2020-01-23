@@ -39,4 +39,14 @@ function group:click(x, y, width, height)
 	return
 end
 
+function group:drag(point, width, height)
+	for i=#self.elements, 1, -1 do
+		local output = self.elements[i]:drag(point, width, height)
+		if output then
+			return true
+		end
+	end
+	return
+end
+
 return group

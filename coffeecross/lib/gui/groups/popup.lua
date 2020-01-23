@@ -76,4 +76,24 @@ function group:click(x, y, width, height)
 	end
 end
 
+function group:drag(point, width, height)
+	local element = self.elements[1]
+	local e_width = element:auto_width()
+	local e_height = element:auto_height()
+	local e_left = width/2-e_width/2
+	local e_top = height/2-e_height/2
+
+	if utils.point_in_surface(point.startx, point.starty, e_left, e_top, e_width, e_height) then
+		return element:drag({
+			startx=point.startx-e_left,
+			starty=point.starty-e_top,
+			x=point.x-e_left,
+			y=point.y-e_top
+		})
+	elseif self.dismissable then
+		viewstack.pop()
+		return true
+	end
+end
+
 return group

@@ -93,4 +93,8 @@ function group:click(x, y, width, height)
 	return
 end
 
+function group:drag(point, width, height)
+	--TODO
+end
+
 return group

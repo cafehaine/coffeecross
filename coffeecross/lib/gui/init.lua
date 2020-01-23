@@ -41,7 +41,8 @@ function gui:message_elements(message)
 end
 
 function gui:drag(point)
-	self.base_group:drag(point)
+	local width, height = love.graphics.getDimensions()
+	self.base_group:drag(point, width, height)
 end
 
 return gui

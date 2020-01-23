@@ -49,7 +49,7 @@ function m.released(x, y, button)
 		end
 	elseif state == STATES.DRAG then
 		if button == 1 then
-			viewstack.drag({startx, startx, x, y})
+			viewstack.drag({startx=startx, starty=starty, x=x, y=y})
 		end
 	end
 	action_button = nil
@@ -67,7 +67,7 @@ function m.moved(newx, newy, dx, dy)
 
 	if state == STATES.DRAG then
 		if action_button == 1 then
-			viewstack.drag({startx, starty, x, y})
+			viewstack.drag({startx=startx, starty=starty, x=x, y=y})
 		elseif action_button == 2 then
 			viewstack.scroll(dx, dy)
 		elseif action_button == 3 and dy ~= 0 then
