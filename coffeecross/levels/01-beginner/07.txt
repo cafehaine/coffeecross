@@ -1,0 +1,17 @@
+--- properties
+name=Mushroom
+author=CaféHaine
+--- palette
+#D10A0A
+#FFFFFF
+#F9E3CD
+#CDA680
+--- level
+_11211112_
+1111121111
+1211111211
+____44____
+____33____
+____33____
+____33____
+____33____
