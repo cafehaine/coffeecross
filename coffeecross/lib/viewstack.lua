@@ -210,24 +210,29 @@ function m.keypressed(k)
 	if k == "f12" then
 		debug = not debug
 	end
+	if debug then print("Key:", k) end
 	showfocus = true
 	stack[stack_index]:keypressed(k)
 end
 
 function m.click(x, y)
+	if debug then print("Click:", x, y) end
 	showfocus = false
 	stack[stack_index]:click(x, y)
 end
 
 function m.scroll(x, y)
+	if debug then print("Scroll:", x, y) end
 	stack[stack_index]:scroll(x, y)
 end
 
 function m.zoom(value)
+	if debug then print("Zoom:", value) end
 	stack[stack_index]:zoom(value)
 end
 
 function m.drag(point)
+	if debug then print("Drag from:", point.startx, point.starty, "to:", point.x, point.y) end
 	stack[stack_index]:drag(point)
 end
 
