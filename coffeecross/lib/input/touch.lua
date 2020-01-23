@@ -1,6 +1,7 @@
 local m = {}
 local viewstack = require("viewstack")
 local gui_utils = require("gui.utils")
+local utils = require("input.utils")
 
 local HOLD_TIME = 0.5
 local VIBRATION_DURATION=0.05
@@ -18,32 +19,12 @@ local point_count = 0
 local state = STATES.NONE
 local time = 0
 
-local function __shallow_copy(table)
-	local output = {}
-	for k, v in pairs(table) do
-		output[k] = v
-	end
-	return output
-end
-
 local function __point_list()
 	local list = {}
 	for _,v in pairs(points) do
 		list[#list+1] = v
 	end
 	return list
-end
-
-local function __distance_coords(x1, y1, x2, y2)
-	local dx = x1 - x2
-	local dy = y1 - x2
-	return math.sqrt(dx*dx+dy*dy)
-end
-
-local function __distance(p1, p2)
-	local dx = p1.x - p2.x
-	local dy = p1.y - p2.y
-	return math.sqrt(dx*dx+dy*dy)
 end
 
 function m.update(dt)
@@ -95,11 +76,11 @@ function m.moved(id, x, y, dx, dy)
 		return
 	end
 	local point = points[id]
-	local new_point = __shallow_copy(point)
+	local new_point = utils.shallow_copy(point)
 	new_point.x = x
 	new_point.y = y
 
-	if state == STATES.NONE and __distance_coords(point.startx, point.starty, x, y) > gui_utils.get_unit() then
+	if state == STATES.NONE and utils.distance_coords(point.startx, point.starty, x, y) > gui_utils.get_unit() * utils.DRAG_THRESHOLD then
 		state = STATES.SCROLL
 	end
 
@@ -111,8 +92,8 @@ function m.moved(id, x, y, dx, dy)
 		-- p1 = moved point, p2 = the other one
 		local p1 = point == list[1] and list[1] or list[2]
 		local p2 = point == list[1] and list[2] or list[1]
-		local dist_before = __distance(p1, p2)
-		local dist_after = __distance(new_point, p2)
+		local dist_before = utils.distance(p1, p2)
+		local dist_after = utils.distance(new_point, p2)
 		viewstack.zoom((dist_after-dist_before)/100)
 	elseif state == STATES.DRAG then
 		viewstack.drag(new_point)

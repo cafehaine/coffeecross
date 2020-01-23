@@ -34,7 +34,8 @@ function love.load()
 	gui_utils = require("gui.utils")
 	viewstack = require("viewstack")
 	viewstack.pushnew("main")
-	touch = require("touch")
+	touch = require("input.touch")
+	mouse = require("input.mouse")
 end
 
 function love.draw()
@@ -95,7 +96,25 @@ function love.mousepressed(x, y, button, istouch)
 	if istouch then
 		return
 	end
-	viewstack.click(x, y)
+	mouse.pressed(x, y, button)
+end
+
+function love.mousereleased(x, y, button, istouch)
+	if istouch then
+		return
+	end
+	mouse.released(x, y, button)
+end
+
+function love.mousemoved(x, y, dx, dy, istouch)
+	if istouch then
+		return
+	end
+	mouse.moved(x, y, dx, dy)
+end
+
+function love.wheelmoved(dx, dy)
+	mouse.wheel(dx, dy)
 end
 
 function love.touchpressed(id, x, y)
@@ -118,10 +137,6 @@ function love.gamepadaxis(joystick, axis, value)
 	elseif axis == "lefty" then
 		gamepad_zoom = value
 	end
-end
-
-function love.wheelmoved(x, y)
-	viewstack.zoom(y/100)
 end
 
 function love.resize(w, h)
