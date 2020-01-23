@@ -11,8 +11,8 @@ local wdgt = class.create("Game", super)
 
 local cached_texts = {}
 
-local MIN_ZOOM = 0.5
-local MAX_ZOOM = 2
+local MIN_ZOOM = 0.3
+local MAX_ZOOM = 3
 
 local function getText(text)
 	if not cached_texts[text] then
@@ -33,6 +33,8 @@ function wdgt.__new(self, attrs)
 	self.grid = grid.new(self.level.grid.width, self.level.grid.height)
 
 	self.__zoom = 1
+	self.grid_offset_x = 0
+	self.grid_offset_y = 0
 
 	self.indication_width = 0
 	self.indication_height = 0
@@ -84,8 +86,8 @@ function wdgt:click(x, y, width, height)
 	local total_width = (self.grid.width + self.indication_width) * cell_size
 	local total_height = (self.grid.height + self.indication_height) * cell_size
 
-	local left = width/2-total_width/2
-	local top = height/2-total_height/2
+	local left = width/2-total_width/2 - self.grid_offset_x
+	local top = height/2-total_height/2 - self.grid_offset_y
 
 	local grid_left = left+cell_size*self.indication_width
 	local grid_top = top+cell_size*self.indication_height
@@ -104,8 +106,8 @@ function wdgt:render(width, height, focus)
 	local total_width = (self.grid.width + self.indication_width) * cell_size
 	local total_height = (self.grid.height + self.indication_height) * cell_size
 
-	local left = width/2-total_width/2
-	local top = height/2-total_height/2
+	local left = width/2-total_width/2 - self.grid_offset_x
+	local top = height/2-total_height/2 - self.grid_offset_y
 
 	local grid_left = left+cell_size*self.indication_width
 	local grid_top = top+cell_size*self.indication_height
@@ -169,9 +171,9 @@ function wdgt:render(width, height, focus)
 		local focus_x = grid_left + (self.grid_x+1/2-1)*cell_size
 		local focus_y = grid_top + (self.grid_y+1/2-1)*cell_size
 		love.graphics.setColor(0, 0, 0)
-		love.graphics.circle("fill", focus_x, focus_y, 2*unit)
+		love.graphics.circle("fill", focus_x, focus_y, 1.5*unit*self.__zoom)
 		love.graphics.setColor(1, 1, 1)
-		love.graphics.circle("fill", focus_x, focus_y, unit)
+		love.graphics.circle("fill", focus_x, focus_y, 0.5*unit*self.__zoom)
 	end
 
 end
@@ -277,6 +279,16 @@ function wdgt:message(message)
 	elseif message == "hint" then
 		self:hint()
 	end
+end
+
+function wdgt:drag(point, width, height)
+	self.dragging = true
+	self.drag_point = point
+end
+
+function wdgt:scroll(x, y)
+	self.grid_offset_x = self.grid_offset_x - x-- / self.__zoom
+	self.grid_offset_y = self.grid_offset_y - y-- / self.__zoom
 end
 
 return wdgt
