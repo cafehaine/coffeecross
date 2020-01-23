@@ -1,0 +1,17 @@
+--- properties
+name=Tulip
+author=CaféHaine
+--- palette
+#127E12
+#E23F23
+--- level
+2_2_2
+22222
+22222
+_222_
+__1__
+1_1__
+1_1__
+1_1__
+_11__
+__1__
