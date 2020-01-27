@@ -325,20 +325,39 @@ function wdgt:drag(event, width, height)
 	local dist_col = input_utils.distance_coords(col_x, col_y, drag_x, drag_y)
 
 	local end_x, end_y
+	local drag_dir
 
 	if dist_line < dist_col then -- use "line drag"
 		end_x = line_x
 		end_y = line_y
+		drag_dir = "line"
 	else -- use "col drag"
 		end_x = col_x
 		end_y = col_y
+		drag_dir = "col"
 	end
 
 	end_x = base_utils.clamp(end_x, 1, self.grid.width)
 	end_y = base_utils.clamp(end_y, 1, self.grid.height)
 
 	if event.final then
-		--TODO actually fill the selection
+		local color = palette.active_widget.index
+		if color == 0 then
+			color = -1
+		end
+
+		if drag_dir == "line" then
+			--TODO do not override cell if color == -1
+			for x=start_x, end_x, start_x > end_x and -1 or 1 do
+				self.grid.cells[start_y][x] = color
+			end
+		else
+			for y=start_y, end_y, start_y > end_y and -1 or 1 do
+				self.grid.cells[y][start_x] = color
+			end
+		end
+
+		self:__check_grid()
 		self.draw_drag = nil
 	else
 		self.draw_drag = {start_x, start_y, end_x, end_y}

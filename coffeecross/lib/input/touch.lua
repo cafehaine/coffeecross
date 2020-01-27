@@ -59,10 +59,14 @@ function m.up(id, x, y)
 	if not points[id] then
 		return
 	end
+	local point = points[id]
 	point_count = point_count - 1
 	if point_count == 0 then
 		if state == STATES.NONE then
 			viewstack.click(x, y)
+		elseif state == STATES.DRAG then
+			local event = utils.drag_event.new(point.startx, point.starty, x, y, true)
+			viewstack.drag(event)
 		end
 		state = STATES.NONE
 	elseif point_count == 1 then
@@ -96,7 +100,8 @@ function m.moved(id, x, y, dx, dy)
 		local dist_after = utils.distance(new_point, p2)
 		viewstack.zoom((dist_after-dist_before)/100)
 	elseif state == STATES.DRAG then
-		viewstack.drag(new_point)
+		local event = utils.drag_event.new(new_point.startx, new_point.starty, new_point.x, new_point.y, false)
+		viewstack.drag(event)
 	end
 
 	points[id] = new_point
