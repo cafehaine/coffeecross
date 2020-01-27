@@ -306,9 +306,24 @@ end
 function wdgt:message(message)
 	if message == "reset" then
 		self.grid = grid.new(self.level.grid.width, self.level.grid.height)
+		self.completed_rows = set.new()
+		self.completed_cols = set.new()
 	elseif message == "hint" then
 		self:hint()
 	end
+end
+
+function wdgt:__fill_cell(x, y, color)
+	if self.completed_rows:contains(y) or self.completed_cols:contains(x) then
+		return
+	end
+	local val = self.grid.cells[y][x]
+	if val > 0 and color == -1 then -- Don't fill blocks over colored cells
+		return
+	elseif val == -1 and color > 0 then -- Don't fill colors ovec blocked cells
+		return
+	end
+	self.grid.cells[y][x] = color
 end
 
 function wdgt:drag(event, width, height)
@@ -347,13 +362,12 @@ function wdgt:drag(event, width, height)
 		end
 
 		if drag_dir == "line" then
-			--TODO do not override cell if color == -1
 			for x=start_x, end_x, start_x > end_x and -1 or 1 do
-				self.grid.cells[start_y][x] = color
+				self:__fill_cell(x, start_y, color)
 			end
 		else
 			for y=start_y, end_y, start_y > end_y and -1 or 1 do
-				self.grid.cells[y][start_x] = color
+				self:__fill_cell(start_x, y, color)
 			end
 		end
 
