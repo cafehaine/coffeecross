@@ -15,6 +15,9 @@ local cached_texts = {}
 
 local MIN_ZOOM = 0.3
 local MAX_ZOOM = 3
+local DOTTED_SHADER = love.graphics.newShader("/assets/shaders/dotted_line.glsl")
+
+local shader_time = 0
 
 local function getText(text)
 	if not cached_texts[text] then
@@ -54,6 +57,13 @@ function wdgt.__new(self, attrs)
 
 	self.completed_rows = set.new()
 	self.completed_cols = set.new()
+end
+
+function wdgt:update(dt)
+	if self.draw_drag then
+		shader_time = shader_time + dt
+		DOTTED_SHADER:send("time", shader_time)
+	end
 end
 
 function wdgt:auto_width()
@@ -186,14 +196,18 @@ function wdgt:render(width, height, focus)
 		local drag_end_x = grid_left + (self.draw_drag[3]+1/2-1)*cell_size
 		local drag_end_y = grid_top + (self.draw_drag[4]+1/2-1)*cell_size
 
+		drag_start_x, drag_end_x = base_utils.min_first(drag_start_x, drag_end_x)
+		drag_start_y, drag_end_y = base_utils.min_first(drag_start_y, drag_end_y)
+
 		local color = self.level.palette[palette.active_widget.index]
 		if color == nil then
+			love.graphics.setShader(DOTTED_SHADER)
 			color = {1, 0, 0}
 		end
 		love.graphics.setColor(color)
 
-		love.graphics.setLineWidth(unit)
-		love.graphics.line(drag_start_x, drag_start_y, drag_end_x, drag_end_y)
+		love.graphics.rectangle("fill", drag_start_x-0.1*cell_size, drag_start_y-0.1*cell_size, drag_end_x-drag_start_x+cell_size*0.2, drag_end_y-drag_start_y+cell_size*0.2, 0.1*cell_size)
+		love.graphics.setShader()
 	end
 
 	-- Focused cell

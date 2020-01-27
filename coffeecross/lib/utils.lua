@@ -42,4 +42,11 @@ function m.clamp(val, min, max)
 	return math.min(math.max(val, min), max)
 end
 
+function m.min_first(a, b)
+	if a < b then
+		return a, b
+	end
+	return b, a
+end
+
 return m
