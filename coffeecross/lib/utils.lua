@@ -38,4 +38,8 @@ function m.read_file_sections(path)
 	return sections
 end
 
+function m.clamp(val, min, max)
+	return math.min(math.max(val, min), max)
+end
+
 return m

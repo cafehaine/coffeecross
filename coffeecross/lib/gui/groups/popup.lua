@@ -2,6 +2,7 @@ local class = require("class")
 local viewstack = require("viewstack")
 local super = require("gui.groups.base")
 local utils = require("gui.utils")
+local input_utils = require("input.utils")
 
 local group = class.create("Popup", super)
 
@@ -76,19 +77,20 @@ function group:click(x, y, width, height)
 	end
 end
 
-function group:drag(point, width, height)
+function group:drag(event, width, height)
 	local element = self.elements[1]
 	local e_width = element:auto_width()
 	local e_height = element:auto_height()
 	local e_left = width/2-e_width/2
 	local e_top = height/2-e_height/2
 
-	if utils.point_in_surface(point.startx, point.starty, e_left, e_top, e_width, e_height) then
-		return element:drag({
-			startx=point.startx-e_left,
-			starty=point.starty-e_top,
-			x=point.x-e_left,
-			y=point.y-e_top
+	if utils.point_in_surface(event.startx, event.starty, e_left, e_top, e_width, e_height) then
+		return input_utils.drag_event.new({
+			event.startx-e_left,
+			event.starty-e_top,
+			event.x-e_left,
+			event.y-e_top,
+			event.final
 		})
 	elseif self.dismissable then
 		viewstack.pop()

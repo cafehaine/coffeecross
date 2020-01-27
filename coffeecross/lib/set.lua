@@ -61,7 +61,7 @@ function set:__tostring()
 			strings[i] = tostring(val)
 		end
 	end
-	return ("{%s}"):format(table.concat(strings, ', '))
+	return ("set: {%s}"):format(table.concat(strings, ', '))
 end
 
 return set

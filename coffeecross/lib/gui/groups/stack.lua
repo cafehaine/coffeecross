@@ -39,9 +39,9 @@ function group:click(x, y, width, height)
 	return
 end
 
-function group:drag(point, width, height)
+function group:drag(event, width, height)
 	for i=#self.elements, 1, -1 do
-		local output = self.elements[i]:drag(point, width, height)
+		local output = self.elements[i]:drag(event, width, height)
 		if output then
 			return true
 		end

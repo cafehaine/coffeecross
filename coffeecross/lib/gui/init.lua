@@ -40,9 +40,9 @@ function gui:message_elements(message)
 	self.base_group:message(message)
 end
 
-function gui:drag(point)
+function gui:drag(event)
 	local width, height = love.graphics.getDimensions()
-	self.base_group:drag(point, width, height)
+	self.base_group:drag(event, width, height)
 end
 
 return gui

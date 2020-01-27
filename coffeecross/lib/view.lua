@@ -49,8 +49,8 @@ function view:message_elements(message)
 	self.gui:message_elements(message)
 end
 
-function view:drag(point)
-	self.gui:drag(point)
+function view:drag(event)
+	self.gui:drag(event)
 end
 
 return view

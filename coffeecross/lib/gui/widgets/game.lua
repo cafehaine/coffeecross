@@ -1,11 +1,13 @@
 local class = require("class")
 local super = require("gui.widgets.base")
-local utils = require("gui.utils")
 local palette = require("gui.widgets.palette")
 local viewstack = require("viewstack")
 local grid = require("grid")
 local set = require("set")
 local profile = require("profile")
+local utils = require("gui.utils")
+local base_utils = require("utils")
+local input_utils = require("input.utils")
 
 local wdgt = class.create("Game", super)
 
@@ -35,6 +37,8 @@ function wdgt.__new(self, attrs)
 	self.__zoom = 1
 	self.grid_offset_x = 0
 	self.grid_offset_y = 0
+
+	self.draw_drag = nil
 
 	self.indication_width = 0
 	self.indication_height = 0
@@ -78,7 +82,7 @@ function wdgt:__drawIndication(left, top, indication, completed)
 	love.graphics.draw(text, left + cell_size/2 - text_width/2, top + cell_size/2 - text_height/2, 0, font_scale)
 end
 
-function wdgt:click(x, y, width, height)
+function wdgt:__cell_by_coords(x, y, width, height)
 	local unit = utils.get_unit()
 	local cell_size = unit * 8 * self.__zoom
 	local font_scale = utils.get_unit_font_scale() * 6
@@ -92,10 +96,19 @@ function wdgt:click(x, y, width, height)
 	local grid_left = left+cell_size*self.indication_width
 	local grid_top = top+cell_size*self.indication_height
 
-	if not utils.point_in_surface(x, y, grid_left, grid_top, self.grid.width * cell_size, self.grid.height * cell_size) then
-		return
+	local x, y = math.floor((x-grid_left)/cell_size+1), math.floor((y-grid_top)/cell_size) +1
+	return x, y
+end
+
+function wdgt:__cell_in_grid(x, y)
+	return not(x<1 or y<1 or x>self.grid.width or y>self.grid.height)
+end
+
+function wdgt:click(x, y, width, height)
+	local cell_x, cell_y = self:__cell_by_coords(x, y, width, height)
+	if self:__cell_in_grid(cell_x, cell_y) then
+		self:__toggle_cell(cell_x, cell_y)
 	end
-	self:__toggle_cell(math.floor((x-grid_left)/cell_size) + 1, math.floor((y-grid_top)/cell_size) + 1)
 end
 
 function wdgt:render(width, height, focus)
@@ -164,6 +177,23 @@ function wdgt:render(width, height, focus)
 			love.graphics.setColor(0, 0, 0, 0.2)
 		end
 		love.graphics.line(grid_left + j*cell_size, grid_top, grid_left + j*cell_size, grid_top+self.grid.height*cell_size)
+	end
+
+	-- Drag line
+	if self.draw_drag then
+		local drag_start_x = grid_left + (self.draw_drag[1]+1/2-1)*cell_size
+		local drag_start_y = grid_top + (self.draw_drag[2]+1/2-1)*cell_size
+		local drag_end_x = grid_left + (self.draw_drag[3]+1/2-1)*cell_size
+		local drag_end_y = grid_top + (self.draw_drag[4]+1/2-1)*cell_size
+
+		local color = self.level.palette[palette.active_widget.index]
+		if color == nil then
+			color = {1, 0, 0}
+		end
+		love.graphics.setColor(color)
+
+		love.graphics.setLineWidth(unit)
+		love.graphics.line(drag_start_x, drag_start_y, drag_end_x, drag_end_y)
 	end
 
 	-- Focused cell
@@ -281,9 +311,38 @@ function wdgt:message(message)
 	end
 end
 
-function wdgt:drag(point, width, height)
-	self.dragging = true
-	self.drag_point = point
+function wdgt:drag(event, width, height)
+	local start_x, start_y = self:__cell_by_coords(event.startx, event.starty, width, height)
+	if not self:__cell_in_grid(start_x, start_y) then
+		return
+	end
+	local drag_x, drag_y = self:__cell_by_coords(event.x, event.y, width, height)
+
+	local line_x, line_y = drag_x, start_y
+	local col_x, col_y = start_x, drag_y
+
+	local dist_line = input_utils.distance_coords(line_x, line_y, drag_x, drag_y)
+	local dist_col = input_utils.distance_coords(col_x, col_y, drag_x, drag_y)
+
+	local end_x, end_y
+
+	if dist_line < dist_col then -- use "line drag"
+		end_x = line_x
+		end_y = line_y
+	else -- use "col drag"
+		end_x = col_x
+		end_y = col_y
+	end
+
+	end_x = base_utils.clamp(end_x, 1, self.grid.width)
+	end_y = base_utils.clamp(end_y, 1, self.grid.height)
+
+	if event.final then
+		--TODO actually fill the selection
+		self.draw_drag = nil
+	else
+		self.draw_drag = {start_x, start_y, end_x, end_y}
+	end
 end
 
 function wdgt:scroll(x, y)

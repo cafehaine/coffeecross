@@ -231,9 +231,9 @@ function m.zoom(value)
 	stack[stack_index]:zoom(value)
 end
 
-function m.drag(point)
-	if debug then print("Drag from:", point.startx, point.starty, "to:", point.x, point.y) end
-	stack[stack_index]:drag(point)
+function m.drag(event)
+	if debug then print("Drag :", event) end
+	stack[stack_index]:drag(event)
 end
 
 return m
