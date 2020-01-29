@@ -219,7 +219,24 @@ function wdgt:render(width, height, focus)
 		love.graphics.setColor(1, 1, 1)
 		love.graphics.circle("fill", focus_x, focus_y, 0.5*unit*self.__zoom)
 	end
+end
 
+function wdgt:__lock_row(y)
+	self.completed_rows:add(y)
+	for x=1, self.grid.width do
+		if self.grid.cells[y][x] == 0 then
+			self.grid.cells[y][x] = -1
+		end
+	end
+end
+
+function wdgt:__lock_col(x)
+	self.completed_cols:add(x)
+	for y=1, self.grid.height do
+		if self.grid.cells[y][x] == 0 then
+			self.grid.cells[y][x] = -1
+		end
+	end
 end
 
 function wdgt:__check_grid()
@@ -231,12 +248,12 @@ function wdgt:__check_grid()
 	if profile.get("settings", "hints") then
 		for i=1, self.grid.height do
 			if self.grid:check_row(self.level.grid, i) then
-				self.completed_rows:add(i)
+				self:__lock_row(i)
 			end
 		end
 		for i=1, self.grid.width do
 			if self.grid:check_col(self.level.grid, i) then
-				self.completed_cols:add(i)
+				self:__lock_col(i)
 			end
 		end
 	end
