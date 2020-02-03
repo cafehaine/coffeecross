@@ -1,0 +1,20 @@
+--- properties
+name=This is a hugeeeee camel
+author=Eterniitys
+--- palette
+#874e2d
+--- level
+   1 1         
+    11         
+  1111         
+ 11 1          
+11111  11 11   
+11  1 1111111  
+    1111111111 
+   11111111111 
+   111111111111
+   1111111111 1
+  11 11  1111  
+ 11  1   1 11  
+ 1  11  11  1  
+    1   1   1  
