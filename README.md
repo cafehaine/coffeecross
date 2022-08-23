@@ -1,3 +1,7 @@
+# Unmaintained project!
+
+I might take another stab at this, but at the moment I no longer plan on developing this.
+
 # CoffeeCross
 
 CoffeeCross is an open-source GPL licensed picross game.
